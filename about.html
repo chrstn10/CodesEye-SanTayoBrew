@@ -26,11 +26,13 @@
   <!-- ===== NAVBAR (shared) ===== -->
   <header class="site-header">
     <nav class="navbar" aria-label="Main navigation">
-      <a class="navbar__logo" href="index.html">
+      <a class="navbar__logo" href="index.html" aria-describedby="logoTooltip">
         <img src="images/logos/logo-brown.png" alt="san tayo brew? logo">
+        <span class="navbar__tooltip" id="logoTooltip" role="tooltip">Go to the Home page</span>
       </a>
 
       <ul class="navbar__links" id="navLinks">
+        <li><a class="navbar__link" href="index.html">Home</a></li>
         <li><a class="navbar__link" href="menu.html">Menu</a></li>
         <li><a class="navbar__link active" href="about.html" aria-current="page">About Us</a></li>
       </ul>
@@ -119,7 +121,7 @@
 
   </main>
 
-  <!-- ===== FOOTER ===== -->
+  <!-- ===== FOOTER (shared) ===== -->
   <footer class="site-footer">
     <div class="container">
       <div class="footer__grid">

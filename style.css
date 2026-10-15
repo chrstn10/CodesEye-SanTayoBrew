@@ -306,6 +306,7 @@ h3 {
 }
 
 .navbar__logo {
+  position: relative;
   display: block;
   flex-shrink: 0;
   border-radius: 4px;
@@ -314,6 +315,46 @@ h3 {
 .navbar__logo img {
   width: auto;
   height: 30px;
+}
+
+/* Logo tooltip: "Click the logo to go to the Home page" (hover or keyboard focus) */
+.navbar__tooltip {
+  position: absolute;
+  top: calc(100% + 12px);
+  left: 0;
+  z-index: 150;
+  width: max-content;
+  max-width: 220px;
+  padding: 0.45rem 0.75rem;
+  border-radius: var(--radius-sm);
+  background-color: var(--espresso-brown);
+  color: var(--sunshine-yellow);
+  font-size: 0.8rem;
+  font-weight: 700;
+  line-height: 1.3;
+  box-shadow: var(--shadow-lift);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-4px);
+  transition: opacity var(--transition), visibility var(--transition), transform var(--transition);
+  pointer-events: none;
+}
+
+/* Small arrow pointing up at the logo */
+.navbar__tooltip::before {
+  content: "";
+  position: absolute;
+  bottom: 100%;
+  left: 1.25rem;
+  border: 6px solid transparent;
+  border-bottom-color: var(--espresso-brown);
+}
+
+.navbar__logo:hover .navbar__tooltip,
+.navbar__logo:focus-visible .navbar__tooltip {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
 }
 
 /* Mobile dropdown (hidden until the hamburger adds .is-open) */
@@ -421,6 +462,7 @@ h3 {
   font-size: 1.75rem;
   line-height: 1;
   transition: background-color var(--transition);
+  -webkit-tap-highlight-color: transparent;
 }
 
 .navbar__toggle:hover {
@@ -1268,6 +1310,29 @@ h3 {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 0.75rem;
+  /* Scrolls inside the gray panel instead of making the page very long */
+  max-height: 70vh;
+  overflow-y: auto;
+  padding: 0.5rem 0.6rem 0.5rem 0.5rem;   /* room for shadows + focus rings */
+  scrollbar-width: thin;
+  scrollbar-color: var(--espresso-brown) rgba(255, 255, 255, 0.7);
+}
+
+/* Scrollbar look for Chrome/Edge/Safari versions without scrollbar-color */
+.menu-grid::-webkit-scrollbar {
+  width: 10px;
+}
+
+.menu-grid::-webkit-scrollbar-track {
+  border-radius: var(--radius-pill);
+  background-color: rgba(255, 255, 255, 0.7);
+}
+
+.menu-grid::-webkit-scrollbar-thumb {
+  border: 2px solid transparent;
+  border-radius: var(--radius-pill);
+  background-color: var(--espresso-brown);
+  background-clip: padding-box;
 }
 
 .menu-empty {
@@ -1821,6 +1886,50 @@ body.modal-open {
   padding: 0.75rem;
   border-radius: 12px;
   background-color: var(--panel-gray);
+}
+
+/* Item count + "Clear cart" button above the rows */
+.cart-items__header {
+  /* Flexbox: count on the left, button on the right */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.25rem 0.25rem 0.75rem;
+}
+
+.cart-items__count {
+  font-weight: 700;
+}
+
+.clear-cart-btn {
+  /* Flexbox: trash icon + label */
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.45rem 0.9rem;
+  border: 2px solid var(--danger-red);
+  border-radius: var(--radius-pill);
+  background-color: transparent;
+  color: var(--error-text);
+  font-size: 0.85rem;
+  font-weight: 700;
+  transition: background-color var(--transition), color var(--transition);
+}
+
+.clear-cart-btn svg {
+  width: 18px;
+  height: 18px;
+}
+
+.clear-cart-btn:hover {
+  background-color: rgba(214, 40, 40, 0.1);
+}
+
+/* Second step: "Click again to clear all" */
+.clear-cart-btn.is-confirming {
+  background-color: var(--danger-red);
+  color: var(--card-white);
 }
 
 .cart-list {
@@ -2918,12 +3027,14 @@ body.modal-open {
   }
 
   .menu-panel {
-    min-height: 600px;
-    padding: 2rem;
+    padding: 1.5rem;
   }
 
+  /* Desktop: the grid fills the screen height below the navbar, then scrolls */
   .menu-grid {
     gap: 1.5rem;
+    max-height: max(480px, calc(100vh - var(--header-height) - 6rem));
+    padding: 0.5rem 1rem 0.5rem 0.5rem;
   }
 
   .menu-card {

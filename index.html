@@ -8,7 +8,7 @@
   <title>san tayo brew? | Home</title>
 
   <!-- Favicon -->
-  <link rel="icon" type="image/png" href="images/logos/logo-circle-2.png">
+  <link rel="icon" type="image/png" href="images/logos/logo-circle-4.png">
 
   <!-- Google Fonts: Rubik One (headings, buttons) + Cantarell 400/700 (body) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -37,11 +37,13 @@
   <!-- ===== NAVBAR (shared) ===== -->
   <header class="site-header">
     <nav class="navbar" aria-label="Main navigation">
-      <a class="navbar__logo" href="index.html" aria-current="page">
+      <a class="navbar__logo" href="index.html" aria-describedby="logoTooltip">
         <img src="images/logos/logo-brown.png" alt="san tayo brew? logo">
+        <span class="navbar__tooltip" id="logoTooltip" role="tooltip">Go to the Home page</span> 
       </a>
 
       <ul class="navbar__links" id="navLinks">
+        <li><a class="navbar__link active" href="index.html" aria-current="page">Home</a></li>
         <li><a class="navbar__link" href="menu.html">Menu</a></li>
         <li><a class="navbar__link" href="about.html">About Us</a></li>
       </ul>

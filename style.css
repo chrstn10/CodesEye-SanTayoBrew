@@ -1,42 +1,23 @@
-/* ==========================================================
-   san tayo brew? | style.css
-   One stylesheet shared by every page (Home, Menu, About Us,
-   My Cart, Checkout).
-
-   Mobile-first: the base rules are written for phones, and the
-   MEDIA QUERIES section at the bottom adds the 480px, 768px and
-   1024px+ layouts.
-
-   CONTENTS
-   1.  Reset
-   2.  :root variables
-   3.  Typography
-   4.  Layout helpers + accessibility
-   5.  Shared components (buttons, navbar, footer)
-   6.  Home page
-   7.  About Us page
-   8.  Menu page (Stage 2)
-   9.  Cart + Checkout pages (Stage 3)
-   10. Media queries
-   ========================================================== */
+/* san tayo brew? | style.css: shared styles for every page (mobile-first, media queries at the bottom) */
 
 
-/* ==========================================================
-   1. RESET
-   ========================================================== */
+/* ========== 1. RESET ========== */
+
+/* Include padding and border in every element's width and height */
 *,
 *::before,
 *::after {
   box-sizing: border-box;
 }
 
+/* Page-wide behavior: smooth scrolling, and anchors stop below the sticky navbar */
 html {
   -webkit-text-size-adjust: 100%;
   scroll-behavior: smooth;
-  /* Keeps anchored content from hiding under the sticky navbar */
   scroll-padding-top: var(--header-height);
 }
 
+/* Remove the browser's default outer spacing */
 body,
 h1, h2, h3, h4,
 p,
@@ -46,18 +27,21 @@ ul, ol {
   margin: 0;
 }
 
+/* Remove bullets and indents from styled lists */
 ul[class],
 ol[class] {
   list-style: none;
   padding: 0;
 }
 
+/* Images and icons: block-level and never wider than their container */
 img,
 svg {
   display: block;
   max-width: 100%;
 }
 
+/* Form controls use the page's font and color */
 button,
 input,
 select,
@@ -66,22 +50,25 @@ textarea {
   color: inherit;
 }
 
+/* Show the pointer cursor on every button */
 button {
   cursor: pointer;
 }
 
+/* Links keep the color of their surrounding text */
 a {
   color: inherit;
 }
 
+/* Addresses use normal (not italic) text */
 address {
   font-style: normal;
 }
 
 
-/* ==========================================================
-   2. :ROOT VARIABLES
-   ========================================================== */
+/* ========== 2. :ROOT VARIABLES ========== */
+
+/* Design tokens: colors, fonts, spacing, shapes and motion used across the site */
 :root {
   /* Brand colors */
   --sunshine-yellow: #FFDE59;
@@ -122,9 +109,9 @@ address {
 }
 
 
-/* ==========================================================
-   3. TYPOGRAPHY
-   ========================================================== */
+/* ========== 3. TYPOGRAPHY ========== */
+
+/* Default page font, size, color and background */
 body {
   font-family: var(--font-body);
   font-size: 1rem;
@@ -133,7 +120,7 @@ body {
   background-color: var(--page-bg);
 }
 
-/* Rubik One only ships in one weight, so keep headings at 400 */
+/* Headings use Rubik One (one weight only, so 400) */
 h1,
 h2,
 h3 {
@@ -142,12 +129,14 @@ h3 {
   line-height: 1.2;
 }
 
+/* Centered section heading (e.g. "Try mo 'to, brew!") */
 .section-title {
   font-size: clamp(1.6rem, 3vw + 0.9rem, 2rem);
   color: var(--text-black);
   text-align: center;
 }
 
+/* Smaller muted line under a section heading */
 .section-subtitle {
   margin-top: 0.5rem;
   font-size: 0.95rem;
@@ -156,9 +145,9 @@ h3 {
 }
 
 
-/* ==========================================================
-   4. LAYOUT HELPERS + ACCESSIBILITY
-   ========================================================== */
+/* ========== 4. LAYOUT HELPERS + ACCESSIBILITY ========== */
+
+/* Centers page content with side padding, capped at --container-max */
 .container {
   width: 100%;
   max-width: var(--container-max);
@@ -166,16 +155,17 @@ h3 {
   padding-inline: var(--gutter);
 }
 
+/* Vertical spacing above and below a page section */
 .section {
   padding-block: var(--section-space);
 }
 
-/* Generic "hide" state that JavaScript can toggle */
+/* Utility: hides any element (toggled by JavaScript) */
 .is-hidden {
   display: none !important;
 }
 
-/* Hidden visually but still read by screen readers */
+/* Utility: hides content visually but keeps it for screen readers */
 .visually-hidden {
   position: absolute;
   width: 1px;
@@ -188,7 +178,7 @@ h3 {
   border: 0;
 }
 
-/* Hidden holder for the reusable SVG icons */
+/* Hidden holder for the reusable SVG icons (stars) */
 .svg-sprite {
   position: absolute;
   width: 0;
@@ -196,7 +186,7 @@ h3 {
   overflow: hidden;
 }
 
-/* Skip link: hidden until a keyboard user tabs to it */
+/* "Skip to main content" link: off-screen until focused with the keyboard */
 .skip-link {
   position: absolute;
   top: -100px;
@@ -211,17 +201,18 @@ h3 {
   transition: top var(--transition);
 }
 
+/* Skip link: slides into view on keyboard focus */
 .skip-link:focus {
   top: 0.75rem;
 }
 
-/* Visible keyboard focus everywhere (brown on light backgrounds) */
+/* Keyboard focus ring: brown outline on light backgrounds */
 :focus-visible {
   outline: 3px solid var(--espresso-brown);
   outline-offset: 3px;
 }
 
-/* ...and yellow on the dark brown/orange backgrounds */
+/* Keyboard focus ring: yellow outline on dark backgrounds */
 .hero :focus-visible,
 .promo-banner :focus-visible,
 .story-card :focus-visible,
@@ -231,13 +222,11 @@ h3 {
 }
 
 
-/* ==========================================================
-   5. SHARED COMPONENTS
-   ========================================================== */
+/* ========== 5. SHARED COMPONENTS ========== */
 
 /* ----- 5a. Buttons ----- */
+/* Base pill button: centered uppercase label (flexbox) */
 .btn {
-  /* Flexbox: centers the label inside the pill */
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -259,22 +248,26 @@ h3 {
     box-shadow var(--transition);
 }
 
+/* Primary button: yellow with brown text */
 .btn--primary {
   background-color: var(--sunshine-yellow);
   color: var(--espresso-brown);
 }
 
+/* Primary button hover: lighter yellow, lifted with a shadow */
 .btn--primary:hover {
   background-color: var(--yellow-soft);
   transform: translateY(-2px);
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
 }
 
+/* Primary button pressed: back down, no shadow */
 .btn--primary:active {
   transform: translateY(0);
   box-shadow: none;
 }
 
+/* Small button variant: tighter padding, normal-case label */
 .btn--small {
   padding: 0.6rem 1.25rem;
   font-size: 0.8rem;
@@ -284,6 +277,7 @@ h3 {
 
 
 /* ----- 5b. Navbar ----- */
+/* Sticky yellow header that stays at the top while scrolling */
 .site-header {
   position: sticky;
   top: 0;
@@ -292,8 +286,8 @@ h3 {
   box-shadow: 0 2px 8px rgba(93, 39, 5, 0.12);
 }
 
+/* Navbar row: logo left, links + cart + hamburger right (flexbox) */
 .navbar {
-  /* Flexbox: logo on the left, links + cart + hamburger on the right */
   position: relative;
   display: flex;
   align-items: center;
@@ -305,6 +299,7 @@ h3 {
   padding-inline: var(--gutter);
 }
 
+/* Logo link (anchor point for its tooltip) */
 .navbar__logo {
   position: relative;
   display: block;
@@ -312,12 +307,13 @@ h3 {
   border-radius: 4px;
 }
 
+/* Logo image size on mobile */
 .navbar__logo img {
   width: auto;
   height: 30px;
 }
 
-/* Logo tooltip: "Click the logo to go to the Home page" (hover or keyboard focus) */
+/* Logo tooltip "Go to the Home page": hidden until hover or keyboard focus */
 .navbar__tooltip {
   position: absolute;
   top: calc(100% + 12px);
@@ -340,7 +336,7 @@ h3 {
   pointer-events: none;
 }
 
-/* Small arrow pointing up at the logo */
+/* Tooltip arrow pointing up at the logo */
 .navbar__tooltip::before {
   content: "";
   position: absolute;
@@ -350,6 +346,7 @@ h3 {
   border-bottom-color: var(--espresso-brown);
 }
 
+/* Show the tooltip on logo hover or keyboard focus */
 .navbar__logo:hover .navbar__tooltip,
 .navbar__logo:focus-visible .navbar__tooltip {
   opacity: 1;
@@ -357,7 +354,7 @@ h3 {
   transform: translateY(0);
 }
 
-/* Mobile dropdown (hidden until the hamburger adds .is-open) */
+/* Mobile dropdown with the page links (hidden until the hamburger opens it) */
 .navbar__links {
   position: absolute;
   top: 100%;
@@ -371,10 +368,12 @@ h3 {
   box-shadow: 0 10px 18px rgba(93, 39, 5, 0.18);
 }
 
+/* Mobile dropdown opened by the hamburger button */
 .navbar__links.is-open {
   display: flex;
 }
 
+/* Navbar page link: uppercase text with a hidden underline */
 .navbar__link {
   display: block;
   padding: 0.85rem var(--gutter);
@@ -389,23 +388,25 @@ h3 {
   transition: text-decoration-color var(--transition), color var(--transition);
 }
 
-/* Current page + hover state: brown underline */
+/* Show the brown underline on hover and on the current page */
 .navbar__link:hover,
 .navbar__link.active {
   text-decoration-color: currentColor;
 }
 
+/* Current page link is bold */
 .navbar__link.active {
   font-weight: 700;
 }
 
+/* Cart icon and hamburger side by side (flexbox) */
 .navbar__actions {
-  /* Flexbox: cart icon and hamburger side by side */
   display: flex;
   align-items: center;
   gap: 0.25rem;
 }
 
+/* Round cart icon button */
 .navbar__cart {
   position: relative;
   display: inline-flex;
@@ -418,17 +419,19 @@ h3 {
   transition: background-color var(--transition), transform var(--transition);
 }
 
+/* Cart button hover: light brown background, slightly bigger */
 .navbar__cart:hover {
   background-color: rgba(93, 39, 5, 0.1);
   transform: scale(1.05);
 }
 
+/* Cart icon size */
 .navbar__cart-icon {
   width: 26px;
   height: 26px;
 }
 
-/* Cart item-count badge (#cartCount) */
+/* Cart item-count badge (#cartCount) on the cart icon */
 .navbar__cart-count {
   position: absolute;
   top: 0;
@@ -448,6 +451,7 @@ h3 {
   line-height: 1;
 }
 
+/* Hamburger button that opens the mobile dropdown */
 .navbar__toggle {
   display: inline-flex;
   align-items: center;
@@ -465,12 +469,14 @@ h3 {
   -webkit-tap-highlight-color: transparent;
 }
 
+/* Hamburger hover: light brown background */
 .navbar__toggle:hover {
   background-color: rgba(93, 39, 5, 0.1);
 }
 
 
 /* ----- 5c. Footer ----- */
+/* Brown footer shared by every page */
 .site-footer {
   padding-block: 3rem 2rem;
   background-color: var(--espresso-brown);
@@ -478,36 +484,40 @@ h3 {
   font-size: 0.875rem;
 }
 
+/* Footer columns: one column on mobile, three from 768px (grid) */
 .footer__grid {
-  /* Grid: one column on mobile, three columns from 768px */
   display: grid;
   grid-template-columns: 1fr;
   gap: 2rem;
 }
 
+/* Yellow footer logo */
 .footer__logo {
   width: auto;
   height: 44px;
   margin-bottom: 1rem;
 }
 
+/* Short brand blurb under the footer logo */
 .footer__blurb {
   max-width: 36ch;
 }
 
+/* Footer column headings ("Explore", "Connect with us") */
 .footer__title {
   margin-bottom: 0.85rem;
   font-size: 1rem;
   color: var(--sunshine-yellow);
 }
 
+/* Footer link list stacked with even spacing (flexbox) */
 .footer__list {
-  /* Flexbox: stacked links with even spacing */
   display: flex;
   flex-direction: column;
   gap: 0.6rem;
 }
 
+/* Footer link with a hidden underline */
 .footer__link {
   text-decoration: underline;
   text-decoration-color: transparent;
@@ -515,18 +525,20 @@ h3 {
   transition: text-decoration-color var(--transition), opacity var(--transition);
 }
 
+/* Footer link hover: show the underline */
 .footer__link:hover {
   text-decoration-color: currentColor;
 }
 
+/* Contact row: icon next to its text (flexbox) */
 .footer__contact-item {
-  /* Flexbox: icon next to its text */
   display: flex;
   align-items: flex-start;
   gap: 0.6rem;
   overflow-wrap: anywhere;
 }
 
+/* Contact icons (email, phone, map pin) */
 .footer__icon {
   flex-shrink: 0;
   width: 18px;
@@ -534,6 +546,7 @@ h3 {
   margin-top: 0.15rem;
 }
 
+/* Yellow line above the copyright */
 .footer__divider {
   height: 1px;
   margin-block: 2rem 1.5rem;
@@ -541,15 +554,18 @@ h3 {
   background-color: var(--sunshine-yellow);
 }
 
+/* Copyright and disclaimer stacked */
 .footer__bottom {
   display: grid;
   gap: 1.25rem;
 }
 
+/* Bold copyright line */
 .footer__copyright {
   font-weight: 700;
 }
 
+/* Small "student prototype" disclaimer text */
 .footer__disclaimer {
   max-width: 75ch;
   font-size: 0.75rem;
@@ -557,13 +573,48 @@ h3 {
 }
 
 
-/* ==========================================================
-   6. HOME PAGE
-   ========================================================== */
+/* ----- 5d. Page transitions ----- */
+/* Page transition: content fades and slides in on load (no "forwards" fill, so the Menu pop-up and toast stay fixed) */
+main,
+.site-footer {
+  animation: pageEnter 0.5s ease backwards;
+}
+
+/* Page transition: content fades out before going to another page (class added by handlePageLinkClick()) */
+body.is-leaving main,
+body.is-leaving .site-footer {
+  animation: pageLeave 0.25s ease forwards;
+}
+
+/* Fade + slide-in animation for a new page */
+@keyframes pageEnter {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Fade + slide-out animation for the page being left */
+@keyframes pageLeave {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+}
+
+
+/* ========== 6. HOME PAGE ========== */
 
 /* ----- 6a. Hero ----- */
+/* Full-screen hero below the navbar; its content column fills the height (flexbox) */
 .hero {
-  /* Flexbox: lets the content column fill the hero's height */
   position: relative;
   isolation: isolate;
   display: flex;
@@ -573,6 +624,7 @@ h3 {
   color: var(--sunshine-yellow);
 }
 
+/* Hero background photo with a slow zoom + drift so it looks like it's moving */
 .hero__bg {
   position: absolute;
   inset: 0;
@@ -581,9 +633,21 @@ h3 {
   height: 100%;
   object-fit: cover;
   object-position: 72% center;
+  animation: heroDrift 18s ease-in-out infinite alternate;
+  will-change: transform;
 }
 
-/* Warm brown/orange overlay (stronger on the left from 768px) */
+/* Zoom + drift animation for the hero photo */
+@keyframes heroDrift {
+  from {
+    transform: scale(1) translate(0, 0);
+  }
+  to {
+    transform: scale(1.12) translate(-2%, -1.5%);
+  }
+}
+
+/* Warm brown/orange overlay over the hero photo (stronger on the left from 768px) */
 .hero::before {
   content: "";
   position: absolute;
@@ -597,8 +661,8 @@ h3 {
   );
 }
 
+/* Hero content column: heading, text and button stacked (flexbox) */
 .hero__content {
-  /* Flexbox: stacks heading, text and button */
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -606,6 +670,7 @@ h3 {
   padding-block: 3.5rem 2.5rem;
 }
 
+/* Big yellow "kape tayo, brew!" heading */
 .hero__title {
   font-size: clamp(3.25rem, 6vw + 1.5rem, 5.75rem);
   line-height: 1.02;
@@ -613,17 +678,19 @@ h3 {
   text-shadow: 0 2px 14px rgba(93, 39, 5, 0.35);
 }
 
-/* Mobile: each word on its own line (3 lines) */
+/* Mobile: each heading word on its own line */
 .hero__title-line {
   display: block;
 }
 
+/* Short hero tagline */
 .hero__text {
   max-width: 30ch;
   font-size: clamp(1rem, 0.4vw + 0.95rem, 1.15rem);
   font-weight: 700;
 }
 
+/* Hero button: full width at the bottom on mobile */
 .hero__btn {
   width: 100%;
   margin-top: auto;
@@ -631,21 +698,22 @@ h3 {
 
 
 /* ----- 6b. Best sellers ----- */
+/* Space under each section heading */
 .section-header {
   margin-bottom: 2rem;
 }
 
+/* Best-seller cards: 2 columns on mobile, 3 from 768px (grid) */
 .product-grid {
-  /* Grid: 2 columns on mobile, 3 columns from 768px */
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 1rem;
-  max-width: 960px;
-  margin-inline: auto;
 }
 
+/* Best-seller card: image on top, name below; shows the description panel on hover */
 .product-card {
-  /* Flexbox: image on top, name centered below */
+  position: relative;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -662,6 +730,7 @@ h3 {
     border-color var(--transition);
 }
 
+/* Best-seller photo */
 .product-card__img {
   width: 100%;
   max-width: 170px;
@@ -669,6 +738,7 @@ h3 {
   object-fit: contain;
 }
 
+/* Best-seller name */
 .product-card__name {
   font-family: var(--font-body);
   font-size: 0.875rem;
@@ -679,6 +749,7 @@ h3 {
 
 
 /* ----- 6c. Promo banner ----- */
+/* Promo banner with a café photo background */
 .promo-banner {
   position: relative;
   isolation: isolate;
@@ -689,7 +760,7 @@ h3 {
   transition: padding var(--transition);
 }
 
-/* Semi-transparent espresso overlay (75%) for readable yellow text */
+/* Espresso overlay (75%) so the yellow text stays readable */
 .promo-banner::before {
   content: "";
   position: absolute;
@@ -698,37 +769,40 @@ h3 {
   background-color: rgba(93, 39, 5, 0.75);
 }
 
-/* Focus is moved here after "Claim Offer", so no outline is needed */
+/* No outline when focus moves to the banner after "Claim Offer" */
 .promo-banner:focus {
   outline: none;
 }
 
+/* Banner content: heading, text and button in a centered column (flexbox) */
 .promo-banner__content {
-  /* Flexbox: centered column of heading, text and button */
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 1rem;
-  max-width: 680px;
+  max-width: 960px;
   margin-inline: auto;
 }
 
+/* Promo heading */
 .promo-banner__title {
-  max-width: 22ch;
+  max-width: 32ch;
   font-size: clamp(1.6rem, 3vw + 0.9rem, 2.1rem);
   color: var(--sunshine-yellow);
 }
 
+/* Promo text */
 .promo-banner__text {
-  max-width: 46ch;
+  max-width: 70ch;
 }
 
-/* Revealed by showPromoCode() */
+/* Promo code line shown by showPromoCode() */
 .promo-banner__code {
   font-size: 1.15rem;
   font-weight: 700;
 }
 
+/* The promo code itself, styled as a yellow tag */
 .promo-banner__code strong {
   display: inline-block;
   margin-inline: 0.25rem;
@@ -743,12 +817,11 @@ h3 {
 
 
 /* ----- 6d. Brand story card ----- */
+/* Brand story card with a brown-to-orange gradient */
 .story-card {
-  max-width: 1000px;
   margin-inline: auto;
   padding: 1.75rem 1.25rem 2rem;
   border-radius: var(--radius-md);
-  /* Vertical gradient: espresso brown (top) to orange (bottom) */
   background: linear-gradient(
     180deg,
     var(--espresso-brown) 0%,
@@ -759,20 +832,22 @@ h3 {
   box-shadow: 0 10px 30px rgba(93, 39, 5, 0.25);
 }
 
+/* Story card heading */
 .story-card__title {
   margin-bottom: 1.25rem;
   font-size: clamp(1.45rem, 2.5vw + 0.9rem, 1.9rem);
   color: var(--sunshine-yellow);
 }
 
+/* Story card body: photo above the text on mobile, side by side from 768px (grid) */
 .story-card__body {
-  /* Grid: photo stacked above the text on mobile, side by side from 768px */
   display: grid;
   grid-template-columns: 1fr;
   gap: 1.5rem;
   align-items: center;
 }
 
+/* Story card photo */
 .story-card__img {
   width: 100%;
   aspect-ratio: 1 / 1;
@@ -780,14 +855,15 @@ h3 {
   border-radius: 6px;
 }
 
+/* Story text: paragraphs and button with even spacing (flexbox) */
 .story-card__text {
-  /* Flexbox: even spacing between paragraphs and the button */
   display: flex;
   flex-direction: column;
   gap: 1rem;
   font-size: 0.95rem;
 }
 
+/* "Learn more about us" button, left-aligned */
 .story-card__btn {
   align-self: flex-start;
   margin-top: 0.5rem;
@@ -795,23 +871,26 @@ h3 {
 
 
 /* ----- 6e. Social ----- */
+/* Social section (no bottom padding, the divider follows) */
 .social {
   padding-bottom: 0;
   text-align: center;
 }
 
+/* Social intro text */
 .social__text {
-  max-width: 60ch;
+  max-width: 90ch;
   margin: 1rem auto 1.75rem;
 }
 
+/* Social icons in a centered row (flexbox) */
 .social__list {
-  /* Flexbox: three icon buttons in a centered row */
   display: flex;
   justify-content: center;
   gap: 1rem;
 }
 
+/* Round brown social icon button */
 .social__link {
   display: flex;
   align-items: center;
@@ -827,20 +906,22 @@ h3 {
     box-shadow var(--transition);
 }
 
+/* Social icon hover: orange, lifted and slightly bigger */
 .social__link:hover {
   background-color: var(--brew-orange);
   transform: translateY(-3px) scale(1.06);
   box-shadow: var(--shadow-lift);
 }
 
+/* Social icon size */
 .social__link svg {
   width: 24px;
   height: 24px;
 }
 
+/* Thin gray line between the social section and the reviews */
 .divider {
   height: 1px;
-  max-width: 1100px;
   margin: 2.5rem auto 0;
   border: none;
   background-color: rgba(0, 0, 0, 0.35);
@@ -848,10 +929,12 @@ h3 {
 
 
 /* ----- 6f. Reviews (carousel on mobile, grid from 768px) ----- */
+/* Reviews section spacing */
 .reviews {
   padding-block: 1.75rem 4.5rem;
 }
 
+/* Reviews heading ("A little brew, a little kwento.") */
 .reviews__title {
   margin-bottom: 1.75rem;
   font-family: var(--font-body);
@@ -860,14 +943,14 @@ h3 {
   text-align: center;
 }
 
+/* Carousel wrapper; container units let the arrow and dots line up with the photo */
 .reviews__carousel {
   position: relative;
-  /* Lets the arrow and dots line up with the photo (cqw units below) */
   container-type: inline-size;
 }
 
+/* Mobile carousel: a swipeable row of reviews with scroll-snap (flexbox) */
 .reviews__track {
-  /* Flexbox + CSS scroll-snap: a swipeable row of reviews on mobile */
   position: relative;
   display: flex;
   gap: 1rem;
@@ -877,19 +960,20 @@ h3 {
   scrollbar-width: none;
 }
 
+/* Hide the carousel scrollbar in Chrome/Edge/Safari */
 .reviews__track::-webkit-scrollbar {
   display: none;
 }
 
+/* One review: photo on top, card below (flexbox) */
 .review {
-  /* Flexbox: photo on top, review card attached below */
   display: flex;
   flex: 0 0 100%;
   flex-direction: column;
   scroll-snap-align: start;
 }
 
-/* Mobile photo is 60% of the slide; the gap below holds the dots */
+/* Review photo: 60% of the slide on mobile; the gap below holds the dots */
 .review__photo {
   width: 60%;
   margin: 0 auto 2.75rem;
@@ -898,8 +982,8 @@ h3 {
   border-radius: var(--radius-md);
 }
 
+/* Brown review card; the stars sit at the bottom right (flexbox) */
 .review__card {
-  /* Flexbox: pushes the stars to the bottom right */
   display: flex;
   flex: 1;
   flex-direction: column;
@@ -910,19 +994,21 @@ h3 {
   color: var(--sunshine-yellow);
 }
 
+/* Reviewer name */
 .review__author {
   font-size: 1rem;
   color: var(--sunshine-yellow);
   overflow-wrap: anywhere;
 }
 
+/* Review text */
 .review__text {
   font-size: 0.85rem;
   line-height: 1.55;
 }
 
+/* Star rating row aligned to the bottom right (flexbox) */
 .review__rating {
-  /* Flexbox: stars in a row, aligned to the bottom right */
   display: flex;
   align-self: flex-end;
   gap: 0.2rem;
@@ -931,16 +1017,17 @@ h3 {
   color: var(--sunshine-yellow);
 }
 
+/* One star icon */
 .review__star {
   width: 22px;
   height: 22px;
   fill: currentColor;
 }
 
-/* Next arrow, vertically centered on the photo (photo height = 60cqw) */
+/* Mobile "next review" arrow, centered on the photo (the vw line is a fallback for older browsers) */
 .reviews__next {
   position: absolute;
-  top: 30vw;                 /* fallback for older browsers */
+  top: 30vw;
   top: 30cqw;
   right: 0;
   display: flex;
@@ -957,16 +1044,16 @@ h3 {
   transition: background-color var(--transition), transform var(--transition);
 }
 
+/* Next arrow hover: light background, nudged right */
 .reviews__next:hover {
   background-color: rgba(93, 39, 5, 0.12);
   transform: translateY(-50%) translateX(2px);
 }
 
-/* Pagination dots, sitting in the gap between photo and card */
+/* Pagination dots in the gap between photo and card (the vw line is a fallback for older browsers) */
 .reviews__dots {
-  /* Flexbox: dots in a centered row */
   position: absolute;
-  top: calc(60vw + 0.5rem);  /* fallback for older browsers */
+  top: calc(60vw + 0.5rem);
   top: calc(60cqw + 0.5rem);
   left: 50%;
   display: flex;
@@ -974,6 +1061,7 @@ h3 {
   transform: translateX(-50%);
 }
 
+/* Dot button with a large tap area */
 .reviews__dot {
   display: flex;
   align-items: center;
@@ -986,6 +1074,7 @@ h3 {
   background: transparent;
 }
 
+/* The visible dot (outlined circle) */
 .reviews__dot::before {
   content: "";
   width: 12px;
@@ -995,38 +1084,49 @@ h3 {
   transition: background-color var(--transition), transform var(--transition);
 }
 
+/* Dot hover: slightly bigger */
 .reviews__dot:hover::before {
   transform: scale(1.2);
 }
 
+/* Active dot: filled brown */
 .reviews__dot.is-active::before {
   background-color: var(--espresso-brown);
 }
 
 
-/* ==========================================================
-   7. ABOUT US PAGE
-   ========================================================== */
+/* ========== 7. ABOUT US PAGE ========== */
 
 /* ----- 7a. About hero ----- */
+/* Full-screen About hero: heading over a full-bleed photo (flexbox) */
 .about-hero {
-  /* Flexbox: heading at the top, cup centered below */
+  position: relative;
+  isolation: isolate;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
-  gap: 3rem;
-  min-height: 520px;
+  min-height: max(520px, calc(100vh - var(--header-height)));
+  min-height: max(520px, calc(100svh - var(--header-height)));
   padding: 3rem var(--gutter) 3.5rem;
   overflow: hidden;
-  /* Vertical gradient: burnt orange (top) to espresso brown (bottom) */
-  background: linear-gradient(180deg, var(--burnt-orange) 0%, var(--espresso-brown) 100%);
+  background-color: var(--espresso-brown);
   text-align: center;
 }
 
+/* Dark fade at the top so the yellow heading stays readable */
+.about-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(180deg, rgba(40, 10, 10, 0.75) 0%, rgba(40, 10, 10, 0) 45%);
+}
+
+/* About hero heading */
 .about-hero__title {
   font-size: clamp(1.7rem, 2.5vw + 1.2rem, 2.25rem);
   color: var(--sunshine-yellow);
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.45);
 }
 
 /* Mobile: heading on 2 lines */
@@ -1034,46 +1134,101 @@ h3 {
   display: block;
 }
 
+/* About hero photo covering the whole section */
 .about-hero__img {
-  width: min(75%, 440px);
-  height: auto;
-  filter: drop-shadow(0 18px 24px rgba(0, 0, 0, 0.3));
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 32% center;
 }
 
 
 /* ----- 7b. Our story ----- */
+/* "Our story" section spacing */
+.about-story {
+  padding-block: 3rem 3.25rem;
+}
+
+/* Centered "Our story" column */
 .about-story__inner {
-  max-width: 800px;
+  max-width: 1000px;
   margin-inline: auto;
   text-align: center;
 }
 
+/* "Our story" heading */
 .about-story__title {
   margin-bottom: 1.75rem;
   font-size: clamp(1.6rem, 2.5vw + 1rem, 2rem);
   color: var(--text-black);
 }
 
+/* "Our story" paragraphs, centered with even spacing (flexbox) */
 .about-story__text {
-  /* Flexbox: even spacing between paragraphs */
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  max-width: 860px;
+  margin-inline: auto;
 }
 
 
 /* ----- 7c. Alternating photo + text sections ----- */
+/* Stack of dividers and photo + text sections with even gaps (flexbox) */
 .about-features {
-  /* Flexbox: stacks the three sections with even gaps */
   display: flex;
   flex-direction: column;
-  gap: 4rem;
-  max-width: 1040px;
-  padding-bottom: 5rem;
+  gap: 3.25rem;
+  padding-bottom: 4rem;
 }
 
+/* Section divider: line, coffee-bean badge, line (flexbox) */
+.about-divider {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  width: min(100%, 720px);
+  margin-inline: auto;
+  color: var(--espresso-brown);
+}
+
+/* Divider lines on both sides of the badge */
+.about-divider::before,
+.about-divider::after {
+  content: "";
+  flex: 1;
+  height: 2px;
+  border-radius: var(--radius-pill);
+}
+
+/* Left divider line fading in from the left */
+.about-divider::before {
+  background: linear-gradient(90deg, transparent, var(--espresso-brown));
+}
+
+/* Right divider line fading out to the right */
+.about-divider::after {
+  background: linear-gradient(90deg, var(--espresso-brown), transparent);
+}
+
+/* Yellow circle badge with the coffee bean centered (flexbox) */
+.about-divider__badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 46px;
+  border: 2px solid var(--espresso-brown);
+  border-radius: 50%;
+  background-color: var(--sunshine-yellow);
+  box-shadow: 0 0 0 5px var(--page-bg), 0 0 0 7px rgba(93, 39, 5, 0.18);
+}
+
+/* Photo + text section: one centered column on mobile, two from 768px (grid) */
 .about-feature {
-  /* Grid: one centered column on mobile, two columns from 768px */
   display: grid;
   grid-template-columns: 1fr;
   gap: 1.5rem;
@@ -1081,13 +1236,14 @@ h3 {
   text-align: center;
 }
 
-/* Mobile: photo always comes first, even in the reversed section */
+/* Section photo frame (always first on mobile, even in the reversed section) */
 .about-feature__media {
   order: -1;
   justify-self: center;
-  width: min(75%, 300px);
+  width: min(100%, 420px);
 }
 
+/* Section photo; zooms with a yellow border on hover (initAboutPage()) */
 .about-feature__img {
   width: 100%;
   aspect-ratio: 3 / 4;
@@ -1100,49 +1256,54 @@ h3 {
     box-shadow var(--transition);
 }
 
+/* Section heading */
 .about-feature__title {
   margin-bottom: 1.25rem;
   font-size: clamp(1.35rem, 2vw + 0.9rem, 1.75rem);
   color: var(--text-black);
 }
 
+/* Space between section paragraphs */
 .about-feature__text p + p {
   margin-top: 1rem;
 }
 
 
-/* ==========================================================
-   8. MENU PAGE (Stage 2)
-   ========================================================== */
+/* ========== 8. MENU PAGE (Stage 2) ========== */
 
 /* ----- 8a. Hero banner (photo only) ----- */
+/* Full-screen menu hero photo (same size as the Home and About heroes) */
 .menu-hero__img {
   width: 100%;
-  height: clamp(280px, 36vw, 520px);
+  height: max(520px, calc(100vh - var(--header-height)));
+  height: max(520px, calc(100svh - var(--header-height)));
   object-fit: cover;
   object-position: center 40%;
 }
 
+/* Menu page spacing */
 .menu-page {
   padding-block: 2rem 4rem;
 }
 
 
 /* ----- 8b. Header row: title + note + count, and the search bar ----- */
+/* Menu header: stacked on mobile, title left + search right from 768px (flexbox) */
 .menu-header {
-  /* Flexbox: stacked on mobile, title left + search right from 768px */
   display: flex;
   flex-direction: column;
   gap: 1rem;
   margin-bottom: 1.25rem;
 }
 
+/* "Menu" page heading */
 .menu-header__title {
   font-size: clamp(1.9rem, 2vw + 1.4rem, 2.4rem);
   line-height: 1.1;
   color: var(--text-black);
 }
 
+/* Allergen note under the heading */
 .menu-header__note {
   max-width: 60ch;
   margin-top: 0.35rem;
@@ -1151,18 +1312,26 @@ h3 {
   line-height: 1.45;
 }
 
+/* Search bar with the result count below it (flexbox) */
+.menu-header__tools {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+/* "Showing 72 items" result count */
 .menu-header__count {
-  margin-top: 0.6rem;
   font-size: 0.9rem;
   color: var(--text-muted);
 }
 
+/* Bold numbers and category in the result count */
 .menu-header__count strong {
   color: var(--espresso-brown);
 }
 
+/* Search box: text field with the magnifier icon inside (flexbox) */
 .menu-search {
-  /* Flexbox: text field with the magnifier icon inside on the right */
   display: flex;
   align-items: center;
   width: 100%;
@@ -1172,6 +1341,7 @@ h3 {
   transition: border-color var(--transition), box-shadow var(--transition);
 }
 
+/* Search text field */
 .menu-search__input {
   flex: 1;
   min-width: 0;
@@ -1181,22 +1351,24 @@ h3 {
   font-size: 0.95rem;
 }
 
-/* The search box border (changed by JS on focus) is the focus indicator */
+/* No outline on the field; the search box border (changed by JS) shows focus */
 .menu-search__input:focus,
 .menu-search__input:focus-visible {
   outline: none;
 }
 
+/* Search placeholder color */
 .menu-search__input::placeholder {
   color: #8A8A8A;
 }
 
-/* Hide the browser's built-in "x" so only our icon shows */
+/* Hide the browser's built-in clear "x" so only our icon shows */
 .menu-search__input::-webkit-search-cancel-button {
   -webkit-appearance: none;
   appearance: none;
 }
 
+/* Magnifier icon */
 .menu-search__icon {
   flex-shrink: 0;
   width: 22px;
@@ -1207,8 +1379,8 @@ h3 {
 
 
 /* ----- 8c. Body layout ----- */
+/* Menu body: one column on mobile, sidebar + menu panel from 1024px (grid) */
 .menu-layout {
-  /* Grid: one column on mobile, sidebar + menu panel from 1024px */
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   gap: 1rem;
@@ -1217,6 +1389,7 @@ h3 {
 
 
 /* ----- 8d. Categories (dropdown on mobile, sidebar on desktop) ----- */
+/* "Categories" heading (desktop only) */
 .menu-sidebar__title {
   display: none;
   margin-bottom: 1.25rem;
@@ -1224,8 +1397,8 @@ h3 {
   color: var(--text-black);
 }
 
+/* Mobile "Categories" dropdown bar: label left, chevron right (flexbox) */
 .menu-sidebar__toggle {
-  /* Flexbox: label on the left, chevron on the right */
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -1240,16 +1413,18 @@ h3 {
   transition: background-color var(--transition);
 }
 
+/* Dropdown bar hover: darker gray */
 .menu-sidebar__toggle:hover {
   background-color: #E0E0E0;
 }
 
+/* Dropdown chevron (▾ / ▴) */
 .menu-sidebar__chevron {
   font-size: 1.1rem;
   line-height: 1;
 }
 
-/* Mobile dropdown panel (opened by toggleCategories()) */
+/* Mobile category panel (hidden until toggleCategories() opens it) */
 .menu-sidebar__panel {
   display: none;
   margin-top: 0.4rem;
@@ -1258,17 +1433,19 @@ h3 {
   background-color: var(--panel-gray);
 }
 
+/* Mobile category panel opened */
 .menu-sidebar__panel.is-open {
   display: block;
 }
 
+/* Category buttons stacked (flexbox) */
 .category-list {
-  /* Flexbox: stacked category buttons */
   display: flex;
   flex-direction: column;
   gap: 0.2rem;
 }
 
+/* Category filter button */
 .category-btn {
   display: block;
   width: 100%;
@@ -1282,6 +1459,7 @@ h3 {
   transition: background-color var(--transition);
 }
 
+/* Category button hover: light yellow */
 .category-btn:hover {
   background-color: rgba(255, 222, 89, 0.5);
 }
@@ -1291,7 +1469,7 @@ h3 {
   padding-left: 2.5rem;
 }
 
-/* Active category = yellow pill with bold text */
+/* Active category: yellow pill with bold text */
 .category-btn.is-active {
   background-color: var(--sunshine-yellow);
   font-weight: 700;
@@ -1299,35 +1477,37 @@ h3 {
 
 
 /* ----- 8e. Gray panel + menu grid ----- */
+/* Gray panel that holds the menu grid */
 .menu-panel {
   padding: 0.75rem;
   border-radius: 12px;
   background-color: var(--panel-gray);
 }
 
+/* Menu cards: 2 columns on mobile, 3 from 768px; scrolls inside the gray panel (grid) */
 .menu-grid {
-  /* Grid: 2 columns on mobile, 3 columns from 768px */
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 0.75rem;
-  /* Scrolls inside the gray panel instead of making the page very long */
-  max-height: 70vh;
+  max-height: 90vh;
   overflow-y: auto;
-  padding: 0.5rem 0.6rem 0.5rem 0.5rem;   /* room for shadows + focus rings */
+  padding: 0.5rem 0.6rem 0.5rem 0.5rem;
   scrollbar-width: thin;
   scrollbar-color: var(--espresso-brown) rgba(255, 255, 255, 0.7);
 }
 
-/* Scrollbar look for Chrome/Edge/Safari versions without scrollbar-color */
+/* Menu grid scrollbar width (Chrome/Edge/Safari) */
 .menu-grid::-webkit-scrollbar {
   width: 10px;
 }
 
+/* Menu grid scrollbar track */
 .menu-grid::-webkit-scrollbar-track {
   border-radius: var(--radius-pill);
   background-color: rgba(255, 255, 255, 0.7);
 }
 
+/* Menu grid scrollbar thumb (brown) */
 .menu-grid::-webkit-scrollbar-thumb {
   border: 2px solid transparent;
   border-radius: var(--radius-pill);
@@ -1335,18 +1515,21 @@ h3 {
   background-clip: padding-box;
 }
 
+/* "No items found" message (shown by applyMenuFilters()) */
 .menu-empty {
   display: none;
   padding: 3rem 1rem;
   text-align: center;
 }
 
+/* "No items found" heading */
 .menu-empty__title {
   font-family: var(--font-display);
   font-size: 1.4rem;
   color: var(--espresso-brown);
 }
 
+/* "No items found" hint text */
 .menu-empty__text {
   margin-top: 0.4rem;
   font-size: 0.9rem;
@@ -1354,6 +1537,7 @@ h3 {
 
 
 /* ----- 8f. Menu card (resting: image + name; open: yellow panel) ----- */
+/* Menu card: image + name at rest, yellow panel when open */
 .menu-card {
   position: relative;
   min-height: 205px;
@@ -1365,8 +1549,8 @@ h3 {
   -webkit-tap-highlight-color: transparent;
 }
 
+/* Card front: image on top, name below (flexbox) */
 .menu-card__front {
-  /* Flexbox: image on top, name centered below */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1378,6 +1562,7 @@ h3 {
   transition: opacity var(--transition);
 }
 
+/* Card photo */
 .menu-card__img {
   width: 100%;
   max-width: 150px;
@@ -1385,6 +1570,7 @@ h3 {
   object-fit: contain;
 }
 
+/* Card item name */
 .menu-card__name {
   font-family: var(--font-body);
   font-size: 0.8rem;
@@ -1393,9 +1579,8 @@ h3 {
   color: var(--text-black);
 }
 
-/* Yellow panel: same size as the card, faded in by showItemPanel() */
+/* Yellow panel the same size as the card, faded in by showItemPanel() (flexbox) */
 .menu-card__panel {
-  /* Flexbox: top row, description, price, then the button */
   position: absolute;
   inset: 0;
   display: flex;
@@ -1408,22 +1593,37 @@ h3 {
   transition: opacity var(--transition), visibility var(--transition);
 }
 
-.menu-card.is-open .menu-card__panel {
+/* Show the yellow panel on an open menu card or a hovered best-seller card */
+.menu-card.is-open .menu-card__panel,
+.product-card.is-open .menu-card__panel {
   opacity: 1;
   visibility: visible;
 }
 
+/* Best-seller panel: left-aligned text (no price or button) */
+.product-card .menu-card__panel {
+  text-align: left;
+}
+
+/* Best-seller description can use more lines */
+.product-card .menu-card__desc {
+  -webkit-line-clamp: 8;
+  line-clamp: 8;
+}
+
+/* Hide the card front while the panel is open */
 .menu-card.is-open .menu-card__front {
   opacity: 0;
 }
 
+/* Panel top row: brown image square next to the name (flexbox) */
 .menu-card__panel-top {
-  /* Flexbox: brown image square next to the name */
   display: flex;
   align-items: flex-start;
   gap: 0.5rem;
 }
 
+/* Brown square behind the small item photo */
 .menu-card__media {
   flex-shrink: 0;
   width: 46px;
@@ -1433,12 +1633,14 @@ h3 {
   background-color: var(--espresso-brown);
 }
 
+/* Small item photo inside the brown square */
 .menu-card__media img {
   width: 100%;
   height: 100%;
   object-fit: contain;
 }
 
+/* Item name in the panel */
 .menu-card__panel-name {
   font-family: var(--font-display);
   font-size: 0.75rem;
@@ -1446,6 +1648,7 @@ h3 {
   color: var(--text-black);
 }
 
+/* Item description, cut off after 3 lines */
 .menu-card__desc {
   display: -webkit-box;
   overflow: hidden;
@@ -1456,6 +1659,7 @@ h3 {
   -webkit-box-orient: vertical;
 }
 
+/* Item price, pushed to the bottom of the panel */
 .menu-card__price {
   margin-top: auto;
   font-family: var(--font-display);
@@ -1463,6 +1667,7 @@ h3 {
   color: var(--text-black);
 }
 
+/* "Add to Cart" / "Remove from Cart" button */
 .menu-card__btn {
   align-self: stretch;
   padding: 0.45rem 0.6rem;
@@ -1475,23 +1680,25 @@ h3 {
   transition: background-color var(--transition), transform var(--transition);
 }
 
+/* Card button hover: orange */
 .menu-card__btn:hover {
   background-color: var(--brew-orange);
 }
 
+/* Card button pressed: slightly smaller */
 .menu-card__btn:active {
   transform: scale(0.97);
 }
 
 
 /* ----- 8g. Add-to-cart pop-up ----- */
+/* Stop the page from scrolling while a pop-up is open */
 body.modal-open {
   overflow: hidden;
 }
 
-/* The dim backdrop (clicking it closes the pop-up) */
+/* Dim backdrop behind the pop-up (click it to close); centers the dialog (flexbox) */
 .modal {
-  /* Flexbox: centers the dialog; margin: auto keeps tall dialogs scrollable */
   position: fixed;
   inset: 0;
   z-index: 300;
@@ -1501,11 +1708,13 @@ body.modal-open {
   background-color: rgba(0, 0, 0, 0.5);
 }
 
+/* Pop-up shown, fading in */
 .modal.is-open {
   display: flex;
   animation: modal-fade 0.25s ease;
 }
 
+/* Pop-up dialog box */
 .modal__dialog {
   position: relative;
   width: 100%;
@@ -1518,10 +1727,12 @@ body.modal-open {
   animation: modal-pop 0.25s ease;
 }
 
+/* No outline on the dialog when it receives focus */
 .modal__dialog:focus {
   outline: none;
 }
 
+/* Round "x" close button in the top-right corner */
 .modal__close {
   position: absolute;
   top: 0.5rem;
@@ -1541,18 +1752,20 @@ body.modal-open {
   transition: background-color var(--transition);
 }
 
+/* Close button hover: light gray background */
 .modal__close:hover {
   background-color: rgba(0, 0, 0, 0.08);
 }
 
+/* Pop-up top: brown image square next to the item details (flexbox) */
 .modal__top {
-  /* Flexbox: brown image square next to the item details */
   display: flex;
   align-items: flex-start;
   gap: 1rem;
   padding-right: 1.5rem;
 }
 
+/* Brown square behind the pop-up photo */
 .modal__media {
   flex-shrink: 0;
   width: 125px;
@@ -1562,20 +1775,22 @@ body.modal-open {
   background-color: var(--espresso-brown);
 }
 
+/* Pop-up item photo */
 .modal__img {
   width: 100%;
   height: 100%;
   object-fit: contain;
 }
 
+/* Name, description and price stacked (flexbox) */
 .modal__info {
-  /* Flexbox: name, description and price stacked */
   display: flex;
   flex-direction: column;
   gap: 0.4rem;
   min-width: 0;
 }
 
+/* Pop-up item name */
 .modal__title {
   font-family: var(--font-body);
   font-size: 1.1rem;
@@ -1583,18 +1798,20 @@ body.modal-open {
   line-height: 1.25;
 }
 
+/* Pop-up item description */
 .modal__desc {
   font-size: 0.8rem;
   line-height: 1.45;
 }
 
+/* Pop-up item price (updates with the flavor) */
 .modal__price {
   font-size: 1rem;
   font-weight: 700;
   letter-spacing: 0.03em;
 }
 
-/* Option groups (Serving Type, Sugar Level, Ice Amount, Flavor) */
+/* Option group (Serving Type, Sugar Level, Ice Amount, Flavor) */
 .option-group {
   min-width: 0;
   margin: 1.1rem 0 0;
@@ -1602,6 +1819,7 @@ body.modal-open {
   border: none;
 }
 
+/* Option group and note labels */
 .option-group__label,
 .modal__label {
   display: block;
@@ -1611,21 +1829,24 @@ body.modal-open {
   font-weight: 700;
 }
 
+/* Option buttons in equal columns (grid) */
 .option-group__choices {
-  /* Grid: toggle buttons in equal columns */
   display: grid;
   grid-template-columns: 1fr;
   gap: 0.5rem;
 }
 
+/* 2 option buttons per row */
 .option-group__choices--2 {
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
+/* 4-option groups: 2 per row on mobile (4 from 480px) */
 .option-group__choices--4 {
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
+/* Option toggle button */
 .option-btn {
   padding: 0.7rem 0.5rem;
   border: none;
@@ -1637,24 +1858,28 @@ body.modal-open {
   transition: background-color var(--transition), color var(--transition), transform var(--transition);
 }
 
+/* Option button hover: darker gray */
 .option-btn:hover {
   background-color: #CBCBCB;
 }
 
+/* Option button pressed: slightly smaller */
 .option-btn:active {
   transform: scale(0.98);
 }
 
-/* Selected option = espresso brown with yellow text */
+/* Selected option: espresso brown with yellow text */
 .option-btn.is-selected {
   background-color: var(--espresso-brown);
   color: var(--sunshine-yellow);
 }
 
+/* Space above the note field */
 .modal__field {
   margin-top: 1.1rem;
 }
 
+/* "Note to café" text box */
 .modal__note {
   display: block;
   width: 100%;
@@ -1667,12 +1892,13 @@ body.modal-open {
   resize: vertical;
 }
 
+/* Note placeholder color */
 .modal__note::placeholder {
   color: #9A9A9A;
 }
 
+/* Pop-up actions: stepper above a full-width button on mobile (flexbox) */
 .modal__actions {
-  /* Flexbox: stepper right-aligned above a full-width button on mobile */
   display: flex;
   flex-direction: column;
   align-items: flex-end;
@@ -1680,9 +1906,8 @@ body.modal-open {
   margin-top: 1rem;
 }
 
-/* White pill quantity stepper ( −  1  + ) */
+/* White pill quantity stepper: minus, value, plus (flexbox) */
 .qty-stepper {
-  /* Flexbox: minus, value, plus in a row */
   display: inline-flex;
   align-items: center;
   gap: 0.25rem;
@@ -1691,6 +1916,7 @@ body.modal-open {
   background-color: var(--card-white);
 }
 
+/* Stepper minus/plus button */
 .qty-stepper__btn {
   display: flex;
   align-items: center;
@@ -1706,21 +1932,25 @@ body.modal-open {
   transition: background-color var(--transition), opacity var(--transition);
 }
 
+/* Stepper button hover (when enabled): light gray */
 .qty-stepper__btn:hover:not(:disabled) {
   background-color: var(--page-bg);
 }
 
+/* Stepper button at its limit: faded and not clickable */
 .qty-stepper__btn:disabled {
   opacity: 0.35;
   cursor: not-allowed;
 }
 
+/* Quantity number */
 .qty-stepper__value {
   min-width: 2.25ch;
   font-weight: 700;
   text-align: center;
 }
 
+/* "Add to Cart" button inside the pop-up */
 .modal__add-btn {
   width: 100%;
   padding: 0.8rem 1rem;
@@ -1733,19 +1963,23 @@ body.modal-open {
   transition: background-color var(--transition), transform var(--transition);
 }
 
+/* Pop-up button hover: orange */
 .modal__add-btn:hover {
   background-color: #7A3A10;
 }
 
+/* Pop-up button pressed: slightly smaller */
 .modal__add-btn:active {
   transform: scale(0.99);
 }
 
+/* Backdrop fade-in animation */
 @keyframes modal-fade {
   from { opacity: 0; }
   to { opacity: 1; }
 }
 
+/* Dialog pop-in animation */
 @keyframes modal-pop {
   from { opacity: 0; transform: translateY(16px) scale(0.98); }
   to { opacity: 1; transform: none; }
@@ -1753,6 +1987,7 @@ body.modal-open {
 
 
 /* ----- 8h. Toast ("Added to cart ✓") ----- */
+/* "Added to cart" toast at the bottom of the screen (hidden until shown) */
 .toast {
   position: fixed;
   left: 50%;
@@ -1773,6 +2008,7 @@ body.modal-open {
   pointer-events: none;
 }
 
+/* Toast shown by showToast() */
 .toast.is-visible {
   opacity: 1;
   visibility: visible;
@@ -1780,22 +2016,22 @@ body.modal-open {
 }
 
 
-/* ==========================================================
-   9. CART + CHECKOUT PAGES (Stage 3)
-   ========================================================== */
+/* ========== 9. CART + CHECKOUT PAGES (Stage 3) ========== */
 
 /* ----- 9a. Page top: "< Back" link + page title ----- */
+/* Cart and checkout page spacing */
 .cart-page,
 .checkout-page {
   padding-block: 1.75rem 4rem;
 }
 
+/* Space under the back link and page title */
 .page-top {
   margin-bottom: 1.5rem;
 }
 
+/* "< Back" link: arrow and label side by side (flexbox) */
 .back-link {
-  /* Flexbox: "<" and "Back" side by side */
   display: inline-flex;
   align-items: center;
   gap: 0.6rem;
@@ -1808,11 +2044,13 @@ body.modal-open {
   transition: color var(--transition), text-decoration-color var(--transition);
 }
 
+/* Back link hover: brown text with an underline */
 .back-link:hover {
   color: var(--espresso-brown);
   text-decoration-color: currentColor;
 }
 
+/* "My Cart" / "Checkout" page heading */
 .page-title {
   margin-top: 1rem;
   font-size: clamp(1.8rem, 2vw + 1.3rem, 2.3rem);
@@ -1821,20 +2059,24 @@ body.modal-open {
 
 
 /* ----- 9b. Shared form messages ----- */
+/* Success or error message under a form */
 .form-message {
   margin-top: 0.5rem;
   font-size: 0.85rem;
   font-weight: 700;
 }
 
+/* Hide the message when it has no text */
 .form-message:empty {
   display: none;
 }
 
+/* Green success message */
 .form-message--success {
   color: var(--success-green);
 }
 
+/* Red error message */
 .form-message--error {
   color: var(--error-text);
 }
@@ -1858,11 +2100,13 @@ body.modal-open {
   transition: background-color var(--transition), transform var(--transition), opacity var(--transition);
 }
 
+/* Action button hover: orange */
 .checkout-btn:hover {
   background-color: #7A3A10;
   transform: translateY(-1px);
 }
 
+/* Disabled action button: faded and not clickable */
 .checkout-btn.is-disabled {
   opacity: 0.45;
   pointer-events: none;
@@ -1871,9 +2115,9 @@ body.modal-open {
 
 
 /* ----- 9c. Layouts ----- */
+/* Cart and checkout layouts: one column on mobile, two from 1024px (grid) */
 .cart-layout,
 .checkout-layout {
-  /* Grid: one column on mobile, two columns from 1024px */
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   gap: 1.5rem;
@@ -1882,15 +2126,15 @@ body.modal-open {
 
 
 /* ----- 9d. Cart item rows (rendered by renderCart()) ----- */
+/* Gray panel that holds the cart rows */
 .cart-items {
   padding: 0.75rem;
   border-radius: 12px;
   background-color: var(--panel-gray);
 }
 
-/* Item count + "Clear cart" button above the rows */
+/* Cart header: item count left, "Clear cart" right (flexbox) */
 .cart-items__header {
-  /* Flexbox: count on the left, button on the right */
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -1898,12 +2142,13 @@ body.modal-open {
   padding: 0.25rem 0.25rem 0.75rem;
 }
 
+/* Bold item count */
 .cart-items__count {
   font-weight: 700;
 }
 
+/* "Clear cart" button: trash icon + label (flexbox) */
 .clear-cart-btn {
-  /* Flexbox: trash icon + label */
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
@@ -1917,35 +2162,38 @@ body.modal-open {
   transition: background-color var(--transition), color var(--transition);
 }
 
+/* Trash icon size */
 .clear-cart-btn svg {
   width: 18px;
   height: 18px;
 }
 
+/* Clear cart button hover: light red background */
 .clear-cart-btn:hover {
   background-color: rgba(214, 40, 40, 0.1);
 }
 
-/* Second step: "Click again to clear all" */
+/* Second click step: "Click again to clear all" */
 .clear-cart-btn.is-confirming {
   background-color: var(--danger-red);
   color: var(--card-white);
 }
 
+/* Cart rows stacked with even gaps (flexbox) */
 .cart-list {
-  /* Flexbox: rows stacked with even gaps */
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
 }
 
+/* Loading message before the cart renders */
 .cart-loading {
   padding: 2rem 1rem;
   text-align: center;
 }
 
+/* Cart row: brown image square left, details right (grid) */
 .cart-item {
-  /* Grid: brown image square on the left, details on the right */
   display: grid;
   grid-template-columns: 84px minmax(0, 1fr);
   gap: 0.85rem;
@@ -1955,6 +2203,7 @@ body.modal-open {
   animation: cart-row-in 0.25s ease;
 }
 
+/* Brown square behind the cart item photo */
 .cart-item__media {
   align-self: start;
   aspect-ratio: 1 / 1;
@@ -1963,27 +2212,29 @@ body.modal-open {
   background-color: var(--espresso-brown);
 }
 
+/* Cart item photo */
 .cart-item__media img {
   width: 100%;
   height: 100%;
   object-fit: contain;
 }
 
+/* Row body: details on top, price + stepper at the bottom (flexbox) */
 .cart-item__body {
-  /* Flexbox: name/details on top, price + stepper at the bottom */
   display: flex;
   flex-direction: column;
   min-width: 0;
 }
 
+/* Row top: text left, trash button top-right (flexbox) */
 .cart-item__top {
-  /* Flexbox: text on the left, trash icon top-right */
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
   gap: 0.5rem;
 }
 
+/* Cart item name */
 .cart-item__name {
   font-family: var(--font-body);
   font-size: 1rem;
@@ -1991,6 +2242,7 @@ body.modal-open {
   line-height: 1.3;
 }
 
+/* Item options and note text */
 .cart-item__details,
 .cart-item__note {
   margin-top: 0.2rem;
@@ -2000,6 +2252,7 @@ body.modal-open {
   overflow-wrap: anywhere;
 }
 
+/* Round red trash button that removes the item */
 .cart-item__remove {
   flex-shrink: 0;
   display: flex;
@@ -2016,13 +2269,14 @@ body.modal-open {
   transition: background-color var(--transition), transform var(--transition);
 }
 
+/* Trash button hover: light red background */
 .cart-item__remove:hover {
   background-color: rgba(214, 40, 40, 0.12);
   transform: scale(1.08);
 }
 
+/* Row bottom: price left, stepper right; wraps on small screens (flexbox) */
 .cart-item__bottom {
-  /* Flexbox: price left, stepper right (wraps on very small screens) */
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -2032,26 +2286,27 @@ body.modal-open {
   padding-top: 0.6rem;
 }
 
+/* Cart item price */
 .cart-item__price {
   font-size: 1rem;
   font-weight: 700;
   letter-spacing: 0.03em;
 }
 
-/* Smaller white pill stepper inside cart rows (reuses .qty-stepper) */
+/* Smaller quantity stepper inside cart rows */
 .cart-item .qty-stepper {
   padding: 0.1rem 0.3rem;
   border-radius: var(--radius-pill);
 }
 
+/* Smaller stepper buttons inside cart rows */
 .cart-item .qty-stepper__btn {
   width: 32px;
   height: 32px;
 }
 
-/* Empty cart / empty checkout message */
+/* Empty cart message in a centered column (flexbox) */
 .cart-empty {
-  /* Flexbox: centered column */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -2060,22 +2315,26 @@ body.modal-open {
   text-align: center;
 }
 
+/* Empty cart heading */
 .cart-empty__title {
   font-family: var(--font-display);
   font-size: 1.45rem;
   color: var(--espresso-brown);
 }
 
+/* Space above the "Browse Menu" button */
 .cart-empty .btn {
   margin-top: 0.75rem;
 }
 
+/* Empty checkout message panel (hidden until needed) */
 .checkout-empty {
   display: none;
   border-radius: 12px;
   background-color: var(--panel-gray);
 }
 
+/* Fade-in animation for new cart rows */
 @keyframes cart-row-in {
   from { opacity: 0; transform: translateY(6px); }
   to { opacity: 1; transform: none; }
@@ -2083,12 +2342,14 @@ body.modal-open {
 
 
 /* ----- 9e. Order Summary card (cart + checkout) ----- */
+/* Gray Order Summary card (cart + checkout) */
 .order-summary {
   padding: 1.5rem 1.25rem;
   border-radius: 12px;
   background-color: var(--panel-gray);
 }
 
+/* Order Summary heading */
 .order-summary__title {
   margin-bottom: 1rem;
   font-family: var(--font-body);
@@ -2096,26 +2357,28 @@ body.modal-open {
   font-weight: 700;
 }
 
+/* Summary rows stacked (flexbox) */
 .summary-rows {
-  /* Flexbox: rows stacked */
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
   margin: 0;
 }
 
+/* Summary row: label left, amount right (flexbox) */
 .summary-row {
-  /* Flexbox: label left, amount right */
   display: flex;
   align-items: baseline;
   justify-content: space-between;
   gap: 1rem;
 }
 
+/* Summary row label */
 .summary-row dt {
   font-size: 0.95rem;
 }
 
+/* Summary row amount */
 .summary-row dd {
   margin: 0;
   font-family: var(--font-display);
@@ -2123,16 +2386,18 @@ body.modal-open {
   white-space: nowrap;
 }
 
-/* Hidden until a promo code is applied */
+/* Discount row (hidden until a promo code is applied) */
 .summary-row--discount {
   display: none;
   color: var(--success-green);
 }
 
+/* Bigger total amount */
 .summary-row--total dd {
   font-size: 1.15rem;
 }
 
+/* Black line above the total */
 .summary-divider {
   height: 2px;
   margin: 1rem 0;
@@ -2140,9 +2405,8 @@ body.modal-open {
   background-color: var(--text-black);
 }
 
-/* Promo code input: tag icon, text field, brown check button */
+/* Promo code bar: tag icon, text field and brown check button (flexbox) */
 .promo-field {
-  /* Flexbox: icon, input and button in one white bar */
   display: flex;
   align-items: center;
   margin-top: 1.25rem;
@@ -2153,16 +2417,19 @@ body.modal-open {
   transition: border-color var(--transition);
 }
 
+/* Promo bar focus: brown border */
 .promo-field:focus-within {
   border-color: var(--espresso-brown);
 }
 
+/* Tag icon */
 .promo-field__icon {
   flex-shrink: 0;
   margin-left: 0.85rem;
   color: #8A8A8A;
 }
 
+/* Promo code text field */
 .promo-field__input {
   flex: 1;
   min-width: 0;
@@ -2173,15 +2440,18 @@ body.modal-open {
   text-transform: uppercase;
 }
 
+/* Promo field placeholder color */
 .promo-field__input::placeholder {
   color: #8A8A8A;
   text-transform: none;
 }
 
+/* No outline on the field; the promo bar shows focus */
 .promo-field__input:focus {
   outline: none;
 }
 
+/* Brown check button that applies the code */
 .promo-field__btn {
   flex-shrink: 0;
   display: flex;
@@ -2196,18 +2466,19 @@ body.modal-open {
   transition: background-color var(--transition);
 }
 
+/* Check button hover: orange */
 .promo-field__btn:hover {
   background-color: #7A3A10;
 }
 
+/* Check button keyboard focus ring inside the button */
 .promo-field__btn:focus-visible {
   outline-offset: -5px;
   outline-color: var(--sunshine-yellow);
 }
 
-/* Checkout summary: "1 - Iced Americano ... Qty: 1" */
+/* Checkout item list stacked (flexbox) */
 .summary-items {
-  /* Flexbox: items stacked */
   display: flex;
   flex-direction: column;
   gap: 0.85rem;
@@ -2216,22 +2487,25 @@ body.modal-open {
   list-style: none;
 }
 
+/* Checkout item: name + qty on the first line, details below (grid) */
 .summary-item {
-  /* Grid: name + qty on the first line, details below */
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
   gap: 0.1rem 1rem;
 }
 
+/* Checkout item name */
 .summary-item__name {
   font-size: 0.95rem;
 }
 
+/* Checkout item quantity */
 .summary-item__qty {
   font-size: 0.9rem;
   white-space: nowrap;
 }
 
+/* Checkout item options, across the full row */
 .summary-item__details {
   grid-column: 1 / -1;
   font-size: 0.78rem;
@@ -2241,6 +2515,7 @@ body.modal-open {
 
 
 /* ----- 9f. Newsletter strip (cart page) ----- */
+/* Newsletter strip with a café photo background (cart page) */
 .newsletter {
   position: relative;
   isolation: isolate;
@@ -2249,7 +2524,7 @@ body.modal-open {
   color: var(--espresso-brown);
 }
 
-/* Sunshine yellow overlay (80%) */
+/* Sunshine yellow overlay (80%) over the photo */
 .newsletter::before {
   content: "";
   position: absolute;
@@ -2258,27 +2533,29 @@ body.modal-open {
   background-color: rgba(255, 222, 89, 0.8);
 }
 
+/* Newsletter content: text above the form on mobile, side by side from 768px (grid) */
 .newsletter__inner {
-  /* Grid: text above the form on mobile, side by side from 768px */
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   gap: 1.75rem;
   align-items: center;
 }
 
+/* Newsletter heading */
 .newsletter__title {
   font-size: clamp(1.5rem, 2.4vw + 0.9rem, 2.4rem);
   color: var(--espresso-brown);
 }
 
+/* Newsletter text */
 .newsletter__copy {
   max-width: 52ch;
   margin-top: 0.75rem;
   font-size: 1.05rem;
 }
 
+/* Email field: envelope icon + input in a white bar (flexbox) */
 .newsletter__field {
-  /* Flexbox: envelope icon + email input */
   display: flex;
   align-items: center;
   gap: 0.75rem;
@@ -2289,15 +2566,18 @@ body.modal-open {
   transition: border-color var(--transition), box-shadow var(--transition);
 }
 
+/* Email field focus: brown border */
 .newsletter__field:focus-within {
   border-color: var(--espresso-brown);
 }
 
+/* Envelope icon */
 .newsletter__icon {
   flex-shrink: 0;
   color: #6E6E6E;
 }
 
+/* Email text field */
 .newsletter__input {
   flex: 1;
   min-width: 0;
@@ -2307,14 +2587,17 @@ body.modal-open {
   font-size: 1.05rem;
 }
 
+/* Email placeholder color */
 .newsletter__input::placeholder {
   color: #6E6E6E;
 }
 
+/* No outline on the input; the field shows focus */
 .newsletter__input:focus {
   outline: none;
 }
 
+/* "Subscribe" button */
 .newsletter__btn {
   width: 100%;
   margin-top: 0.85rem;
@@ -2329,12 +2612,13 @@ body.modal-open {
   transition: background-color var(--transition), transform var(--transition);
 }
 
+/* Subscribe button hover: orange */
 .newsletter__btn:hover {
   background-color: #7A3A10;
   transform: translateY(-1px);
 }
 
-/* Thank-you message (replaces the form after subscribing) */
+/* Thank-you message that replaces the form after subscribing */
 .newsletter__thanks {
   padding: 1.25rem 1.5rem;
   border: 2px solid var(--espresso-brown);
@@ -2342,30 +2626,34 @@ body.modal-open {
   background-color: rgba(255, 255, 255, 0.65);
 }
 
+/* Thank-you heading */
 .newsletter__thanks-title {
   font-family: var(--font-display);
   font-size: 1.3rem;
 }
 
+/* Space between thank-you paragraphs */
 .newsletter__thanks p + p {
   margin-top: 0.35rem;
 }
 
 
 /* ----- 9g. Checkout form sections ----- */
+/* The three checkout sections stacked (flexbox) */
 .checkout-sections {
-  /* Flexbox: the three gray sections stacked */
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
 }
 
+/* Gray checkout section card */
 .checkout-card {
   padding: 1.5rem 1.25rem;
   border-radius: 12px;
   background-color: var(--panel-gray);
 }
 
+/* Checkout section heading */
 .checkout-card__title {
   margin-bottom: 0.5rem;
   font-family: var(--font-body);
@@ -2373,20 +2661,24 @@ body.modal-open {
   font-weight: 700;
 }
 
+/* Step number in the section heading */
 .checkout-card__step {
   letter-spacing: 0.04em;
 }
 
+/* Space above each form field */
 .form-field {
   margin-top: 1rem;
 }
 
+/* Form field label */
 .form-field__label {
   display: block;
   margin-bottom: 0.4rem;
   font-size: 0.95rem;
 }
 
+/* Text, email, phone and select fields */
 .form-field__input {
   display: block;
   width: 100%;
@@ -2398,18 +2690,19 @@ body.modal-open {
   transition: border-color var(--transition), box-shadow var(--transition);
 }
 
+/* Form field placeholder color */
 .form-field__input::placeholder {
   color: #8A8A8A;
 }
 
-/* Visible focus ring that also works on the gray cards */
+/* Form field focus ring that also shows on the gray cards */
 .form-field__input:focus {
   outline: none;
   border-color: var(--espresso-brown);
   box-shadow: 0 0 0 3px rgba(93, 39, 5, 0.35);
 }
 
-/* Custom dropdown arrow */
+/* Select field with a custom dropdown arrow */
 .form-field__select {
   padding-right: 2.75rem;
   -webkit-appearance: none;
@@ -2421,7 +2714,7 @@ body.modal-open {
   cursor: pointer;
 }
 
-/* Error under a field (filled by placeOrder()) */
+/* Error message under a field (filled by placeOrder()) */
 .field-error {
   margin-top: 0.3rem;
   font-size: 0.8rem;
@@ -2429,27 +2722,28 @@ body.modal-open {
   color: var(--error-text);
 }
 
+/* Hide the field error when empty */
 .field-error:empty {
   display: none;
 }
 
+/* Small helper note under a field */
 .field-note {
   margin-top: 0.45rem;
   font-size: 0.85rem;
   color: var(--text-muted);
 }
 
-/* Delivery / Pickup option cards */
+/* Delivery / Pickup cards: stacked on mobile, side by side from 480px (grid) */
 .order-type {
-  /* Grid: stacked on mobile, side by side from 480px */
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   gap: 0.6rem;
   margin-top: 1rem;
 }
 
+/* Delivery / Pickup card: name above the small subtext (flexbox) */
 .order-type__option {
-  /* Flexbox: name above the small subtext */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -2463,26 +2757,30 @@ body.modal-open {
   transition: background-color var(--transition), color var(--transition), border-color var(--transition);
 }
 
+/* Order type card hover: brown border */
 .order-type__option:hover {
   border-color: var(--espresso-brown);
 }
 
+/* Selected order type card: brown with yellow text */
 .order-type__option.is-selected {
   background-color: var(--espresso-brown);
   color: var(--sunshine-yellow);
 }
 
+/* Order type name */
 .order-type__name {
   font-size: 1.1rem;
   font-weight: 700;
 }
 
+/* Order type subtext */
 .order-type__sub {
   font-size: 0.78rem;
 }
 
+/* "Open Google Maps" button: pin icon + label (flexbox) */
 .maps-btn {
-  /* Flexbox: pin icon + label centered */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -2499,10 +2797,12 @@ body.modal-open {
   transition: background-color var(--transition);
 }
 
+/* Maps button hover: darker brown */
 .maps-btn:hover {
   background-color: #7A3A10;
 }
 
+/* Pickup info note (shown when Pickup is selected) */
 .pickup-note {
   display: none;
   margin-top: 1rem;
@@ -2514,12 +2814,14 @@ body.modal-open {
 
 
 /* ----- 9h. Order confirmation pop-up (reuses .modal from 8g) ----- */
+/* Order confirmation dialog: narrower and centered (reuses .modal) */
 .modal__dialog.order-confirm {
   max-width: 460px;
   padding: 2rem 1.5rem;
   text-align: center;
 }
 
+/* Confirmation content in a centered column (flexbox) */
 .order-confirm__content {
   display: flex;
   flex-direction: column;
@@ -2527,6 +2829,7 @@ body.modal-open {
   gap: 0.75rem;
 }
 
+/* Yellow circle check icon */
 .order-confirm__icon {
   display: flex;
   align-items: center;
@@ -2540,12 +2843,14 @@ body.modal-open {
   font-weight: 700;
 }
 
+/* Confirmation heading */
 .order-confirm__title {
   font-size: 1.35rem;
   line-height: 1.3;
   color: var(--espresso-brown);
 }
 
+/* White box with the order details */
 .order-confirm__details {
   width: 100%;
   margin: 0.25rem 0 0;
@@ -2555,92 +2860,101 @@ body.modal-open {
   text-align: left;
 }
 
+/* Space between order detail rows */
 .order-confirm__details .summary-row + .summary-row {
   margin-top: 0.5rem;
 }
 
+/* Order detail values, right-aligned and allowed to wrap */
 .order-confirm__details dd {
   font-size: 0.95rem;
   white-space: normal;
   text-align: right;
 }
 
+/* Small italic note under the order details */
 .order-confirm__note {
   font-size: 0.8rem;
   font-style: italic;
   color: var(--text-muted);
 }
 
-/* Current page highlight on the navbar cart icon */
+/* Highlight the navbar cart icon on the cart page */
 .navbar__cart[aria-current="page"] {
   background-color: rgba(93, 39, 5, 0.12);
 }
 
 
-/* ==========================================================
-   10. MEDIA QUERIES (mobile-first: min-width)
-   ========================================================== */
+/* ========== 10. MEDIA QUERIES (mobile-first: min-width) ========== */
 
 /* ----- Large phones (480px and up) ----- */
 @media (min-width: 480px) {
+  /* Hero button: natural width instead of full width */
   .hero__btn {
     width: auto;
     min-width: 240px;
   }
 
+  /* Wider gap between best-seller cards */
   .product-grid {
     gap: 1.25rem;
   }
 
-  /* Smaller carousel photo on wide phones (50% of the slide) */
+  /* Smaller review photo on wide phones (50% of the slide) */
   .review__photo {
     width: 50%;
   }
 
+  /* Next arrow follows the smaller photo */
   .reviews__next {
     top: 25vw;
     top: 25cqw;
   }
 
+  /* Dots follow the smaller photo */
   .reviews__dots {
     top: calc(50vw + 0.5rem);
     top: calc(50cqw + 0.5rem);
   }
 
-  /* Menu: roomier cards, flavor buttons in one row */
+  /* Taller menu cards */
   .menu-card {
     min-height: 225px;
   }
 
+  /* 4-option groups (Flavor) in one row */
   .option-group__choices--4 {
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 
-  /* Checkout: Delivery / Pickup side by side */
+  /* Delivery / Pickup side by side */
   .order-type {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
+
 /* ----- Tablets (768px and up) ----- */
 @media (min-width: 768px) {
+  /* Bigger gutter, section spacing and header height on tablets */
   :root {
     --gutter: 1.5rem;
     --section-space: 4.5rem;
     --header-height: 72px;
   }
 
-  /* Navbar: links inline, hamburger hidden */
+  /* Bigger logo */
   .navbar__logo img {
     height: 36px;
   }
 
+  /* Hide the hamburger on tablets and desktops */
   .navbar__toggle {
     display: none;
   }
 
+  /* Page links shown inline next to the cart (flexbox) */
   .navbar__links {
-    /* Flexbox: links in a row next to the cart */
     position: static;
     display: flex;
     flex-direction: row;
@@ -2652,20 +2966,23 @@ body.modal-open {
     box-shadow: none;
   }
 
+  /* Smaller inline navbar links */
   .navbar__link {
     padding: 0.5rem 0;
     font-size: 0.85rem;
   }
 
+  /* Space between the links and the cart */
   .navbar__actions {
     margin-left: 1rem;
   }
 
-  /* Hero: content vertically centered, overlay stronger on the left */
+  /* Hero content vertically centered */
   .hero {
     align-items: center;
   }
 
+  /* Hero overlay stronger on the left, behind the text */
   .hero::before {
     background: linear-gradient(
       90deg,
@@ -2676,19 +2993,22 @@ body.modal-open {
     );
   }
 
+  /* More hero padding */
   .hero__content {
     padding-block: 4rem;
   }
 
-  /* Desktop: "kape tayo," on line 1, "brew!" on line 2 */
+  /* Hero heading: "kape tayo," on one line... */
   .hero__title-line {
     display: inline;
   }
 
+  /* ...and "brew!" on the next */
   .hero__title-line--last {
     display: block;
   }
 
+  /* Hero button sits under the text instead of at the bottom */
   .hero__btn {
     margin-top: 1rem;
   }
@@ -2699,29 +3019,33 @@ body.modal-open {
     gap: 2rem;
   }
 
+  /* Roomier best-seller cards */
   .product-card {
     padding: 1.5rem 1rem;
   }
 
+  /* Taller promo banner */
   .promo-banner {
     padding-block: 4rem;
   }
 
-  /* Story card: photo left, text right */
+  /* Roomier story card */
   .story-card {
     padding: 2.25rem 2.25rem 2.5rem;
   }
 
+  /* Story card: photo left, text right */
   .story-card__body {
     grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
     gap: 2.25rem;
   }
 
+  /* Landscape story photo */
   .story-card__img {
     aspect-ratio: 4 / 3;
   }
 
-  /* Reviews: 3-column grid (carousel controls hidden) */
+  /* Reviews: 3-column grid instead of a carousel */
   .reviews__track {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -2730,15 +3054,18 @@ body.modal-open {
     scroll-snap-type: none;
   }
 
+  /* Review photo fills the column */
   .review__photo {
     width: 100%;
     margin: 0 0 0.6rem;
   }
 
+  /* Even review card height */
   .review__card {
     min-height: 200px;
   }
 
+  /* Hide the carousel arrow and dots */
   .reviews__next,
   .reviews__dots {
     display: none;
@@ -2750,50 +3077,80 @@ body.modal-open {
     gap: 2.5rem;
   }
 
-  /* About hero */
+  /* About hero: heading vertically centered on the right side of the photo */
   .about-hero {
-    justify-content: flex-start;
-    gap: 2.5rem;
-    min-height: 600px;
-    padding-top: 3.5rem;
-  }
-
-  /* Desktop: heading on one line */
-  .about-hero__title-line {
-    display: inline;
-  }
-
-  /* About story: left-aligned reading column */
-  .about-story__text {
+    align-items: flex-end;
+    justify-content: center;
+    padding: 3.5rem max(var(--gutter), 6vw);
     text-align: left;
   }
 
-  /* About sections: two columns, natural source order */
+  /* Darker fade on the right, behind the heading */
+  .about-hero::before {
+    background: linear-gradient(90deg, rgba(40, 10, 10, 0) 45%, rgba(40, 10, 10, 0.55) 100%);
+  }
+
+  /* Bigger About hero heading */
+  .about-hero__title {
+    font-size: clamp(2.25rem, 3vw + 1rem, 3.5rem);
+  }
+
+  /* Center the About hero photo */
+  .about-hero__img {
+    object-position: center;
+  }
+
+  /* More "Our story" spacing */
+  .about-story {
+    padding-block: 3.5rem 4rem;
+  }
+
+  /* About sections: photo and text in two equal columns */
   .about-feature {
-    grid-template-columns: minmax(0, 320px) minmax(0, 1fr);
-    gap: 3.5rem;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 2.5rem;
+    align-items: stretch;
     text-align: left;
   }
 
+  /* Reversed section: text left, photo right */
   .about-feature--reverse {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 320px);
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   }
 
+  /* Photo frame fills the full height of its row (no empty space beside shorter text) */
   .about-feature__media {
+    position: relative;
     order: 0;
     width: 100%;
+    min-height: 320px;
   }
 
+  /* Photo stretches to fill its frame */
+  .about-feature__img {
+    position: absolute;
+    inset: 0;
+    height: 100%;
+    aspect-ratio: auto;
+  }
+
+  /* Text vertically centered next to the photo */
+  .about-feature__text {
+    align-self: center;
+  }
+
+  /* Bigger gaps between About sections */
   .about-features {
-    gap: 5.5rem;
-    padding-bottom: 6rem;
+    gap: 4rem;
+    padding-bottom: 4.5rem;
   }
 
-  /* Menu: title left + search right, 3-column grid */
+  /* More menu page spacing */
   .menu-page {
     padding-block: 2.75rem 5rem;
   }
 
+  /* Menu header: title left, search right */
   .menu-header {
     flex-direction: row;
     align-items: flex-start;
@@ -2802,219 +3159,287 @@ body.modal-open {
     margin-bottom: 1.75rem;
   }
 
-  .menu-search {
+  /* Fixed-width search column */
+  .menu-header__tools {
     flex-shrink: 0;
     width: min(100%, 380px);
     margin-top: 0.4rem;
   }
 
+  /* Roomier gray menu panel */
   .menu-panel {
     padding: 1.25rem;
   }
 
+  /* Menu grid: 3 columns */
   .menu-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 1.25rem;
   }
 
+  /* Taller menu cards */
   .menu-card {
     min-height: 270px;
   }
 
+  /* More padding on the card front */
   .menu-card__front {
     padding: 1.25rem 0.75rem;
   }
 
+  /* Bigger card names */
   .menu-card__name {
     font-size: 0.85rem;
   }
 
+  /* Roomier yellow panel */
   .menu-card__panel {
     gap: 0.45rem;
     padding: 0.8rem;
   }
 
+  /* Wider gap in the panel top row */
   .menu-card__panel-top {
     gap: 0.65rem;
   }
 
+  /* Bigger brown image square */
   .menu-card__media {
     width: 64px;
     height: 64px;
     padding: 5px;
   }
 
+  /* Bigger panel item name */
   .menu-card__panel-name {
     font-size: 0.85rem;
   }
 
+  /* Bigger description, 4 lines */
   .menu-card__desc {
     font-size: 0.72rem;
     -webkit-line-clamp: 4;
     line-clamp: 4;
   }
 
+  /* Bigger price */
   .menu-card__price {
     font-size: 0.85rem;
   }
 
-  /* Button right-aligned, like the Figma panel */
+  /* Best-seller panel: roomier */
+  .product-card .menu-card__panel {
+    gap: 0.75rem;
+    padding: 1.1rem;
+  }
+
+  /* Best-seller panel: bigger image square */
+  .product-card .menu-card__media {
+    width: 84px;
+    height: 84px;
+  }
+
+  /* Best-seller panel: bigger name */
+  .product-card .menu-card__panel-name {
+    font-size: 1.05rem;
+  }
+
+  /* Best-seller panel: bigger description text */
+  .product-card .menu-card__desc {
+    font-size: 0.92rem;
+    line-height: 1.5;
+  }
+
+  /* Card button right-aligned (like the Figma panel) */
   .menu-card__btn {
     align-self: flex-end;
     padding: 0.45rem 0.9rem;
   }
 
-  /* Pop-up: wider layout, options in a row */
+  /* More backdrop padding around the pop-up */
   .modal {
     padding: 2rem 1.5rem;
   }
 
+  /* Roomier pop-up dialog */
   .modal__dialog {
     padding: 1.5rem 1.25rem 1.5rem;
   }
 
+  /* Wider gap in the pop-up top row */
   .modal__top {
     gap: 1.5rem;
   }
 
+  /* Bigger pop-up photo square */
   .modal__media {
     width: 160px;
     height: 160px;
   }
 
+  /* Bigger pop-up item name */
   .modal__title {
     font-size: 1.45rem;
   }
 
+  /* Bigger pop-up description */
   .modal__desc {
     font-size: 0.85rem;
   }
 
+  /* Bigger pop-up price */
   .modal__price {
     font-size: 1.1rem;
   }
 
+  /* 3-option groups in one row */
   .option-group__choices--3 {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
+  /* Taller note field */
   .modal__note {
     min-height: 80px;
   }
 
-  /* Stepper on the left, wide button on the right */
+  /* Pop-up actions: stepper left, wide button right */
   .modal__actions {
     flex-direction: row;
     align-items: center;
     gap: 1rem;
   }
 
+  /* Roomier stepper */
   .qty-stepper {
     padding: 0.35rem 0.5rem;
     border-radius: 8px;
   }
 
+  /* Pop-up button fills the remaining width */
   .modal__add-btn {
     flex: 1;
   }
 
-  /* Cart rows: bigger image square and text */
+  /* Roomier cart panel */
   .cart-items {
     padding: 1rem;
   }
 
+  /* Cart row: bigger image square */
   .cart-item {
     grid-template-columns: 150px minmax(0, 1fr);
     gap: 1.25rem;
     padding: 1rem 1.25rem;
   }
 
+  /* Bigger cart item name */
   .cart-item__name {
     font-size: 1.25rem;
   }
 
+  /* Bigger item options and note */
   .cart-item__details,
   .cart-item__note {
     font-size: 0.95rem;
   }
 
+  /* Bigger cart item price */
   .cart-item__price {
     font-size: 1.2rem;
   }
 
+  /* Roomier summary and checkout cards */
   .order-summary,
   .checkout-card {
     padding: 1.75rem 1.75rem 2rem;
   }
 
+  /* Bigger summary and checkout headings */
   .order-summary__title,
   .checkout-card__title {
     font-size: 1.65rem;
   }
 
-  /* Newsletter: text left, form right */
+  /* Roomier newsletter strip */
   .newsletter {
     padding-block: 3.5rem;
   }
 
+  /* Newsletter: text left, form right */
   .newsletter__inner {
     grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
     gap: 3rem;
   }
 }
 
+
 /* ----- Desktops (1024px and up) ----- */
 @media (min-width: 1024px) {
+  /* Desktop: bigger gutter and section spacing */
   :root {
     --gutter: 2rem;
     --section-space: 5.5rem;
   }
 
+  /* Even gap between best-seller cards */
   .product-grid {
-    gap: 2.5rem 4rem;
+    gap: 2.5rem;
   }
 
+  /* Bigger best-seller photos */
+  .product-card__img {
+    max-width: 200px;
+  }
+
+  /* Roomier story card */
   .story-card {
     padding: 2.75rem 3rem 3rem;
   }
 
+  /* Wider gap between story photo and text */
   .story-card__body {
     gap: 3rem;
   }
 
+  /* Taller, roomier review cards */
   .review__card {
     min-height: 230px;
     padding: 1.5rem 1.5rem 1.25rem;
   }
 
+  /* Footer column widths on desktop */
   .footer__grid {
     grid-template-columns: 2fr 1fr 1.3fr;
   }
 
+  /* Wider gap between About photo and text */
   .about-feature {
-    gap: 4.5rem;
+    gap: 3.5rem;
   }
 
-  /* Menu: sidebar + gray panel side by side */
+  /* Menu: category sidebar + gray panel side by side */
   .menu-layout {
     grid-template-columns: minmax(180px, 220px) minmax(0, 1fr);
     gap: 2.5rem;
   }
 
+  /* Category sidebar stays in view while scrolling */
   .menu-sidebar {
     position: sticky;
     top: calc(var(--header-height) + 1.5rem);
   }
 
+  /* Show the "Categories" heading */
   .menu-sidebar__title {
     display: block;
   }
 
+  /* Hide the mobile dropdown bar */
   .menu-sidebar__toggle {
     display: none;
   }
 
-  /* Always visible on desktop (no dropdown) */
+  /* Category list always visible (no dropdown) */
   .menu-sidebar__panel {
     display: block;
     margin-top: 0;
@@ -3022,48 +3447,56 @@ body.modal-open {
     background: none;
   }
 
+  /* Rounded-rectangle category buttons */
   .category-btn {
     border-radius: var(--radius-sm);
   }
 
+  /* Roomier gray menu panel */
   .menu-panel {
     padding: 1.5rem;
   }
 
-  /* Desktop: the grid fills the screen height below the navbar, then scrolls */
+  /* Tall menu grid (about 3 rows of cards), then it scrolls */
   .menu-grid {
     gap: 1.5rem;
-    max-height: max(480px, calc(100vh - var(--header-height) - 6rem));
+    max-height: max(940px, calc(100vh - var(--header-height) - 2rem));
     padding: 0.5rem 1rem 0.5rem 0.5rem;
   }
 
+  /* Taller menu cards */
   .menu-card {
     min-height: 285px;
   }
 
-  /* Cart + checkout: two columns, summary stays in view while scrolling */
+  /* Cart: rows left, summary right */
   .cart-layout {
     grid-template-columns: minmax(0, 1.75fr) minmax(300px, 1fr);
     gap: 1.75rem;
   }
 
+  /* Checkout: form left, summary right */
   .checkout-layout {
     grid-template-columns: minmax(0, 1.35fr) minmax(320px, 1fr);
     gap: 2rem;
   }
 
+  /* Order Summary stays in view while scrolling */
   .order-summary {
     position: sticky;
     top: calc(var(--header-height) + 1.5rem);
   }
 }
 
+
 /* ----- Reduced motion: respect the user's OS setting ----- */
 @media (prefers-reduced-motion: reduce) {
+  /* Reduced motion: no smooth scrolling */
   html {
     scroll-behavior: auto;
   }
 
+  /* Reduced motion: turn off animations and transitions */
   *,
   *::before,
   *::after {

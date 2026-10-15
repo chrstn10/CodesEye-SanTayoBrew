@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- Page info: character set, mobile viewport, search description and browser theme color -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Review the items in your san tayo brew? cart, apply a promo code, and proceed to checkout.">
   <meta name="theme-color" content="#FFDE59">
+  <!-- Text shown on the browser tab -->
   <title>san tayo brew? | My Cart</title>
 
-  <!-- Favicon -->
+  <!-- Browser tab icon (san tayo brew? logo) -->
   <link rel="icon" type="image/png" href="images/logos/logo-circle-4.png">
 
   <!-- Google Fonts: Rubik One (headings, buttons) + Cantarell 400/700 (body) -->
@@ -15,28 +17,32 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cantarell:ital,wght@0,400;0,700;1,400&family=Rubik+One&display=swap">
 
-  <!-- Shared stylesheet and script (used by every page) -->
+  <!-- Shared stylesheet and script (used by every page; the script runs after the HTML loads) -->
   <link rel="stylesheet" href="style.css">
   <script src="script.js" defer></script>
 </head>
 <body class="page-cart">
 
+  <!-- Keyboard shortcut link that jumps past the navbar to the main content -->
   <a class="skip-link" href="#main">Skip to main content</a>
 
   <!-- ===== NAVBAR (shared) ===== -->
   <header class="site-header">
     <nav class="navbar" aria-label="Main navigation">
+      <!-- Logo: links to Home, with a tooltip on hover/focus -->
       <a class="navbar__logo" href="index.html" aria-describedby="logoTooltip">
         <img src="images/logos/logo-brown.png" alt="san tayo brew? logo">
         <span class="navbar__tooltip" id="logoTooltip" role="tooltip">Go to the Home page</span>
       </a>
 
+      <!-- Page links (a dropdown on mobile, opened by the hamburger) -->
       <ul class="navbar__links" id="navLinks">
         <li><a class="navbar__link" href="index.html">Home</a></li>
-        <li><a class="navbar__link" href="menu.html">Menu</a></li>
         <li><a class="navbar__link" href="about.html">About Us</a></li>
+        <li><a class="navbar__link" href="menu.html">Menu</a></li>
       </ul>
 
+      <!-- Cart icon with item-count badge, and the mobile hamburger button -->
       <div class="navbar__actions">
         <a class="navbar__cart" id="cartLink" href="cart.html" aria-label="View cart" aria-current="page">
           <svg class="navbar__cart-icon" viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
@@ -51,14 +57,17 @@
     </nav>
   </header>
 
+  <!-- Main page content (the skip link jumps here) -->
   <main id="main">
 
     <div class="cart-page container">
+      <!-- Back link and page title -->
       <div class="page-top">
         <a class="back-link" href="menu.html"><span aria-hidden="true">&lt;</span> Back</a>
         <h1 class="page-title">My Cart</h1>
       </div>
 
+      <!-- Cart rows (left) and Order Summary (right) -->
       <div class="cart-layout">
 
         <!-- ===== CART ITEMS (rows rendered by script.js from localStorage) ===== -->
@@ -77,6 +86,7 @@
             </button>
           </div>
 
+          <!-- Cart rows, built by renderCart() in script.js -->
           <div class="cart-list" id="cartList">
             <p class="cart-loading">Loading your cart...</p>
           </div>
@@ -86,6 +96,7 @@
         <aside class="order-summary" aria-labelledby="cartSummaryTitle">
           <h2 class="order-summary__title" id="cartSummaryTitle">Order Summary</h2>
 
+          <!-- Subtotal, delivery fee and discount (filled by script.js) -->
           <dl class="summary-rows">
             <div class="summary-row">
               <dt>Subtotal</dt>
@@ -101,6 +112,7 @@
             </div>
           </dl>
 
+          <!-- Total -->
           <hr class="summary-divider">
 
           <dl class="summary-rows">
@@ -110,6 +122,7 @@
             </div>
           </dl>
 
+          <!-- Promo code field with its apply button -->
           <div class="promo-field" id="promoField">
             <svg class="promo-field__icon" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
               <path d="M20.59 13.41 13.42 20.58a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><circle cx="7" cy="7" r="1.5"/>
@@ -124,6 +137,7 @@
           </div>
           <p class="form-message" id="promoMessage" aria-live="polite"></p>
 
+          <!-- Goes to checkout (disabled by script.js while the cart is empty) -->
           <a class="checkout-btn" id="proceedCheckoutBtn" href="checkout.html">Proceed to Checkout</a>
         </aside>
 
@@ -138,6 +152,7 @@
           <p class="newsletter__copy">Get the latest cafe updates, exclusive deals, and little treats delivered straight to your inbox.</p>
         </div>
 
+        <!-- Email sign-up (replaced by a thank-you message after subscribing) -->
         <div class="newsletter__form" id="newsletterForm" aria-live="polite">
           <div class="newsletter__field" id="newsletterField">
             <svg class="newsletter__icon" viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
@@ -158,19 +173,23 @@
   <footer class="site-footer">
     <div class="container">
       <div class="footer__grid">
+        <!-- Footer logo and short brand blurb -->
         <section class="footer__brand" aria-label="About san tayo brew?">
           <img class="footer__logo" src="images/logos/logo-yellow.png" alt="san tayo brew? logo" loading="lazy">
           <p class="footer__blurb">Kape, kain, at kwentuhan, bro! Your cozy stop for good brews, Filipino favorites, and moments worth sharing.</p>
         </section>
 
+        <!-- Explore: links to the main pages (same order as the navbar) -->
         <nav class="footer__col" aria-labelledby="footerExploreTitle">
           <h2 class="footer__title" id="footerExploreTitle">Explore</h2>
           <ul class="footer__list">
-            <li><a class="footer__link" href="menu.html">Menu</a></li>
+            <li><a class="footer__link" href="index.html">Home</a></li>
             <li><a class="footer__link" href="about.html">About Us</a></li>
+            <li><a class="footer__link" href="menu.html">Menu</a></li>
           </ul>
         </nav>
 
+        <!-- Contact details: email, phone and address -->
         <section class="footer__col" aria-labelledby="footerContactTitle">
           <h2 class="footer__title" id="footerContactTitle">Connect with us</h2>
           <address class="footer__contact">
@@ -200,6 +219,7 @@
 
       <hr class="footer__divider">
 
+      <!-- Copyright and prototype disclaimer -->
       <div class="footer__bottom">
         <p class="footer__copyright">STB Inc. &copy; Copyright 2026.<br>All rights reserved.</p>
         <p class="footer__disclaimer">This website is a student-developed prototype for academic purposes only. All products, prices, and business information are for demonstration purposes and may not represent an actual operating business. No real transactions are intended.</p>

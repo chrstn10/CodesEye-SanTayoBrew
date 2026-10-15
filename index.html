@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- Page info: character set, mobile viewport, search description and browser theme color -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="san tayo brew? is a cozy Filipino café for good coffee, Pinoy favorites, and good company.">
   <meta name="theme-color" content="#FFDE59">
+  <!-- Text shown on the browser tab -->
   <title>san tayo brew? | Home</title>
 
-  <!-- Favicon -->
+  <!-- Browser tab icon (san tayo brew? logo) -->
   <link rel="icon" type="image/png" href="images/logos/logo-circle-4.png">
 
   <!-- Google Fonts: Rubik One (headings, buttons) + Cantarell 400/700 (body) -->
@@ -15,7 +17,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cantarell:wght@400;700&family=Rubik+One&display=swap">
 
-  <!-- Shared stylesheet and script (used by every page) -->
+  <!-- Shared stylesheet and script (used by every page; the script runs after the HTML loads) -->
   <link rel="stylesheet" href="style.css">
   <script src="script.js" defer></script>
 </head>
@@ -32,22 +34,26 @@
     </symbol>
   </svg>
 
+  <!-- Keyboard shortcut link that jumps past the navbar to the main content -->
   <a class="skip-link" href="#main">Skip to main content</a>
 
   <!-- ===== NAVBAR (shared) ===== -->
   <header class="site-header">
     <nav class="navbar" aria-label="Main navigation">
+      <!-- Logo: links to Home, with a tooltip on hover/focus -->
       <a class="navbar__logo" href="index.html" aria-describedby="logoTooltip">
         <img src="images/logos/logo-brown.png" alt="san tayo brew? logo">
         <span class="navbar__tooltip" id="logoTooltip" role="tooltip">Go to the Home page</span> 
       </a>
 
+      <!-- Page links (a dropdown on mobile, opened by the hamburger) -->
       <ul class="navbar__links" id="navLinks">
         <li><a class="navbar__link active" href="index.html" aria-current="page">Home</a></li>
-        <li><a class="navbar__link" href="menu.html">Menu</a></li>
         <li><a class="navbar__link" href="about.html">About Us</a></li>
+        <li><a class="navbar__link" href="menu.html">Menu</a></li>
       </ul>
 
+      <!-- Cart icon with item-count badge, and the mobile hamburger button -->
       <div class="navbar__actions">
         <a class="navbar__cart" id="cartLink" href="cart.html" aria-label="View cart">
           <svg class="navbar__cart-icon" viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
@@ -62,6 +68,7 @@
     </nav>
   </header>
 
+  <!-- Main page content (the skip link jumps here) -->
   <main id="main">
 
     <!-- ===== 1. HERO ===== -->
@@ -81,35 +88,79 @@
     <!-- ===== 2. BEST SELLERS ===== -->
     <section class="best-sellers section" id="bestSellers" aria-labelledby="bestSellersTitle">
       <div class="container">
+        <!-- Section heading and subtitle -->
         <header class="section-header">
           <h2 class="section-title" id="bestSellersTitle">Try mo &rsquo;to, brew!</h2>
           <p class="section-subtitle">Our best-selling items our brews love</p>
         </header>
 
+        <!-- Best-seller cards: hovering a card shows its yellow description panel -->
         <div class="product-grid">
           <article class="product-card">
             <img class="product-card__img" src="images/menu-items/iced-ube-milk.png" alt="Iced ube milk in a san tayo brew? cup" loading="lazy">
             <h3 class="product-card__name">Iced Ube Milk</h3>
+            <div class="menu-card__panel">
+              <div class="menu-card__panel-top">
+                <div class="menu-card__media"><img src="images/menu-items/iced-ube-milk.png" alt="" loading="lazy"></div>
+                <p class="menu-card__panel-name">Iced Ube Milk</p>
+              </div>
+              <p class="menu-card__desc">A creamy Filipino favorite made with smooth milk and the earthy sweetness of purple yam.</p>
+            </div>
           </article>
           <article class="product-card">
             <img class="product-card__img" src="images/menu-items/iced-salted-caramel-latte.png" alt="Iced salted caramel latte in a san tayo brew? cup" loading="lazy">
             <h3 class="product-card__name">Iced Salted Caramel Latte</h3>
+            <div class="menu-card__panel">
+              <div class="menu-card__panel-top">
+                <div class="menu-card__media"><img src="images/menu-items/iced-salted-caramel-latte.png" alt="" loading="lazy"></div>
+                <p class="menu-card__panel-name">Iced Salted Caramel Latte</p>
+              </div>
+              <p class="menu-card__desc">Rich espresso and creamy milk meet buttery salted caramel for a sweet and savory coffee indulgence.</p>
+            </div>
           </article>
           <article class="product-card">
             <img class="product-card__img" src="images/menu-items/iced-matcha.png" alt="Iced matcha latte in a san tayo brew? cup" loading="lazy">
             <h3 class="product-card__name">Iced Matcha</h3>
+            <div class="menu-card__panel">
+              <div class="menu-card__panel-top">
+                <div class="menu-card__media"><img src="images/menu-items/iced-matcha.png" alt="" loading="lazy"></div>
+                <p class="menu-card__panel-name">Iced Matcha</p>
+              </div>
+              <p class="menu-card__desc">Earthy Japanese matcha meets smooth, creamy milk for a refreshing and balanced drink.</p>
+            </div>
           </article>
           <article class="product-card">
             <img class="product-card__img" src="images/menu-items/chicken-adobo-with-rice.png" alt="A plate of chicken adobo served with white rice" loading="lazy">
             <h3 class="product-card__name">Chicken Adobo with Rice</h3>
+            <div class="menu-card__panel">
+              <div class="menu-card__panel-top">
+                <div class="menu-card__media"><img src="images/menu-items/chicken-adobo-with-rice.png" alt="" loading="lazy"></div>
+                <p class="menu-card__panel-name">Chicken Adobo with Rice</p>
+              </div>
+              <p class="menu-card__desc">A Filipino classic of tender chicken simmered in soy sauce, vinegar, garlic, and spices for a savory, tangy, and deeply comforting taste.</p>
+            </div>
           </article>
           <article class="product-card">
             <img class="product-card__img" src="images/menu-items/kare-kare-with-rice.png" alt="A bowl of kare-kare with vegetables and rice" loading="lazy">
             <h3 class="product-card__name">Kare-kare with Rice</h3>
+            <div class="menu-card__panel">
+              <div class="menu-card__panel-top">
+                <div class="menu-card__media"><img src="images/menu-items/kare-kare-with-rice.png" alt="" loading="lazy"></div>
+                <p class="menu-card__panel-name">Kare-kare with Rice</p>
+              </div>
+              <p class="menu-card__desc">A beloved Filipino stew featuring tender meat and vegetables in a rich, creamy peanut sauce, traditionally enjoyed with bagoong.</p>
+            </div>
           </article>
           <article class="product-card">
             <img class="product-card__img" src="images/menu-items/white-choco-glazed-donut.png" alt="A donut with white chocolate glaze and chocolate drizzle" loading="lazy">
             <h3 class="product-card__name">White Choco Glazed Donut</h3>
+            <div class="menu-card__panel">
+              <div class="menu-card__panel-top">
+                <div class="menu-card__media"><img src="images/menu-items/white-choco-glazed-donut.png" alt="" loading="lazy"></div>
+                <p class="menu-card__panel-name">White Choco Glazed Donut</p>
+              </div>
+              <p class="menu-card__desc">A soft, fluffy donut finished with a smooth white chocolate coating for a creamy, sweet indulgence.</p>
+            </div>
           </article>
         </div>
       </div>
@@ -120,6 +171,7 @@
       <div class="promo-banner__content">
         <h2 class="promo-banner__title" id="promoTitle">Get brew-tastic offers on your first order</h2>
         <p class="promo-banner__text">Enjoy a special treat on your first order. Your next favorite brew is just a sip away!</p>
+        <!-- Reveals the promo code (showPromoCode() in script.js) -->
         <button class="btn btn--primary btn--small" id="claimOfferBtn" type="button">Claim Offer</button>
       </div>
     </aside>
@@ -129,6 +181,7 @@
       <div class="container">
         <article class="story-card">
           <h2 class="story-card__title" id="storyTitle">Every brew has a story for bro.</h2>
+          <!-- Story photo and text -->
           <div class="story-card__body">
             <img class="story-card__img" src="images/story-photo.png" alt="Friends raising their iced coffees in san tayo brew? cups for a toast" loading="lazy">
             <div class="story-card__text">
@@ -149,6 +202,7 @@
         <h2 class="section-title" id="socialTitle">What&rsquo;s up, brew?</h2>
         <p class="social__text">Good brews, good food, and good company. Share your story and follow us for café updates, Pinoy favorites, and a little brew-tiful content!</p>
 
+        <!-- Links to our social media pages (open in a new tab) -->
         <ul class="social__list">
           <li>
             <a class="social__link" href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer" aria-label="san tayo brew? on Instagram (opens in a new tab)">
@@ -175,6 +229,7 @@
           </li>
         </ul>
 
+        <!-- Divider before the reviews -->
         <hr class="divider">
       </div>
     </section>
@@ -185,6 +240,7 @@
         <h2 class="reviews__title" id="reviewsTitle">A little brew, a little kwento.</h2>
 
         <div class="reviews__carousel">
+          <!-- Review cards: photo, reviewer, review text and star rating -->
           <div class="reviews__track" id="reviewsTrack">
 
             <article class="review" aria-label="Review 1 of 3">
@@ -255,19 +311,23 @@
   <footer class="site-footer">
     <div class="container">
       <div class="footer__grid">
+        <!-- Footer logo and short brand blurb -->
         <section class="footer__brand" aria-label="About san tayo brew?">
           <img class="footer__logo" src="images/logos/logo-yellow.png" alt="san tayo brew? logo" loading="lazy">
           <p class="footer__blurb">Kape, kain, at kwentuhan, bro! Your cozy stop for good brews, Filipino favorites, and moments worth sharing.</p>
         </section>
 
+        <!-- Explore: links to the main pages (same order as the navbar) -->
         <nav class="footer__col" aria-labelledby="footerExploreTitle">
           <h2 class="footer__title" id="footerExploreTitle">Explore</h2>
           <ul class="footer__list">
-            <li><a class="footer__link" href="menu.html">Menu</a></li>
+            <li><a class="footer__link" href="index.html" aria-current="page">Home</a></li>
             <li><a class="footer__link" href="about.html">About Us</a></li>
+            <li><a class="footer__link" href="menu.html">Menu</a></li>
           </ul>
         </nav>
 
+        <!-- Contact details: email, phone and address -->
         <section class="footer__col" aria-labelledby="footerContactTitle">
           <h2 class="footer__title" id="footerContactTitle">Connect with us</h2>
           <address class="footer__contact">
@@ -297,6 +357,7 @@
 
       <hr class="footer__divider">
 
+      <!-- Copyright and prototype disclaimer -->
       <div class="footer__bottom">
         <p class="footer__copyright">STB Inc. &copy; Copyright 2026.<br>All rights reserved.</p>
         <p class="footer__disclaimer">This website is a student-developed prototype for academic purposes only. All products, prices, and business information are for demonstration purposes and may not represent an actual operating business. No real transactions are intended.</p>

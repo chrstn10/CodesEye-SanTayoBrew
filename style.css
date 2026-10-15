@@ -738,6 +738,11 @@ body.is-leaving .site-footer {
   object-fit: contain;
 }
 
+/* Best-seller photo drawn bigger inside its box (the card size doesn't change) */
+.product-card__img--large {
+  transform: scale(1.2);
+}
+
 /* Best-seller name */
 .product-card__name {
   font-family: var(--font-body);
@@ -1568,6 +1573,12 @@ body.is-leaving .site-footer {
   max-width: 150px;
   aspect-ratio: 1 / 1;
   object-fit: contain;
+}
+
+/* Smaller card photo for round plates that fill their whole picture */
+.menu-card__img--medium {
+  width: 88%;
+  max-width: 132px;
 }
 
 /* Card item name */
@@ -3185,6 +3196,16 @@ body.modal-open {
   /* More padding on the card front */
   .menu-card__front {
     padding: 1.25rem 0.75rem;
+  }
+
+  /* Bigger photo box for items whose photos look small (wide plates and sandwiches) */
+  .menu-card__img--large {
+    max-width: 185px;
+  }
+
+  /* Smaller photo box for photos that fill their whole picture (round plates) */
+  .menu-card__img--medium {
+    max-width: 145px;
   }
 
   /* Bigger card names */

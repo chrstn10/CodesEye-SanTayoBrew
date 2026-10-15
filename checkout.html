@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- Page info: character set, mobile viewport, search description and browser theme color -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Enter your details, choose delivery or pickup, and place your san tayo brew? order.">
   <meta name="theme-color" content="#FFDE59">
+  <!-- Text shown on the browser tab -->
   <title>san tayo brew? | Checkout</title>
 
-  <!-- Favicon -->
+  <!-- Browser tab icon (san tayo brew? logo) -->
   <link rel="icon" type="image/png" href="images/logos/logo-circle-4.png">
 
   <!-- Google Fonts: Rubik One (headings, buttons) + Cantarell 400/700 (body) -->
@@ -15,28 +17,32 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cantarell:ital,wght@0,400;0,700;1,400&family=Rubik+One&display=swap">
 
-  <!-- Shared stylesheet and script (used by every page) -->
+  <!-- Shared stylesheet and script (used by every page; the script runs after the HTML loads) -->
   <link rel="stylesheet" href="style.css">
   <script src="script.js" defer></script>
 </head>
 <body class="page-checkout">
 
+  <!-- Keyboard shortcut link that jumps past the navbar to the main content -->
   <a class="skip-link" href="#main">Skip to main content</a>
 
   <!-- ===== NAVBAR (shared) ===== -->
   <header class="site-header">
     <nav class="navbar" aria-label="Main navigation">
+      <!-- Logo: links to Home, with a tooltip on hover/focus -->
       <a class="navbar__logo" href="index.html" aria-describedby="logoTooltip">
         <img src="images/logos/logo-brown.png" alt="san tayo brew? logo">
         <span class="navbar__tooltip" id="logoTooltip" role="tooltip">Go to the Home page</span>
       </a>
 
+      <!-- Page links (a dropdown on mobile, opened by the hamburger) -->
       <ul class="navbar__links" id="navLinks">
         <li><a class="navbar__link" href="index.html">Home</a></li>
-        <li><a class="navbar__link" href="menu.html">Menu</a></li>
         <li><a class="navbar__link" href="about.html">About Us</a></li>
+        <li><a class="navbar__link" href="menu.html">Menu</a></li>
       </ul>
 
+      <!-- Cart icon with item-count badge, and the mobile hamburger button -->
       <div class="navbar__actions">
         <a class="navbar__cart" id="cartLink" href="cart.html" aria-label="View cart">
           <svg class="navbar__cart-icon" viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
@@ -51,9 +57,11 @@
     </nav>
   </header>
 
+  <!-- Main page content (the skip link jumps here) -->
   <main id="main">
 
     <div class="checkout-page container">
+      <!-- Back link and page title -->
       <div class="page-top">
         <a class="back-link" href="cart.html"><span aria-hidden="true">&lt;</span> Back</a>
         <h1 class="page-title">Checkout</h1>
@@ -66,6 +74,7 @@
         <a class="btn btn--primary" href="menu.html">Browse the menu</a>
       </div>
 
+      <!-- Checkout form (left) and Order Summary (right) -->
       <div class="checkout-layout" id="checkoutLayout">
 
         <div class="checkout-sections">
@@ -74,29 +83,30 @@
           <section class="checkout-card" aria-labelledby="customerTitle">
             <h2 class="checkout-card__title" id="customerTitle"><span class="checkout-card__step">01</span> Customer Information</h2>
 
-              <div class="form-field">
-                <label class="form-field__label" for="fullName">Full Name</label>
-                <input class="form-field__input" id="fullName" type="text" placeholder="e.g.: Juan Dela Cruz" autocomplete="name" required aria-describedby="fullNameError">
-                <p class="field-error" id="fullNameError"></p>
-              </div>
+            <div class="form-field">
+              <label class="form-field__label" for="fullName">Full Name</label>
+              <input class="form-field__input" id="fullName" type="text" placeholder="e.g.: Juan Dela Cruz" autocomplete="name" required aria-describedby="fullNameError">
+              <p class="field-error" id="fullNameError"></p>
+            </div>
 
-              <div class="form-field">
-                <label class="form-field__label" for="contactNumber">Contact Number</label>
-                <input class="form-field__input" id="contactNumber" type="tel" placeholder="e.g.: 09XX-XXX-XXXX" autocomplete="tel" required aria-describedby="contactNumberError" inputmode="tel" maxlength="16">
-                <p class="field-error" id="contactNumberError"></p>
-              </div>
+            <div class="form-field">
+              <label class="form-field__label" for="contactNumber">Contact Number</label>
+              <input class="form-field__input" id="contactNumber" type="tel" placeholder="e.g.: 09XX-XXX-XXXX" autocomplete="tel" required aria-describedby="contactNumberError" inputmode="tel" maxlength="16">
+              <p class="field-error" id="contactNumberError"></p>
+            </div>
 
-              <div class="form-field">
-                <label class="form-field__label" for="emailAddress">E-mail Address</label>
-                <input class="form-field__input" id="emailAddress" type="email" placeholder="e.g.: example@mail.com" autocomplete="email" required aria-describedby="emailAddressError">
-                <p class="field-error" id="emailAddressError"></p>
-              </div>
+            <div class="form-field">
+              <label class="form-field__label" for="emailAddress">E-mail Address</label>
+              <input class="form-field__input" id="emailAddress" type="email" placeholder="e.g.: example@mail.com" autocomplete="email" required aria-describedby="emailAddressError">
+              <p class="field-error" id="emailAddressError"></p>
+            </div>
           </section>
 
           <!-- ===== 02 ORDER INFORMATION ===== -->
           <section class="checkout-card" aria-labelledby="orderInfoTitle">
             <h2 class="checkout-card__title" id="orderInfoTitle"><span class="checkout-card__step">02</span> Order Information</h2>
 
+            <!-- Delivery / Pickup choice -->
             <div class="order-type" role="group" aria-label="Order type">
               <button class="order-type__option is-selected" type="button" data-order-type="delivery" aria-pressed="true">
                 <span class="order-type__name">Delivery</span>
@@ -167,8 +177,10 @@
         <!-- ===== ORDER SUMMARY ===== -->
         <aside class="order-summary order-summary--checkout" aria-labelledby="checkoutSummaryTitle">
           <h2 class="order-summary__title" id="checkoutSummaryTitle">Order Summary</h2>
+          <!-- Ordered items, built by renderCheckoutSummary() in script.js -->
           <ol class="summary-items" id="checkoutItems"></ol>
 
+          <!-- Subtotal, delivery fee and discount (filled by script.js) -->
           <dl class="summary-rows">
             <div class="summary-row">
               <dt>Subtotal</dt>
@@ -184,6 +196,7 @@
             </div>
           </dl>
 
+          <!-- Total -->
           <hr class="summary-divider">
 
           <dl class="summary-rows">
@@ -193,6 +206,7 @@
             </div>
           </dl>
 
+          <!-- Validates the form and places the order (placeOrder() in script.js) -->
           <button class="checkout-btn" id="placeOrderBtn" type="button">Place Order</button>
           <p class="form-message" id="placeOrderMessage" aria-live="polite"></p>
         </aside>
@@ -213,19 +227,23 @@
   <footer class="site-footer">
     <div class="container">
       <div class="footer__grid">
+        <!-- Footer logo and short brand blurb -->
         <section class="footer__brand" aria-label="About san tayo brew?">
           <img class="footer__logo" src="images/logos/logo-yellow.png" alt="san tayo brew? logo" loading="lazy">
           <p class="footer__blurb">Kape, kain, at kwentuhan, bro! Your cozy stop for good brews, Filipino favorites, and moments worth sharing.</p>
         </section>
 
+        <!-- Explore: links to the main pages (same order as the navbar) -->
         <nav class="footer__col" aria-labelledby="footerExploreTitle">
           <h2 class="footer__title" id="footerExploreTitle">Explore</h2>
           <ul class="footer__list">
-            <li><a class="footer__link" href="menu.html">Menu</a></li>
+            <li><a class="footer__link" href="index.html">Home</a></li>
             <li><a class="footer__link" href="about.html">About Us</a></li>
+            <li><a class="footer__link" href="menu.html">Menu</a></li>
           </ul>
         </nav>
 
+        <!-- Contact details: email, phone and address -->
         <section class="footer__col" aria-labelledby="footerContactTitle">
           <h2 class="footer__title" id="footerContactTitle">Connect with us</h2>
           <address class="footer__contact">
@@ -255,6 +273,7 @@
 
       <hr class="footer__divider">
 
+      <!-- Copyright and prototype disclaimer -->
       <div class="footer__bottom">
         <p class="footer__copyright">STB Inc. &copy; Copyright 2026.<br>All rights reserved.</p>
         <p class="footer__disclaimer">This website is a student-developed prototype for academic purposes only. All products, prices, and business information are for demonstration purposes and may not represent an actual operating business. No real transactions are intended.</p>

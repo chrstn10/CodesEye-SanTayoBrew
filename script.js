@@ -1,17 +1,5 @@
-/* ==========================================================
-   san tayo brew? | script.js
-   One script shared by every page. It is loaded with "defer",
-   so the HTML is already parsed when this file runs.
-
-   Every feature first checks that its elements exist on the
-   current page (if (element) { ... }), so pages that don't have
-   them never throw console errors.
-
-   Events are attached with the property style (.onclick,
-   .onmouseover, .onmouseout). Each event property is assigned
-   only ONCE per element, because a second assignment would
-   overwrite the first.
-   ========================================================== */
+// san tayo brew? | script.js: one script for every page (loaded with "defer", so the HTML is ready)
+// Each feature first checks that its elements exist; events use .onclick-style properties, set once per element
 
 
 // ===== SHARED =====
@@ -25,11 +13,7 @@ const DESKTOP_BREAKPOINT = 768;
 // Respect the visitor's "reduce motion" setting for JS scrolling
 const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-/**
- * Reads the cart from localStorage.
- * Always returns an array, even if storage is blocked or the data is broken.
- * (Reused by the Menu, Cart and Checkout pages in Stages 2 and 3.)
- */
+// Reads the cart from localStorage; always returns an array, even if storage is blocked or broken
 function getCart() {
   try {
     const savedCart = JSON.parse(localStorage.getItem(CART_STORAGE_KEY));
@@ -39,27 +23,20 @@ function getCart() {
   }
 }
 
-/**
- * Saves the cart to localStorage and refreshes the navbar badge.
- * Returns true if it was saved, false if storage is unavailable.
- * (Reused in Stages 2 and 3.)
- */
+// Saves the cart to localStorage and refreshes the navbar badge; returns false if storage is unavailable
 function saveCart(cart) {
   let isSaved = true;
   try {
     localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
   } catch (error) {
-    // Storage can be unavailable (e.g. private mode); the page still works.
+    // Storage can be unavailable (e.g. private mode); the page still works
     isSaved = false;
   }
   updateCartBadge();
   return isSaved;
 }
 
-/**
- * Escapes text before it is placed inside innerHTML.
- * (Reused in Stages 2 and 3.)
- */
+// Escapes text before it is placed inside innerHTML
 function escapeHTML(text) {
   return String(text)
     .replace(/&/g, "&amp;")
@@ -69,10 +46,7 @@ function escapeHTML(text) {
     .replace(/'/g, "&#39;");
 }
 
-/**
- * Formats a number as a price, e.g. 139 -> "PHP 139.00".
- * (Reused in Stages 2 and 3.)
- */
+// Formats a number as a price, e.g. 139 -> "PHP 139.00"
 function formatPrice(amount) {
   const formattedAmount = Number(amount || 0).toLocaleString("en-US", {
     minimumFractionDigits: 2,
@@ -81,10 +55,7 @@ function formatPrice(amount) {
   return "PHP " + formattedAmount;
 }
 
-/**
- * Feature 2: sets #cartCount to the total quantity in the cart
- * and hides the badge when the cart is empty.
- */
+// Feature 2: shows the total cart quantity on the navbar badge (hidden when the cart is empty)
 function updateCartBadge() {
   const cartBadge = document.getElementById("cartCount");
   const cartLink = document.getElementById("cartLink");
@@ -107,7 +78,7 @@ function updateCartBadge() {
       }
     }
   } catch (error) {
-    // Broken or blocked storage: treat the cart as empty instead of crashing.
+    // Broken or blocked storage: treat the cart as empty instead of crashing
     totalQuantity = 0;
   }
 
@@ -125,9 +96,7 @@ function updateCartBadge() {
   }
 }
 
-/**
- * Feature 1: shows/hides the mobile nav links and swaps the icon (☰ / ✕).
- */
+// Feature 1: opens/closes the mobile nav links and swaps the icon (☰ / ✕)
 function toggleMobileMenu() {
   const hamburgerBtn = document.getElementById("hamburgerBtn");
   const navLinks = document.getElementById("navLinks");
@@ -143,7 +112,7 @@ function toggleMobileMenu() {
   hamburgerBtn.setAttribute("aria-label", isOpen ? "Close menu" : "Open menu");
 }
 
-/** Closes the mobile menu if it is open (used when resizing to desktop). */
+// Closes the mobile menu if it is open (used when resizing to desktop)
 function closeMobileMenu() {
   const navLinks = document.getElementById("navLinks");
 
@@ -152,23 +121,64 @@ function closeMobileMenu() {
   }
 }
 
-/** Sets up the features that appear on every page. */
+// Page transition: must match the pageLeave animation length in style.css
+const PAGE_LEAVE_MS = 250;
+
+// Page transition: fades the page out before following a link to another page
+function handlePageLinkClick(event) {
+  const link = event.target.closest("a[href]");
+
+  // Skip clicks already handled elsewhere (e.g. "< Back"), new-tab clicks, and non-left clicks
+  if (!link || event.defaultPrevented || event.button !== 0 ||
+      event.ctrlKey || event.metaKey || event.shiftKey || event.altKey ||
+      link.target === "_blank" || link.hasAttribute("download")) {
+    return;
+  }
+
+  const url = new URL(link.href, window.location.href);
+
+  // Only our own pages (no mailto:, other sites, or #jumps on the same page)
+  if (url.origin !== window.location.origin ||
+      (url.pathname === window.location.pathname && url.hash !== "")) {
+    return;
+  }
+
+  if (prefersReducedMotion) {
+    return;
+  }
+
+  event.preventDefault();
+  document.body.classList.add("is-leaving");
+  setTimeout(function () {
+    window.location.href = url.href;
+  }, PAGE_LEAVE_MS);
+}
+
+// Sets up the features that appear on every page
 function initSharedFeatures() {
+  // Any click on the page: fade out before following links to our other pages
+  document.onclick = handlePageLinkClick;
+
+  // Back/Forward cache restore: show the page again (addEventListener, since Menu and Cart set window.onpageshow)
+  window.addEventListener("pageshow", function () {
+    document.body.classList.remove("is-leaving");
+  });
+
   const hamburgerBtn = document.getElementById("hamburgerBtn");
 
+  // Hamburger click: open/close the mobile menu
   if (hamburgerBtn) {
     hamburgerBtn.onclick = toggleMobileMenu;
   }
 
-  // The dropdown is mobile-only, so close it if the window grows to desktop size.
-  // (Assigned once here: extend this function instead of reassigning onresize.)
+  // Window resize: close the mobile-only dropdown once the window reaches desktop size
   window.onresize = function () {
     if (window.innerWidth >= DESKTOP_BREAKPOINT) {
       closeMobileMenu();
     }
   };
 
-  // Keep the badge in sync when the cart changes in another tab.
+  // Storage change in another tab: keep the cart badge in sync
   window.onstorage = function (event) {
     if (event.key === CART_STORAGE_KEY || event.key === null) {
       updateCartBadge();
@@ -181,21 +191,23 @@ function initSharedFeatures() {
 
 // ===== HOME =====
 
-/** Feature 3: brown border, yellow glow and slight scale on a best-seller card. */
+// Feature 3: brown border, yellow glow, slight scale, and the yellow description panel
 function highlightCard(card) {
   card.style.borderColor = "#5D2705";
   card.style.boxShadow = "0 0 0 4px rgba(255, 222, 89, 0.9), 0 14px 28px rgba(93, 39, 5, 0.25)";
   card.style.transform = "scale(1.04)";
+  card.classList.add("is-open");
 }
 
-/** Feature 3: restores the card to its CSS default look. */
+// Feature 3: restores the card to its CSS default look
 function resetCard(card) {
   card.style.borderColor = "";
   card.style.boxShadow = "";
   card.style.transform = "";
+  card.classList.remove("is-open");
 }
 
-/** Feature 4: reveals the promo code inside the banner and restyles it. */
+// Feature 4: reveals the promo code inside the banner and restyles it
 function showPromoCode() {
   const promoBanner = document.getElementById("promoBanner");
 
@@ -221,7 +233,7 @@ function showPromoCode() {
   promoBanner.focus({ preventScroll: true });
 }
 
-/** Returns the index of the review slide closest to the current scroll position. */
+// Returns the index of the review slide closest to the current scroll position
 function getCurrentReviewIndex(track, slides) {
   let closestIndex = 0;
   let smallestDistance = Infinity;
@@ -237,7 +249,7 @@ function getCurrentReviewIndex(track, slides) {
   return closestIndex;
 }
 
-/** Marks the matching pagination dot as active. */
+// Marks the matching pagination dot as active
 function setActiveReviewDot(activeIndex) {
   const reviewDots = document.getElementsByClassName("reviews__dot");
 
@@ -248,7 +260,7 @@ function setActiveReviewDot(activeIndex) {
   }
 }
 
-/** Scrolls the review carousel to a specific slide. */
+// Scrolls the review carousel to a specific slide
 function goToReview(index) {
   const reviewsTrack = document.getElementById("reviewsTrack");
 
@@ -270,7 +282,7 @@ function goToReview(index) {
   setActiveReviewDot(index);
 }
 
-/** Feature 5: shows the next review (wraps back to the first after the last). */
+// Feature 5: shows the next review (wraps back to the first after the last)
 function nextReview() {
   const reviewsTrack = document.getElementById("reviewsTrack");
 
@@ -290,22 +302,30 @@ function nextReview() {
   goToReview(nextIndex);
 }
 
-/** Sets up the Home page features (skipped on other pages). */
+// Sets up the Home page features (skipped on other pages)
 function initHomePage() {
   // Feature 3: hover effect, only on the best-seller cards
   const bestSellerCards = document.querySelectorAll("#bestSellers .product-card");
 
   for (let i = 0; i < bestSellerCards.length; i++) {
     const card = bestSellerCards[i];
+
+    // Mouse enters a best-seller card: highlight it and show its description
     card.onmouseover = function () {
       highlightCard(card);
     };
-    card.onmouseout = function () {
+
+    // Mouse leaves the card: back to normal
+    card.onmouseout = function (event) {
+      // Ignore moves between elements inside the same card
+      if (event.relatedTarget && card.contains(event.relatedTarget)) {
+        return;
+      }
       resetCard(card);
     };
   }
 
-  // Feature 4: promo code reveal
+  // Feature 4: "Claim Offer" click reveals the promo code
   const claimOfferBtn = document.getElementById("claimOfferBtn");
 
   if (claimOfferBtn) {
@@ -318,8 +338,10 @@ function initHomePage() {
   const reviewDots = document.getElementsByClassName("reviews__dot");
 
   if (reviewsTrack && reviewNextBtn) {
+    // Next arrow click: show the next review
     reviewNextBtn.onclick = nextReview;
 
+    // Dot click: jump to that review
     for (let i = 0; i < reviewDots.length; i++) {
       const dotIndex = i;
       reviewDots[i].onclick = function () {
@@ -327,7 +349,7 @@ function initHomePage() {
       };
     }
 
-    // Update the dots after a swipe settles (debounced so they don't flicker)
+    // Carousel scroll: update the dots after a swipe settles (debounced so they don't flicker)
     let scrollTimer = null;
     reviewsTrack.onscroll = function () {
       clearTimeout(scrollTimer);
@@ -342,30 +364,34 @@ function initHomePage() {
 
 // ===== ABOUT =====
 
-/** Feature 6: enlarges an About photo with a yellow border and shadow. */
+// Feature 6: enlarges an About photo with a yellow border and shadow
 function zoomAboutImage(image) {
   image.style.transform = "scale(1.05)";
   image.style.borderColor = "#FFDE59";
   image.style.boxShadow = "0 18px 36px rgba(93, 39, 5, 0.35)";
 }
 
-/** Feature 6: restores the About photo to its CSS default look. */
+// Feature 6: restores the About photo to its CSS default look
 function resetAboutImage(image) {
   image.style.transform = "";
   image.style.borderColor = "";
   image.style.boxShadow = "";
 }
 
-/** Sets up the About Us page features (skipped on other pages). */
+// Sets up the About Us page features (skipped on other pages)
 function initAboutPage() {
-  // Only the three About section photos (not the hero cup)
+  // Feature 6: hover zoom on the three About section photos (not the hero)
   const aboutImages = document.getElementsByClassName("about-feature__img");
 
   for (let i = 0; i < aboutImages.length; i++) {
     const image = aboutImages[i];
+
+    // Mouse enters a photo: zoom it with a yellow border
     image.onmouseover = function () {
       zoomAboutImage(image);
     };
+
+    // Mouse leaves the photo: back to normal
     image.onmouseout = function () {
       resetAboutImage(image);
     };
@@ -380,9 +406,11 @@ const SERVING_OPTIONS = ["Iced", "Hot"];
 const SUGAR_OPTIONS = ["Less Sugar", "More Sugar", "No Sugar"];
 const ICE_OPTIONS = ["More Ice", "Standard", "Less Ice"];
 
+// Placeholder text for the pop-up's "Special Instructions" box
 const BEVERAGE_NOTE_PLACEHOLDER = "e.g.: no straw, extra hot, etc.";
 const FOOD_NOTE_PLACEHOLDER = "e.g.: no onions, more sauce, extra mayo, etc.";
 
+// Highest quantity allowed for one cart line
 const MAX_ITEM_QTY = 99;
 
 // Must match the 1024px sidebar breakpoint in style.css
@@ -398,9 +426,9 @@ let modalItem = null;          // item shown in the pop-up
 let modalQty = 1;              // quantity in the pop-up
 let modalSourceCard = null;    // card that opened the pop-up (focus returns to it)
 let backdropPressed = false;   // true when a click started on the dim backdrop
-let toastTimer = null;
+let toastTimer = null;         // hides the "Added to cart" toast
 
-/** Turns "Classic:79,Cajun:89" into [{ flavor: "Classic", price: 79 }, ...]. */
+// Turns "Classic:79,Cajun:89" into [{ flavor: "Classic", price: 79 }, ...]
 function parseFlavorPrices(pricesText) {
   const flavorPrices = [];
 
@@ -417,7 +445,7 @@ function parseFlavorPrices(pricesText) {
   return flavorPrices;
 }
 
-/** Reads a menu card's data attributes into a plain object. */
+// Reads a menu card's data attributes into a plain object
 function getMenuItemData(card) {
   const data = card.dataset;
   const flavorPrices = parseFlavorPrices(data.prices);
@@ -435,7 +463,7 @@ function getMenuItemData(card) {
   };
 }
 
-/** Returns the price of one flavor (e.g. "Cajun") for a flavor item. */
+// Returns the price of one flavor (e.g. "Cajun") for a flavor item
 function getFlavorPrice(item, flavor) {
   for (let i = 0; i < item.flavorPrices.length; i++) {
     if (item.flavorPrices[i].flavor === flavor) {
@@ -445,12 +473,12 @@ function getFlavorPrice(item, flavor) {
   return item.price;
 }
 
-/** "Iced Americano" -> "Americano" (used when Serving Type is offered). */
+// "Iced Americano" -> "Americano" (used when Serving Type is offered)
 function getBaseDrinkName(name) {
   return name.replace(/^Iced\s+/, "");
 }
 
-/** Options object saved with every cart line (unused options stay null). */
+// Options object saved with every cart line (unused options stay null)
 function createEmptyOptions() {
   return { serving: null, sugar: null, ice: null, flavor: null };
 }
@@ -458,7 +486,7 @@ function createEmptyOptions() {
 
 // ----- Feature 1: hover/tap yellow panel -----
 
-/** Fades a card into its yellow panel (only one panel open at a time). */
+// Fades a card into its yellow panel (only one panel open at a time)
 function showItemPanel(card) {
   if (openMenuCard && openMenuCard !== card) {
     hideItemPanel(openMenuCard);
@@ -467,7 +495,7 @@ function showItemPanel(card) {
   openMenuCard = card;
 }
 
-/** Fades the yellow panel back to the resting card. */
+// Fades the yellow panel back to the resting card
 function hideItemPanel(card) {
   card.classList.remove("is-open");
   if (openMenuCard === card) {
@@ -475,7 +503,7 @@ function hideItemPanel(card) {
   }
 }
 
-/** Used for taps (touch screens) and Enter/Space (keyboard). */
+// Used for taps (touch screens) and Enter/Space (keyboard)
 function toggleItemPanel(card) {
   if (card.classList.contains("is-open")) {
     hideItemPanel(card);
@@ -484,7 +512,7 @@ function toggleItemPanel(card) {
   }
 }
 
-/** The panel button: remove if already in the cart, otherwise add. */
+// The panel button: remove if already in the cart, otherwise add
 function handleCardButton(card) {
   const item = getMenuItemData(card);
 
@@ -513,7 +541,7 @@ function handleCardButton(card) {
 
 // ----- Feature 2: add-to-cart pop-up -----
 
-/** Builds one option group (e.g. Sugar Level) with the first choice selected. */
+// Builds one option group (e.g. Sugar Level) with the first choice selected
 function buildOptionGroup(optionKey, label, choices, columnsClass) {
   let buttonsHTML = "";
 
@@ -532,7 +560,7 @@ function buildOptionGroup(optionKey, label, choices, columnsClass) {
     </fieldset>`;
 }
 
-/** Picks the option groups for an item based on its data-type. */
+// Picks the option groups for an item based on its data-type
 function buildOptionGroupsHTML(item) {
   let groupsHTML = "";
 
@@ -556,7 +584,7 @@ function buildOptionGroupsHTML(item) {
   return groupsHTML;
 }
 
-/** Fills the shared pop-up from a card's data attributes and opens it. */
+// Fills the shared pop-up from a card's data attributes and opens it
 function openAddModal(card) {
   const addModal = document.getElementById("addModal");
   const modalContent = document.getElementById("modalContent");
@@ -613,7 +641,7 @@ function openAddModal(card) {
   }
 }
 
-/** Closes the pop-up and returns keyboard focus to the card. */
+// Closes the pop-up and returns keyboard focus to the card
 function closeAddModal() {
   const addModal = document.getElementById("addModal");
 
@@ -631,7 +659,7 @@ function closeAddModal() {
   }
 }
 
-/** One delegated click handler for everything built inside the pop-up. */
+// One delegated click handler for everything built inside the pop-up
 function handleModalClick(event) {
   const optionButton = event.target.closest(".option-btn");
   if (optionButton) {
@@ -653,7 +681,7 @@ function handleModalClick(event) {
 
 // ----- Feature 3: option buttons -----
 
-/** Moves the "selected" style within one group and applies its side effects. */
+// Moves the "selected" style within one group and applies its side effects
 function selectOption(optionButton) {
   const optionGroup = optionButton.closest(".option-group");
 
@@ -689,7 +717,7 @@ function selectOption(optionButton) {
   }
 }
 
-/** Returns the selected value of an option group, or null if it isn't shown. */
+// Returns the selected value of an option group, or null if it isn't shown
 function getSelectedOption(optionKey) {
   const optionGroup = document.querySelector('#modalContent .option-group[data-option="' + optionKey + '"]');
 
@@ -704,7 +732,7 @@ function getSelectedOption(optionKey) {
 
 // ----- Feature 4: quantity stepper -----
 
-/** Changes the pop-up quantity by +1 or -1 (stays between 1 and 99). */
+// Changes the pop-up quantity by +1 or -1 (stays between 1 and 99)
 function changeModalQty(change) {
   modalQty = Math.min(MAX_ITEM_QTY, Math.max(1, modalQty + change));
 
@@ -726,7 +754,7 @@ function changeModalQty(change) {
 
 // ----- Feature 5: cart (add / remove) -----
 
-/** Builds a cart line from the pop-up's current choices and adds it. */
+// Builds a cart line from the pop-up's current choices and adds it
 function addFromModal() {
   if (!modalItem) {
     return;
@@ -756,7 +784,7 @@ function addFromModal() {
   addToCart(cartLine);
 }
 
-/** True if two cart lines have the same options. */
+// True if two cart lines have the same options
 function haveSameOptions(optionsA, optionsB) {
   const keys = ["serving", "sugar", "ice", "flavor"];
   const a = optionsA || {};
@@ -770,7 +798,7 @@ function haveSameOptions(optionsA, optionsB) {
   return true;
 }
 
-/** True if any cart line is this menu item. */
+// True if any cart line is this menu item
 function isItemInCart(itemId) {
   const cart = getCart();
   for (let i = 0; i < cart.length; i++) {
@@ -781,7 +809,7 @@ function isItemInCart(itemId) {
   return false;
 }
 
-/** Saves a line to the cart (identical lines are merged by adding their qty). */
+// Saves a line to the cart (identical lines are merged by adding their qty)
 function addToCart(newLine) {
   const cart = getCart();
   let matchingLine = null;
@@ -808,7 +836,7 @@ function addToCart(newLine) {
   showToast(isSaved ? "Added to cart ✓" : "Sorry, bro, your cart couldn't be saved.");
 }
 
-/** Removes every cart line of this menu item. */
+// Removes every cart line of this menu item
 function removeFromCart(itemId) {
   const cart = getCart();
   const remainingLines = [];
@@ -824,7 +852,7 @@ function removeFromCart(itemId) {
   showToast(isSaved ? "Removed from cart" : "Sorry, bro, your cart couldn't be saved.");
 }
 
-/** Sets each panel button to "Add to Cart" or "Remove from Cart". */
+// Sets each panel button to "Add to Cart" or "Remove from Cart"
 function refreshMenuCardButtons() {
   const cart = getCart();
   const idsInCart = [];
@@ -854,7 +882,7 @@ function refreshMenuCardButtons() {
   }
 }
 
-/** Shows the yellow toast for about 2 seconds. */
+// Shows the yellow toast for about 2 seconds
 function showToast(message) {
   const toast = document.getElementById("cartToast");
 
@@ -874,7 +902,7 @@ function showToast(message) {
 
 // ----- Features 6 + 7: category filter and search -----
 
-/** True if a card belongs to the chosen category ("beverages" = coffee + non-coffee). */
+// True if a card belongs to the chosen category ("beverages" = coffee + non-coffee)
 function cardMatchesCategory(card, category) {
   if (category === "all") {
     return true;
@@ -885,7 +913,7 @@ function cardMatchesCategory(card, category) {
   return card.dataset.category === category;
 }
 
-/** Shows only the cards that match the active category AND the search text. */
+// Shows only the cards that match the active category AND the search text
 function applyMenuFilters() {
   const menuCards = document.getElementsByClassName("menu-card");
   const menuSearch = document.getElementById("menuSearch");
@@ -921,7 +949,7 @@ function applyMenuFilters() {
   }
 }
 
-/** Writes e.g. "Showing 11 items in Coffee for "latte"" into #resultCount. */
+// Writes e.g. "Showing 11 items in Coffee for "latte"" into #resultCount
 function updateResultCount(count, searchText) {
   const resultCount = document.getElementById("resultCount");
 
@@ -945,7 +973,7 @@ function updateResultCount(count, searchText) {
   resultCount.innerHTML = countHTML;
 }
 
-/** Feature 6: sets the active yellow pill and filters the cards. */
+// Feature 6: sets the active yellow pill and filters the cards
 function filterByCategory(category) {
   activeCategory = category;
 
@@ -959,12 +987,12 @@ function filterByCategory(category) {
   applyMenuFilters();
 }
 
-/** Feature 7: filters as the visitor types. */
+// Feature 7: filters as the visitor types
 function searchMenu() {
   applyMenuFilters();
 }
 
-/** Feature 7: highlight the search box while it has focus. */
+// Feature 7: highlight the search box while it has focus
 function highlightSearchBox() {
   const searchBox = document.getElementById("menuSearchBox");
   if (searchBox) {
@@ -973,7 +1001,7 @@ function highlightSearchBox() {
   }
 }
 
-/** Feature 7: restore the search box when it loses focus. */
+// Feature 7: restore the search box when it loses focus
 function resetSearchBox() {
   const searchBox = document.getElementById("menuSearchBox");
   if (searchBox) {
@@ -985,7 +1013,7 @@ function resetSearchBox() {
 
 // ----- Feature 8: mobile categories dropdown -----
 
-/** Expands/collapses the mobile category panel and flips the chevron. */
+// Expands/collapses the mobile category panel and flips the chevron
 function toggleCategories() {
   const categoryPanel = document.getElementById("categoryPanel");
   const categoryToggle = document.getElementById("categoryToggle");
@@ -1004,7 +1032,7 @@ function toggleCategories() {
 }
 
 
-/** Sets up the Menu page features (skipped on other pages). */
+// Sets up the Menu page features (skipped on other pages)
 function initMenuPage() {
   const menuGrid = document.getElementById("menuGrid");
 
@@ -1019,28 +1047,29 @@ function initMenuPage() {
     const card = menuCards[i];
     const cardButton = card.querySelector(".menu-card__btn");
 
-    // Mouse: hover opens the panel
+    // Mouse enters a card: open its yellow panel
     card.onmouseover = function () {
       if (canHover) {
         showItemPanel(card);
       }
     };
+
+    // Mouse leaves the card: close its panel (moves inside the same card are ignored)
     card.onmouseout = function (event) {
-      // Ignore moves between elements inside the same card
       if (!canHover || (event.relatedTarget && card.contains(event.relatedTarget))) {
         return;
       }
       hideItemPanel(card);
     };
 
-    // Touch: a tap toggles the panel (taps on the panel button don't)
+    // Tap on a touch screen: toggle the panel (taps on the panel button don't)
     card.onclick = function (event) {
       if (!canHover && !event.target.closest(".menu-card__btn")) {
         toggleItemPanel(card);
       }
     };
 
-    // Keyboard: Enter/Space on the focused card toggles the panel
+    // Enter/Space on the focused card: toggle the panel
     card.onkeydown = function (event) {
       if (event.target === card && (event.key === "Enter" || event.key === " ")) {
         event.preventDefault();
@@ -1048,6 +1077,7 @@ function initMenuPage() {
       }
     };
 
+    // Panel button click: add to cart (or open the pop-up) / remove from cart
     if (cardButton) {
       cardButton.onclick = function () {
         handleCardButton(card);
@@ -1055,7 +1085,7 @@ function initMenuPage() {
     }
   }
 
-  // Feature 6: category buttons (collapse the mobile dropdown after picking)
+  // Feature 6: category click filters the cards (and collapses the mobile dropdown)
   const categoryButtons = document.getElementsByClassName("category-btn");
 
   for (let i = 0; i < categoryButtons.length; i++) {
@@ -1070,13 +1100,13 @@ function initMenuPage() {
     };
   }
 
-  // Feature 8: mobile categories dropdown
+  // Feature 8: "Categories" bar click opens/closes the mobile dropdown
   const categoryToggle = document.getElementById("categoryToggle");
   if (categoryToggle) {
     categoryToggle.onclick = toggleCategories;
   }
 
-  // Feature 7: search
+  // Feature 7: typing filters the cards; focus/blur highlights the search box
   const menuSearch = document.getElementById("menuSearch");
   if (menuSearch) {
     menuSearch.onkeyup = searchMenu;
@@ -1090,11 +1120,12 @@ function initMenuPage() {
   const modalContent = document.getElementById("modalContent");
 
   if (addModal) {
-    // Only close when the click starts AND ends on the backdrop
-    // (dragging out of the textarea shouldn't close the pop-up)
+    // Mouse down: remember whether the click started on the backdrop
     addModal.onmousedown = function (event) {
       backdropPressed = event.target === addModal;
     };
+
+    // Backdrop click: close only when the click started AND ended on the backdrop
     addModal.onclick = function (event) {
       if (event.target === addModal && backdropPressed) {
         closeAddModal();
@@ -1102,22 +1133,24 @@ function initMenuPage() {
     };
   }
 
+  // "x" button click: close the pop-up
   if (modalCloseBtn) {
     modalCloseBtn.onclick = closeAddModal;
   }
 
+  // Clicks inside the pop-up: options, quantity and "Add to Cart"
   if (modalContent) {
     modalContent.onclick = handleModalClick;
   }
 
-  // Escape closes the pop-up (assigned only here, on the Menu page)
+  // Escape key: close the pop-up (assigned only here, on the Menu page)
   document.onkeydown = function (event) {
     if (event.key === "Escape") {
       closeAddModal();
     }
   };
 
-  // Coming back with the browser's Back button: refresh badge + buttons
+  // Page shown again with the Back button: refresh the badge and card buttons
   window.onpageshow = function () {
     updateCartBadge();
     refreshMenuCardButtons();
@@ -1136,6 +1169,7 @@ const PROMO_STORAGE_KEY = "stbPromo";
 // Valid promo codes and their % discount on the subtotal
 const PROMO_CODES = { KAPE10: 10 };
 
+// Flat delivery fee in PHP (no fee for Pickup)
 const DELIVERY_FEE = 49;
 
 // Message colors (match --success-green and --error-text in style.css)
@@ -1149,7 +1183,7 @@ let orderType = "delivery";   // "delivery" or "pickup"
 // Cart state
 let clearCartTimer = null;    // resets the "Click again to clear all" step
 
-/** Reads the cart and keeps only valid lines (qty 1-99, price a number). */
+// Reads the cart and keeps only valid lines (qty 1-99, price a number)
 function getCleanCart() {
   const cart = getCart();
   const cleanCart = [];
@@ -1166,7 +1200,7 @@ function getCleanCart() {
   return cleanCart;
 }
 
-/** Returns the applied promo, e.g. { code: "KAPE10", percent: 10 }, or null. */
+// Returns the applied promo, e.g. { code: "KAPE10", percent: 10 }, or null
 function getAppliedPromo() {
   let code = null;
   try {
@@ -1177,7 +1211,7 @@ function getAppliedPromo() {
   return code && PROMO_CODES[code] ? { code: code, percent: PROMO_CODES[code] } : null;
 }
 
-/** Saves (or clears, when code is null) the applied promo code. */
+// Saves (or clears, when code is null) the applied promo code
 function saveAppliedPromo(code) {
   try {
     if (code) {
@@ -1186,16 +1220,16 @@ function saveAppliedPromo(code) {
       localStorage.removeItem(PROMO_STORAGE_KEY);
     }
   } catch (error) {
-    // Storage unavailable: the promo just won't carry over to checkout.
+    // Storage unavailable: the promo just won't carry over to checkout
   }
 }
 
-/** Rounds to 2 decimals (avoids results like 13.900000000000002). */
+// Rounds to 2 decimals (avoids results like 13.900000000000002)
 function roundMoney(amount) {
   return Math.round(amount * 100) / 100;
 }
 
-/** Calculates subtotal, discount and total for a cart and a delivery fee. */
+// Calculates subtotal, discount and total for a cart and a delivery fee
 function calculateTotals(cart, deliveryFee) {
   let subtotal = 0;
   for (let i = 0; i < cart.length; i++) {
@@ -1214,7 +1248,7 @@ function calculateTotals(cart, deliveryFee) {
   };
 }
 
-/** Writes totals into Subtotal / Delivery Fee / Discount / Total (prefix "cart" or "checkout"). */
+// Writes totals into Subtotal / Delivery Fee / Discount / Total (prefix "cart" or "checkout")
 function showTotals(idPrefix, totals) {
   const subtotalEl = document.getElementById(idPrefix + "Subtotal");
   const deliveryFeeEl = document.getElementById(idPrefix + "DeliveryFee");
@@ -1244,7 +1278,7 @@ function showTotals(idPrefix, totals) {
   }
 }
 
-/** Details line for a cart item, e.g. "More Ice, Less Sugar" or "Cajun flavor". */
+// Details line for a cart item, e.g. "More Ice, Less Sugar" or "Cajun flavor"
 function getLineOptionsText(line) {
   const options = line.options || {};
   const parts = [];
@@ -1262,12 +1296,12 @@ function getLineOptionsText(line) {
   return parts.join(", ");
 }
 
-/** Special instructions in quotes, e.g. “Can I request more adobo sauce”. */
+// Special instructions in quotes, e.g. “Can I request more adobo sauce”
 function getLineNoteText(line) {
   return line.note ? "“" + line.note + "”" : "";
 }
 
-/** Shows a green (success) or red (error) message under a field. */
+// Shows a green (success) or red (error) message under a field
 function showFormMessage(messageEl, text, type) {
   if (!messageEl) {
     return;
@@ -1277,7 +1311,7 @@ function showFormMessage(messageEl, text, type) {
   messageEl.style.color = type === "success" ? SUCCESS_COLOR : ERROR_COLOR;
 }
 
-/** Feature 8: "< Back" goes to the previous page (or the link's page if there is none). */
+// Feature 8: "< Back" goes to the previous page (or the link's page if there is none)
 function goBack(event) {
   if (window.history.length > 1 && document.referrer !== "") {
     event.preventDefault();
@@ -1289,13 +1323,13 @@ function goBack(event) {
 
 // ----- CART PAGE -----
 
-/** Trash icon used in every cart row. */
+// Trash icon SVG used in every cart row and the "Clear cart" button
 const TRASH_ICON_SVG =
   '<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">' +
   '<path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>' +
   '<path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/></svg>';
 
-/** Builds the HTML of one cart row. */
+// Builds the HTML of one cart row
 function buildCartRowHTML(line, index) {
   const name = escapeHTML(line.name);
   const optionsText = getLineOptionsText(line);
@@ -1327,7 +1361,7 @@ function buildCartRowHTML(line, index) {
     </article>`;
 }
 
-/** Recalculates the cart Order Summary and enables/disables Proceed to Checkout. */
+// Recalculates the cart Order Summary and enables/disables Proceed to Checkout
 function updateCartSummary(cart) {
   const proceedBtn = document.getElementById("proceedCheckoutBtn");
   const cartItemsHeader = document.getElementById("cartItemsHeader");
@@ -1359,7 +1393,7 @@ function updateCartSummary(cart) {
   }
 }
 
-/** Feature 1: builds the cart rows from localStorage and updates the totals. */
+// Feature 1: builds the cart rows from localStorage and updates the totals
 function renderCart() {
   const cartList = document.getElementById("cartList");
 
@@ -1388,7 +1422,7 @@ function renderCart() {
   updateCartBadge();
 }
 
-/** Feature 1: + / − on a cart row (qty stays between 1 and 99). */
+// Feature 1: + / − on a cart row (qty stays between 1 and 99)
 function changeCartQty(index, change) {
   const cart = getCleanCart();
 
@@ -1408,7 +1442,7 @@ function changeCartQty(index, change) {
   }
 }
 
-/** Feature 1: trash icon removes the row (empty state when none are left). */
+// Feature 1: trash icon removes the row (empty state when none are left)
 function removeCartItem(index) {
   const cart = getCleanCart();
 
@@ -1427,7 +1461,7 @@ function removeCartItem(index) {
   }
 }
 
-/** One delegated click handler for all the rows built by renderCart(). */
+// One delegated click handler for all the rows built by renderCart()
 function handleCartListClick(event) {
   const actionButton = event.target.closest("button[data-action]");
 
@@ -1448,7 +1482,7 @@ function handleCartListClick(event) {
   }
 }
 
-/** Puts the "Clear cart" button back to its first step. */
+// Puts the "Clear cart" button back to its first step
 function resetClearCartButton() {
   const clearCartBtn = document.getElementById("clearCartBtn");
 
@@ -1460,7 +1494,7 @@ function resetClearCartButton() {
   }
 }
 
-/** Deletes every item: the first click asks to confirm, the second click clears the cart. */
+// Deletes every item: the first click asks to confirm, the second click clears the cart
 function clearCart() {
   const clearCartBtn = document.getElementById("clearCartBtn");
 
@@ -1487,7 +1521,7 @@ function clearCart() {
   }
 }
 
-/** Feature 2: KAPE10 = 10% off the subtotal; other codes show a red error. */
+// Feature 2: KAPE10 = 10% off the subtotal; other codes show a red error
 function applyPromoCode() {
   const promoInput = document.getElementById("promoInput");
   const promoField = document.getElementById("promoField");
@@ -1523,7 +1557,7 @@ function applyPromoCode() {
   }
 }
 
-/** Feature 3: checks the email format, then thanks the subscriber. */
+// Feature 3: checks the email format, then thanks the subscriber
 function subscribeEmail() {
   const emailInput = document.getElementById("newsletterEmail");
   const emailField = document.getElementById("newsletterField");
@@ -1553,12 +1587,12 @@ function subscribeEmail() {
     </div>`;
 }
 
-/** Simple email format check: something@something.domain */
+// Simple email format check: something@something.domain
 function isValidEmail(email) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email);
 }
 
-/** Sets up the cart page (skipped on other pages). */
+// Sets up the cart page (skipped on other pages)
 function initCartPage() {
   const cartList = document.getElementById("cartList");
 
@@ -1576,20 +1610,22 @@ function initCartPage() {
 
   renderCart();
 
-  // Feature 1: delegated clicks for +, − and trash
+  // Feature 1: clicks on +, − and trash in any cart row (one delegated handler)
   cartList.onclick = handleCartListClick;
 
-  // Delete all items (two-step confirm)
+  // "Clear cart" click: delete all items (two-step confirm)
   const clearCartBtn = document.getElementById("clearCartBtn");
   if (clearCartBtn) {
     clearCartBtn.onclick = clearCart;
   }
 
-  // Feature 2: promo code (check button or Enter)
+  // Feature 2: check button click applies the promo code
   const promoApplyBtn = document.getElementById("promoApplyBtn");
   if (promoApplyBtn) {
     promoApplyBtn.onclick = applyPromoCode;
   }
+
+  // Enter in the promo field also applies it
   if (promoInput) {
     promoInput.onkeyup = function (event) {
       if (event.key === "Enter") {
@@ -1598,12 +1634,14 @@ function initCartPage() {
     };
   }
 
-  // Feature 3: newsletter (button or Enter; typing clears the red border)
+  // Feature 3: "Subscribe" click checks the email and subscribes
   const subscribeBtn = document.getElementById("subscribeBtn");
   const emailInput = document.getElementById("newsletterEmail");
   if (subscribeBtn) {
     subscribeBtn.onclick = subscribeEmail;
   }
+
+  // Typing in the email field: Enter subscribes, any other key clears the red border
   if (emailInput) {
     emailInput.onkeyup = function (event) {
       if (event.key === "Enter") {
@@ -1617,7 +1655,7 @@ function initCartPage() {
     };
   }
 
-  // Coming back from checkout with the Back button: re-read the cart
+  // Page shown again with the Back button (from checkout): re-read the cart
   window.onpageshow = function () {
     renderCart();
   };
@@ -1626,7 +1664,7 @@ function initCartPage() {
 
 // ----- CHECKOUT PAGE -----
 
-/** Required checkout fields: how to check them and what to say when they're wrong. */
+// Required checkout fields: how each is checked and the error shown when it's wrong
 const CHECKOUT_FIELD_RULES = {
   fullName: {
     isValid: function (value) { return value.length >= 2; },
@@ -1652,13 +1690,13 @@ const CHECKOUT_FIELD_RULES = {
   }
 };
 
-/** PH mobile number: 09XX-XXX-XXXX (dashes/spaces optional) or +639XXXXXXXXX. */
+// PH mobile number: 09XX-XXX-XXXX (dashes/spaces optional) or +639XXXXXXXXX
 function isValidPhMobile(value) {
   const digits = value.replace(/[\s-]/g, "");
   return /^09\d{9}$/.test(digits) || /^\+639\d{9}$/.test(digits);
 }
 
-/** Shows or clears the red border + message under one field. */
+// Shows or clears the red border + message under one field
 function setFieldError(input, message) {
   const errorEl = document.getElementById(input.id + "Error");
 
@@ -1675,7 +1713,7 @@ function setFieldError(input, message) {
   }
 }
 
-/** Checks one checkout field; returns true when it's valid (or not needed). */
+// Checks one checkout field; returns true when it's valid (or not needed)
 function validateCheckoutField(fieldId) {
   const input = document.getElementById(fieldId);
   const rule = CHECKOUT_FIELD_RULES[fieldId];
@@ -1695,7 +1733,7 @@ function validateCheckoutField(fieldId) {
   return isValid;
 }
 
-/** Builds the item list + totals in the checkout Order Summary. */
+// Builds the item list + totals in the checkout Order Summary
 function renderCheckoutSummary() {
   const checkoutItems = document.getElementById("checkoutItems");
 
@@ -1729,7 +1767,7 @@ function renderCheckoutSummary() {
   showTotals("checkout", calculateTotals(cart, orderType === "delivery" ? DELIVERY_FEE : 0));
 }
 
-/** Feature 4: Delivery / Pickup cards swap style, fields and delivery fee. */
+// Feature 4: Delivery / Pickup cards swap style, fields and delivery fee
 function selectOrderType(type) {
   orderType = type;
 
@@ -1759,7 +1797,7 @@ function selectOrderType(type) {
   renderCheckoutSummary();
 }
 
-/** Feature 5: simulated map picker that fills in a sample address. */
+// Feature 5: simulated map picker that fills in a sample address
 function chooseFromMaps() {
   const streetInput = document.getElementById("streetAddress");
   const cityInput = document.getElementById("city");
@@ -1781,7 +1819,7 @@ function chooseFromMaps() {
   showFormMessage(document.getElementById("mapsMessage"), "Location selected ✓ (sample address)", "success");
 }
 
-/** Feature 6: short note under the payment dropdown. */
+// Feature 6: short note under the payment dropdown
 function updatePaymentNote() {
   const paymentSelect = document.getElementById("paymentMethod");
   const paymentNote = document.getElementById("paymentNote");
@@ -1801,7 +1839,7 @@ function updatePaymentNote() {
   paymentNote.innerHTML = notes[paymentSelect.value] || "";
 }
 
-/** Feature 6: "Delivering to [province]" line under the Province dropdown. */
+// Feature 6: "Delivering to [province]" line under the Province dropdown
 function updateProvinceNote() {
   const provinceSelect = document.getElementById("province");
   const provinceNote = document.getElementById("provinceNote");
@@ -1811,7 +1849,7 @@ function updateProvinceNote() {
   }
 }
 
-/** Feature 7: validates the form, then shows the confirmation pop-up and clears the cart. */
+// Feature 7: validates the form, then shows the confirmation pop-up and clears the cart
 function placeOrder() {
   const placeOrderMessage = document.getElementById("placeOrderMessage");
   const fieldIds = Object.keys(CHECKOUT_FIELD_RULES);
@@ -1883,7 +1921,7 @@ function placeOrder() {
   showFormMessage(placeOrderMessage, "", "success");
 }
 
-/** Sets up the checkout page (skipped on other pages). */
+// Sets up the checkout page (skipped on other pages)
 function initCheckoutPage() {
   const checkoutLayout = document.getElementById("checkoutLayout");
 
@@ -1903,7 +1941,7 @@ function initCheckoutPage() {
 
   renderCheckoutSummary();
 
-  // Feature 4: Delivery / Pickup cards
+  // Feature 4: Delivery / Pickup card click switches the order type
   const optionCards = document.getElementsByClassName("order-type__option");
   for (let i = 0; i < optionCards.length; i++) {
     const optionCard = optionCards[i];
@@ -1912,13 +1950,13 @@ function initCheckoutPage() {
     };
   }
 
-  // Feature 5: simulated map picker
+  // Feature 5: "Choose from Google Maps" click fills in a sample address
   const chooseMapsBtn = document.getElementById("chooseMapsBtn");
   if (chooseMapsBtn) {
     chooseMapsBtn.onclick = chooseFromMaps;
   }
 
-  // Feature 6: dropdown notes (change events)
+  // Feature 6: changing Payment or Province updates the note under it
   const paymentSelect = document.getElementById("paymentMethod");
   const provinceSelect = document.getElementById("province");
   if (paymentSelect) {
@@ -1928,11 +1966,13 @@ function initCheckoutPage() {
     provinceSelect.onchange = updateProvinceNote;
   }
 
-  // Feature 7: Place Order + re-check a red field as soon as it's edited
+  // Feature 7: "Place Order" click validates the form and places the order
   const placeOrderBtn = document.getElementById("placeOrderBtn");
   if (placeOrderBtn) {
     placeOrderBtn.onclick = placeOrder;
   }
+
+  // Typing in a field marked red: re-check it right away
 
   const fieldIds = Object.keys(CHECKOUT_FIELD_RULES);
   for (let i = 0; i < fieldIds.length; i++) {
@@ -1951,9 +1991,10 @@ function initCheckoutPage() {
 }
 
 
-/** Feature 8: every "< Back" link (cart + checkout pages). */
+// Feature 8: every "< Back" link (cart + checkout pages)
 function initBackLinks() {
   const backLinks = document.getElementsByClassName("back-link");
+  // "< Back" click: go to the previous page
   for (let i = 0; i < backLinks.length; i++) {
     backLinks[i].onclick = goBack;
   }
@@ -1961,8 +2002,7 @@ function initBackLinks() {
 
 
 // ===== PAGE START-UP =====
-// Each init function checks for its own elements, so it is safe
-// to run all of them on every page.
+// Every init function checks for its own elements, so all of them can run on every page
 initSharedFeatures();
 initHomePage();
 initAboutPage();

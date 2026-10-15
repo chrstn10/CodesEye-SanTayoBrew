@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- Page info: character set, mobile viewport, search description and browser theme color -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="The story behind san tayo brew?, a Filipino café built around good drinks and great conversations.">
   <meta name="theme-color" content="#FFDE59">
+  <!-- Text shown on the browser tab -->
   <title>san tayo brew? | About Us</title>
 
-  <!-- Favicon -->
+  <!-- Browser tab icon (san tayo brew? logo) -->
   <link rel="icon" type="image/png" href="images/logos/logo-circle-4.png">
 
   <!-- Google Fonts: Rubik One (headings, buttons) + Cantarell 400/700 (body) -->
@@ -15,28 +17,32 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cantarell:wght@400;700&family=Rubik+One&display=swap">
 
-  <!-- Shared stylesheet and script (used by every page) -->
+  <!-- Shared stylesheet and script (used by every page; the script runs after the HTML loads) -->
   <link rel="stylesheet" href="style.css">
   <script src="script.js" defer></script>
 </head>
 <body class="page-about">
 
+  <!-- Keyboard shortcut link that jumps past the navbar to the main content -->
   <a class="skip-link" href="#main">Skip to main content</a>
 
   <!-- ===== NAVBAR (shared) ===== -->
   <header class="site-header">
     <nav class="navbar" aria-label="Main navigation">
+      <!-- Logo: links to Home, with a tooltip on hover/focus -->
       <a class="navbar__logo" href="index.html" aria-describedby="logoTooltip">
         <img src="images/logos/logo-brown.png" alt="san tayo brew? logo">
         <span class="navbar__tooltip" id="logoTooltip" role="tooltip">Go to the Home page</span>
       </a>
 
+      <!-- Page links (a dropdown on mobile, opened by the hamburger) -->
       <ul class="navbar__links" id="navLinks">
         <li><a class="navbar__link" href="index.html">Home</a></li>
-        <li><a class="navbar__link" href="menu.html">Menu</a></li>
         <li><a class="navbar__link active" href="about.html" aria-current="page">About Us</a></li>
+        <li><a class="navbar__link" href="menu.html">Menu</a></li>
       </ul>
 
+      <!-- Cart icon with item-count badge, and the mobile hamburger button -->
       <div class="navbar__actions">
         <a class="navbar__cart" id="cartLink" href="cart.html" aria-label="View cart">
           <svg class="navbar__cart-icon" viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
@@ -51,15 +57,17 @@
     </nav>
   </header>
 
+  <!-- Main page content (the skip link jumps here) -->
   <main id="main">
 
     <!-- ===== ABOUT HERO ===== -->
     <section class="about-hero" aria-labelledby="aboutTitle">
+      <!-- Heading over the full-screen photo -->
       <h1 class="about-hero__title" id="aboutTitle">
         <span class="about-hero__title-line">Every brew has</span>
         <span class="about-hero__title-line">a story for bro.</span>
       </h1>
-      <img class="about-hero__img" src="images/about-hero-cup.png" alt="A san tayo brew? paper coffee cup surrounded by roasted coffee beans" fetchpriority="high">
+      <img class="about-hero__img" src="images/about-hero.jpg" alt="A san tayo brew? paper coffee cup surrounded by falling roasted coffee beans and rising steam" fetchpriority="high">
     </section>
 
     <!-- ===== OUR STORY ===== -->
@@ -79,6 +87,18 @@
     <!-- ===== PHOTO + TEXT SECTIONS ===== -->
     <div class="about-features container">
 
+      <!-- Section divider (decorative) -->
+      <div class="about-divider" aria-hidden="true">
+        <span class="about-divider__badge">
+          <svg viewBox="0 0 24 24" width="24" height="24" focusable="false">
+            <g transform="rotate(-35 12 12)">
+              <ellipse cx="12" cy="12" rx="6.5" ry="9.5" fill="currentColor"/>
+              <path d="M12 2.8c-2.6 3-2.6 6.2 0 9.2s2.6 6.2 0 9.2" fill="none" stroke="#FFDE59" stroke-width="1.6" stroke-linecap="round"/>
+            </g>
+          </svg>
+        </span>
+      </div>
+
       <!-- Section 1: photo left, text right -->
       <section class="about-feature" aria-labelledby="brewHeading">
         <figure class="about-feature__media">
@@ -90,6 +110,18 @@
           <p>Enjoy our coffee favorites, from Spanish Latte and Barako Coffee, to Salted Caramel Latte and creamy frappes. Prefer something different? Explore our refreshing Matcha drinks, comforting Ube Milk, and other non-coffee treats made for every kind of craving.</p>
         </div>
       </section>
+
+      <!-- Section divider (decorative) -->
+      <div class="about-divider" aria-hidden="true">
+        <span class="about-divider__badge">
+          <svg viewBox="0 0 24 24" width="24" height="24" focusable="false">
+            <g transform="rotate(-35 12 12)">
+              <ellipse cx="12" cy="12" rx="6.5" ry="9.5" fill="currentColor"/>
+              <path d="M12 2.8c-2.6 3-2.6 6.2 0 9.2s2.6 6.2 0 9.2" fill="none" stroke="#FFDE59" stroke-width="1.6" stroke-linecap="round"/>
+            </g>
+          </svg>
+        </span>
+      </div>
 
       <!-- Section 2: text left, photo right (photo moves first on mobile with CSS order) -->
       <section class="about-feature about-feature--reverse" aria-labelledby="philosophyHeading">
@@ -103,6 +135,18 @@
           <img class="about-feature__img" src="images/about-friends.png" alt="Two friends laughing together over coffee at a café table by the window" loading="lazy">
         </figure>
       </section>
+
+      <!-- Section divider (decorative) -->
+      <div class="about-divider" aria-hidden="true">
+        <span class="about-divider__badge">
+          <svg viewBox="0 0 24 24" width="24" height="24" focusable="false">
+            <g transform="rotate(-35 12 12)">
+              <ellipse cx="12" cy="12" rx="6.5" ry="9.5" fill="currentColor"/>
+              <path d="M12 2.8c-2.6 3-2.6 6.2 0 9.2s2.6 6.2 0 9.2" fill="none" stroke="#FFDE59" stroke-width="1.6" stroke-linecap="round"/>
+            </g>
+          </svg>
+        </span>
+      </div>
 
       <!-- Section 3: photo left, text right -->
       <section class="about-feature" aria-labelledby="missionHeading">
@@ -125,19 +169,23 @@
   <footer class="site-footer">
     <div class="container">
       <div class="footer__grid">
+        <!-- Footer logo and short brand blurb -->
         <section class="footer__brand" aria-label="About san tayo brew?">
           <img class="footer__logo" src="images/logos/logo-yellow.png" alt="san tayo brew? logo" loading="lazy">
           <p class="footer__blurb">Kape, kain, at kwentuhan, bro! Your cozy stop for good brews, Filipino favorites, and moments worth sharing.</p>
         </section>
 
+        <!-- Explore: links to the main pages (same order as the navbar) -->
         <nav class="footer__col" aria-labelledby="footerExploreTitle">
           <h2 class="footer__title" id="footerExploreTitle">Explore</h2>
           <ul class="footer__list">
-            <li><a class="footer__link" href="menu.html">Menu</a></li>
+            <li><a class="footer__link" href="index.html">Home</a></li>
             <li><a class="footer__link" href="about.html" aria-current="page">About Us</a></li>
+            <li><a class="footer__link" href="menu.html">Menu</a></li>
           </ul>
         </nav>
 
+        <!-- Contact details: email, phone and address -->
         <section class="footer__col" aria-labelledby="footerContactTitle">
           <h2 class="footer__title" id="footerContactTitle">Connect with us</h2>
           <address class="footer__contact">
@@ -167,6 +215,7 @@
 
       <hr class="footer__divider">
 
+      <!-- Copyright and prototype disclaimer -->
       <div class="footer__bottom">
         <p class="footer__copyright">STB Inc. &copy; Copyright 2026.<br>All rights reserved.</p>
         <p class="footer__disclaimer">This website is a student-developed prototype for academic purposes only. All products, prices, and business information are for demonstration purposes and may not represent an actual operating business. No real transactions are intended.</p>

@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="san tayo brew? is a cozy Filipino café for good coffee, Pinoy favorites, and good company.">
+  <meta name="theme-color" content="#FFDE59">
+  <title>san tayo brew? | Home</title>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="images/logos/logo-circle-2.png">
+
+  <!-- Google Fonts: Rubik One (headings, buttons) + Cantarell 400/700 (body) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cantarell:wght@400;700&family=Rubik+One&display=swap">
+
+  <!-- Shared stylesheet and script (used by every page) -->
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body class="page-home">
+
+  <!-- Reusable star icons for the review ratings -->
+  <svg class="svg-sprite" aria-hidden="true" focusable="false">
+    <symbol id="icon-star" viewBox="0 0 24 24">
+      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26"/>
+    </symbol>
+    <symbol id="icon-star-half" viewBox="0 0 24 24">
+      <polygon opacity="0.3" points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26"/>
+      <polygon points="12 2 8.91 8.26 2 9.27 7 14.14 5.82 21.02 12 17.77"/>
+    </symbol>
+  </svg>
+
+  <a class="skip-link" href="#main">Skip to main content</a>
+
+  <!-- ===== NAVBAR (shared) ===== -->
+  <header class="site-header">
+    <nav class="navbar" aria-label="Main navigation">
+      <a class="navbar__logo" href="index.html" aria-current="page">
+        <img src="images/logos/logo-brown.png" alt="san tayo brew? logo">
+      </a>
+
+      <ul class="navbar__links" id="navLinks">
+        <li><a class="navbar__link" href="menu.html">Menu</a></li>
+        <li><a class="navbar__link" href="about.html">About Us</a></li>
+      </ul>
+
+      <div class="navbar__actions">
+        <a class="navbar__cart" id="cartLink" href="cart.html" aria-label="View cart">
+          <svg class="navbar__cart-icon" viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+            <circle cx="9" cy="20" r="1.5"/>
+            <circle cx="18" cy="20" r="1.5"/>
+            <path d="M2 3h3l2.6 12.2a2 2 0 0 0 2 1.6h8.2a2 2 0 0 0 2-1.5L22 7H6"/>
+          </svg>
+          <span class="navbar__cart-count is-hidden" id="cartCount">0</span>
+        </a>
+        <button class="navbar__toggle" id="hamburgerBtn" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="navLinks">&#9776;</button>
+      </div>
+    </nav>
+  </header>
+
+  <main id="main">
+
+    <!-- ===== 1. HERO ===== -->
+    <section class="hero" aria-labelledby="heroTitle">
+      <img class="hero__bg" src="images/hero-pastries.png" alt="Ube cheese pandesal, cakes, and pastries spread out on a café table" fetchpriority="high">
+      <div class="hero__content container">
+        <h1 class="hero__title" id="heroTitle">
+          <span class="hero__title-line">kape</span>
+          <span class="hero__title-line">tayo,</span>
+          <span class="hero__title-line hero__title-line--last">brew!</span>
+        </h1>
+        <p class="hero__text">Good coffee, good company, and a little time for yourself.</p>
+        <a class="btn btn--primary hero__btn" href="menu.html">Explore Menu</a>
+      </div>
+    </section>
+
+    <!-- ===== 2. BEST SELLERS ===== -->
+    <section class="best-sellers section" id="bestSellers" aria-labelledby="bestSellersTitle">
+      <div class="container">
+        <header class="section-header">
+          <h2 class="section-title" id="bestSellersTitle">Try mo &rsquo;to, brew!</h2>
+          <p class="section-subtitle">Our best-selling items our brews love</p>
+        </header>
+
+        <div class="product-grid">
+          <article class="product-card">
+            <img class="product-card__img" src="images/menu-items/iced-ube-milk.png" alt="Iced ube milk in a san tayo brew? cup" loading="lazy">
+            <h3 class="product-card__name">Iced Ube Milk</h3>
+          </article>
+          <article class="product-card">
+            <img class="product-card__img" src="images/menu-items/iced-salted-caramel-latte.png" alt="Iced salted caramel latte in a san tayo brew? cup" loading="lazy">
+            <h3 class="product-card__name">Iced Salted Caramel Latte</h3>
+          </article>
+          <article class="product-card">
+            <img class="product-card__img" src="images/menu-items/iced-matcha.png" alt="Iced matcha latte in a san tayo brew? cup" loading="lazy">
+            <h3 class="product-card__name">Iced Matcha</h3>
+          </article>
+          <article class="product-card">
+            <img class="product-card__img" src="images/menu-items/chicken-adobo-with-rice.png" alt="A plate of chicken adobo served with white rice" loading="lazy">
+            <h3 class="product-card__name">Chicken Adobo with Rice</h3>
+          </article>
+          <article class="product-card">
+            <img class="product-card__img" src="images/menu-items/kare-kare-with-rice.png" alt="A bowl of kare-kare with vegetables and rice" loading="lazy">
+            <h3 class="product-card__name">Kare-kare with Rice</h3>
+          </article>
+          <article class="product-card">
+            <img class="product-card__img" src="images/menu-items/white-choco-glazed-donut.png" alt="A donut with white chocolate glaze and chocolate drizzle" loading="lazy">
+            <h3 class="product-card__name">White Choco Glazed Donut</h3>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 3. PROMO BANNER ===== -->
+    <aside class="promo-banner" id="promoBanner" aria-labelledby="promoTitle" aria-live="polite">
+      <div class="promo-banner__content">
+        <h2 class="promo-banner__title" id="promoTitle">Get brew-tastic offers on your first order</h2>
+        <p class="promo-banner__text">Enjoy a special treat on your first order. Your next favorite brew is just a sip away!</p>
+        <button class="btn btn--primary btn--small" id="claimOfferBtn" type="button">Claim Offer</button>
+      </div>
+    </aside>
+
+    <!-- ===== 4. BRAND STORY CARD ===== -->
+    <section class="story section" aria-labelledby="storyTitle">
+      <div class="container">
+        <article class="story-card">
+          <h2 class="story-card__title" id="storyTitle">Every brew has a story for bro.</h2>
+          <div class="story-card__body">
+            <img class="story-card__img" src="images/story-photo.png" alt="Friends raising their iced coffees in san tayo brew? cups for a toast" loading="lazy">
+            <div class="story-card__text">
+              <p>san tayo brew? was inspired by a simple question we all know: &ldquo;Saan tayo?&rdquo; Where do we hang out? Where do we catch up? Where do we take a break from the busy days?</p>
+              <p>We wanted to create a place where good drinks meet good company, a little corner for friends, spontaneous conversations, and moments worth slowing down for.</p>
+              <p>Because sometimes, all you need is a good cup and a friend who asks, &ldquo;San tayo, bro?&rdquo;</p>
+              <p>Your next tambayan is waiting.</p>
+              <a class="btn btn--primary btn--small story-card__btn" href="about.html">Learn more about us</a>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- ===== 5. SOCIAL ===== -->
+    <section class="social section" aria-labelledby="socialTitle">
+      <div class="container">
+        <h2 class="section-title" id="socialTitle">What&rsquo;s up, brew?</h2>
+        <p class="social__text">Good brews, good food, and good company. Share your story and follow us for café updates, Pinoy favorites, and a little brew-tiful content!</p>
+
+        <ul class="social__list">
+          <li>
+            <a class="social__link" href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer" aria-label="san tayo brew? on Instagram (opens in a new tab)">
+              <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false">
+                <rect x="3" y="3" width="18" height="18" rx="5"/>
+                <circle cx="12" cy="12" r="4"/>
+                <circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/>
+              </svg>
+            </a>
+          </li>
+          <li>
+            <a class="social__link" href="https://www.facebook.com/" target="_blank" rel="noopener noreferrer" aria-label="san tayo brew? on Facebook (opens in a new tab)">
+              <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor" aria-hidden="true" focusable="false">
+                <path d="M14 8h3V4h-3c-2.76 0-5 2.24-5 5v2H7v4h2v7h4v-7h3l1-4h-4V9c0-.55.45-1 1-1z"/>
+              </svg>
+            </a>
+          </li>
+          <li>
+            <a class="social__link" href="https://www.tiktok.com/" target="_blank" rel="noopener noreferrer" aria-label="san tayo brew? on TikTok (opens in a new tab)">
+              <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor" aria-hidden="true" focusable="false">
+                <path d="M16.6 5.82A4.28 4.28 0 0 1 15.54 3h-3.09v12.4a2.59 2.59 0 0 1-2.59 2.5c-1.42 0-2.6-1.16-2.6-2.6 0-1.72 1.66-3.01 3.37-2.48V9.66c-3.45-.46-6.47 2.22-6.47 5.64 0 3.33 2.76 5.7 5.69 5.7 3.14 0 5.69-2.55 5.69-5.7V9.01a7.35 7.35 0 0 0 4.3 1.38V7.3s-1.88.09-3.24-1.48z"/>
+              </svg>
+            </a>
+          </li>
+        </ul>
+
+        <hr class="divider">
+      </div>
+    </section>
+
+    <!-- ===== 6. REVIEWS (3-column grid on desktop, swipe carousel on mobile) ===== -->
+    <section class="reviews" aria-labelledby="reviewsTitle">
+      <div class="container">
+        <h2 class="reviews__title" id="reviewsTitle">A little brew, a little kwento.</h2>
+
+        <div class="reviews__carousel">
+          <div class="reviews__track" id="reviewsTrack">
+
+            <article class="review" aria-label="Review 1 of 3">
+              <img class="review__photo" src="images/review-1.png" alt="wonyoungism holding an iced coffee in a san tayo brew? cup" loading="lazy">
+              <div class="review__card">
+                <h3 class="review__author">wonyoungism said:</h3>
+                <p class="review__text">Cute drinks, lovely atmosphere, and a new favorite place to hang out. Adding this to my coffee spots list! love xx</p>
+                <div class="review__rating" role="img" aria-label="Rated 5 out of 5 stars">
+                  <svg class="review__star" aria-hidden="true" focusable="false"><use href="#icon-star"></use></svg>
+                  <svg class="review__star" aria-hidden="true" focusable="false"><use href="#icon-star"></use></svg>
+                  <svg class="review__star" aria-hidden="true" focusable="false"><use href="#icon-star"></use></svg>
+                  <svg class="review__star" aria-hidden="true" focusable="false"><use href="#icon-star"></use></svg>
+                  <svg class="review__star" aria-hidden="true" focusable="false"><use href="#icon-star"></use></svg>
+                </div>
+              </div>
+            </article>
+
+            <article class="review" aria-label="Review 2 of 3">
+              <img class="review__photo" src="images/review-2.png" alt="Iced drinks, a chocolate donut, and cheesecake on a café table" loading="lazy">
+              <div class="review__card">
+                <h3 class="review__author">daisiesforu said:</h3>
+                <p class="review__text">Such a cozy place to grab coffee and relax. The drinks are worth it, and the staff are really friendly.</p>
+                <div class="review__rating" role="img" aria-label="Rated 5 out of 5 stars">
+                  <svg class="review__star" aria-hidden="true" focusable="false"><use href="#icon-star"></use></svg>
+                  <svg class="review__star" aria-hidden="true" focusable="false"><use href="#icon-star"></use></svg>
+                  <svg class="review__star" aria-hidden="true" focusable="false"><use href="#icon-star"></use></svg>
+                  <svg class="review__star" aria-hidden="true" focusable="false"><use href="#icon-star"></use></svg>
+                  <svg class="review__star" aria-hidden="true" focusable="false"><use href="#icon-star"></use></svg>
+                </div>
+              </div>
+            </article>
+
+            <article class="review" aria-label="Review 3 of 3">
+              <img class="review__photo" src="images/review-3.png" alt="A tall glass of iced matcha latte with a green straw" loading="lazy">
+              <div class="review__card">
+                <h3 class="review__author">irenebaebae said:</h3>
+                <p class="review__text">Really good matcha with just the right amount of sweetness. Would love a little more matcha-y flavor next time!</p>
+                <div class="review__rating" role="img" aria-label="Rated 4.5 out of 5 stars">
+                  <svg class="review__star" aria-hidden="true" focusable="false"><use href="#icon-star"></use></svg>
+                  <svg class="review__star" aria-hidden="true" focusable="false"><use href="#icon-star"></use></svg>
+                  <svg class="review__star" aria-hidden="true" focusable="false"><use href="#icon-star"></use></svg>
+                  <svg class="review__star" aria-hidden="true" focusable="false"><use href="#icon-star"></use></svg>
+                  <svg class="review__star" aria-hidden="true" focusable="false"><use href="#icon-star-half"></use></svg>
+                </div>
+              </div>
+            </article>
+
+          </div>
+
+          <!-- Carousel controls (shown on mobile only) -->
+          <button class="reviews__next" id="reviewNextBtn" type="button" aria-label="Show next review">
+            <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+              <path d="m9 18 6-6-6-6"/>
+            </svg>
+          </button>
+          <div class="reviews__dots" id="reviewDots">
+            <button class="reviews__dot is-active" type="button" aria-label="Show review 1" aria-current="true"></button>
+            <button class="reviews__dot" type="button" aria-label="Show review 2" aria-current="false"></button>
+            <button class="reviews__dot" type="button" aria-label="Show review 3" aria-current="false"></button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ===== FOOTER (shared) ===== -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer__grid">
+        <section class="footer__brand" aria-label="About san tayo brew?">
+          <img class="footer__logo" src="images/logos/logo-yellow.png" alt="san tayo brew? logo" loading="lazy">
+          <p class="footer__blurb">Kape, kain, at kwentuhan, bro! Your cozy stop for good brews, Filipino favorites, and moments worth sharing.</p>
+        </section>
+
+        <nav class="footer__col" aria-labelledby="footerExploreTitle">
+          <h2 class="footer__title" id="footerExploreTitle">Explore</h2>
+          <ul class="footer__list">
+            <li><a class="footer__link" href="menu.html">Menu</a></li>
+            <li><a class="footer__link" href="about.html">About Us</a></li>
+          </ul>
+        </nav>
+
+        <section class="footer__col" aria-labelledby="footerContactTitle">
+          <h2 class="footer__title" id="footerContactTitle">Connect with us</h2>
+          <address class="footer__contact">
+            <ul class="footer__list">
+              <li class="footer__contact-item">
+                <svg class="footer__icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                  <rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/>
+                </svg>
+                <a class="footer__link" href="mailto:santayobrew@example.com">santayobrew@example.com</a>
+              </li>
+              <li class="footer__contact-item">
+                <svg class="footer__icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                  <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/>
+                </svg>
+                <span>09XX-XXX-XXXX</span>
+              </li>
+              <li class="footer__contact-item">
+                <svg class="footer__icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+                </svg>
+                <span>123 Example Brew Street, Barangay Kapihan, Santa Maria, Bulacan, Philippines 3022</span>
+              </li>
+            </ul>
+          </address>
+        </section>
+      </div>
+
+      <hr class="footer__divider">
+
+      <div class="footer__bottom">
+        <p class="footer__copyright">STB Inc. &copy; Copyright 2026.<br>All rights reserved.</p>
+        <p class="footer__disclaimer">This website is a student-developed prototype for academic purposes only. All products, prices, and business information are for demonstration purposes and may not represent an actual operating business. No real transactions are intended.</p>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

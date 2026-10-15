@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Review the items in your san tayo brew? cart, apply a promo code, and proceed to checkout.">
+  <meta name="theme-color" content="#FFDE59">
+  <title>san tayo brew? | My Cart</title>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="images/logos/logo-circle-2.png">
+
+  <!-- Google Fonts: Rubik One (headings, buttons) + Cantarell 400/700 (body) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cantarell:ital,wght@0,400;0,700;1,400&family=Rubik+One&display=swap">
+
+  <!-- Shared stylesheet and script (used by every page) -->
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body class="page-cart">
+
+  <a class="skip-link" href="#main">Skip to main content</a>
+
+  <!-- ===== NAVBAR (shared) ===== -->
+  <header class="site-header">
+    <nav class="navbar" aria-label="Main navigation">
+      <a class="navbar__logo" href="index.html">
+        <img src="images/logos/logo-brown.png" alt="san tayo brew? logo">
+      </a>
+
+      <ul class="navbar__links" id="navLinks">
+        <li><a class="navbar__link" href="menu.html">Menu</a></li>
+        <li><a class="navbar__link" href="about.html">About Us</a></li>
+      </ul>
+
+      <div class="navbar__actions">
+        <a class="navbar__cart" id="cartLink" href="cart.html" aria-label="View cart" aria-current="page">
+          <svg class="navbar__cart-icon" viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+            <circle cx="9" cy="20" r="1.5"/>
+            <circle cx="18" cy="20" r="1.5"/>
+            <path d="M2 3h3l2.6 12.2a2 2 0 0 0 2 1.6h8.2a2 2 0 0 0 2-1.5L22 7H6"/>
+          </svg>
+          <span class="navbar__cart-count is-hidden" id="cartCount">0</span>
+        </a>
+        <button class="navbar__toggle" id="hamburgerBtn" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="navLinks">&#9776;</button>
+      </div>
+    </nav>
+  </header>
+
+  <main id="main">
+
+    <div class="cart-page container">
+      <div class="page-top">
+        <a class="back-link" href="menu.html"><span aria-hidden="true">&lt;</span> Back</a>
+        <h1 class="page-title">My Cart</h1>
+      </div>
+
+      <div class="cart-layout">
+
+        <!-- ===== CART ITEMS (rows rendered by script.js from localStorage) ===== -->
+        <section class="cart-items" aria-labelledby="cartItemsTitle">
+          <h2 class="visually-hidden" id="cartItemsTitle">Items in your cart</h2>
+          <div class="cart-list" id="cartList">
+            <p class="cart-loading">Loading your cart...</p>
+          </div>
+        </section>
+
+        <!-- ===== ORDER SUMMARY ===== -->
+        <aside class="order-summary" aria-labelledby="cartSummaryTitle">
+          <h2 class="order-summary__title" id="cartSummaryTitle">Order Summary</h2>
+
+          <dl class="summary-rows">
+            <div class="summary-row">
+              <dt>Subtotal</dt>
+              <dd id="cartSubtotal">PHP 0.00</dd>
+            </div>
+            <div class="summary-row">
+              <dt>Delivery Fee</dt>
+              <dd id="cartDeliveryFee">PHP 0.00</dd>
+            </div>
+            <div class="summary-row summary-row--discount" id="cartDiscountRow">
+              <dt id="cartDiscountLabel">Discount</dt>
+              <dd id="cartDiscount">&minus; PHP 0.00</dd>
+            </div>
+          </dl>
+
+          <hr class="summary-divider">
+
+          <dl class="summary-rows">
+            <div class="summary-row summary-row--total">
+              <dt>Total</dt>
+              <dd id="cartTotal">PHP 0.00</dd>
+            </div>
+          </dl>
+
+          <div class="promo-field" id="promoField">
+            <svg class="promo-field__icon" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+              <path d="M20.59 13.41 13.42 20.58a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><circle cx="7" cy="7" r="1.5"/>
+            </svg>
+            <label class="visually-hidden" for="promoInput">Promo code</label>
+            <input class="promo-field__input" id="promoInput" type="text" placeholder="Enter promo code" autocomplete="off" aria-describedby="promoMessage">
+            <button class="promo-field__btn" id="promoApplyBtn" type="button" aria-label="Apply promo code">
+              <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                <polyline points="20 6 9 17 4 12"/>
+              </svg>
+            </button>
+          </div>
+          <p class="form-message" id="promoMessage" aria-live="polite"></p>
+
+          <a class="checkout-btn" id="proceedCheckoutBtn" href="checkout.html">Proceed to Checkout</a>
+        </aside>
+
+      </div>
+    </div>
+
+    <!-- ===== NEWSLETTER STRIP ===== -->
+    <section class="newsletter" aria-labelledby="newsletterTitle">
+      <div class="newsletter__inner container">
+        <div class="newsletter__text">
+          <h2 class="newsletter__title" id="newsletterTitle">Stay connected to us and receive brew-tiful offers!</h2>
+          <p class="newsletter__copy">Get the latest cafe updates, exclusive deals, and little treats delivered straight to your inbox.</p>
+        </div>
+
+        <div class="newsletter__form" id="newsletterForm" aria-live="polite">
+          <div class="newsletter__field" id="newsletterField">
+            <svg class="newsletter__icon" viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+              <rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/>
+            </svg>
+            <label class="visually-hidden" for="newsletterEmail">Email address</label>
+            <input class="newsletter__input" id="newsletterEmail" type="email" placeholder="Enter your email address" autocomplete="email" aria-describedby="newsletterMessage">
+          </div>
+          <p class="form-message" id="newsletterMessage"></p>
+          <button class="newsletter__btn" id="subscribeBtn" type="button">Subscribe</button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ===== FOOTER (shared) ===== -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer__grid">
+        <section class="footer__brand" aria-label="About san tayo brew?">
+          <img class="footer__logo" src="images/logos/logo-yellow.png" alt="san tayo brew? logo" loading="lazy">
+          <p class="footer__blurb">Kape, kain, at kwentuhan, bro! Your cozy stop for good brews, Filipino favorites, and moments worth sharing.</p>
+        </section>
+
+        <nav class="footer__col" aria-labelledby="footerExploreTitle">
+          <h2 class="footer__title" id="footerExploreTitle">Explore</h2>
+          <ul class="footer__list">
+            <li><a class="footer__link" href="menu.html">Menu</a></li>
+            <li><a class="footer__link" href="about.html">About Us</a></li>
+          </ul>
+        </nav>
+
+        <section class="footer__col" aria-labelledby="footerContactTitle">
+          <h2 class="footer__title" id="footerContactTitle">Connect with us</h2>
+          <address class="footer__contact">
+            <ul class="footer__list">
+              <li class="footer__contact-item">
+                <svg class="footer__icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                  <rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/>
+                </svg>
+                <a class="footer__link" href="mailto:santayobrew@example.com">santayobrew@example.com</a>
+              </li>
+              <li class="footer__contact-item">
+                <svg class="footer__icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                  <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/>
+                </svg>
+                <span>09XX-XXX-XXXX</span>
+              </li>
+              <li class="footer__contact-item">
+                <svg class="footer__icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+                </svg>
+                <span>123 Example Brew Street, Barangay Kapihan, Santa Maria, Bulacan, Philippines 3022</span>
+              </li>
+            </ul>
+          </address>
+        </section>
+      </div>
+
+      <hr class="footer__divider">
+
+      <div class="footer__bottom">
+        <p class="footer__copyright">STB Inc. &copy; Copyright 2026.<br>All rights reserved.</p>
+        <p class="footer__disclaimer">This website is a student-developed prototype for academic purposes only. All products, prices, and business information are for demonstration purposes and may not represent an actual operating business. No real transactions are intended.</p>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

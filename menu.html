@@ -1,0 +1,1187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Browse the san tayo brew? menu: coffee, non-coffee drinks, Filipino rice meals, pastas, pastries, and snacks.">
+  <meta name="theme-color" content="#FFDE59">
+  <title>san tayo brew? | Menu</title>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="images/logos/logo-circle-2.png">
+
+  <!-- Google Fonts: Rubik One (headings, buttons) + Cantarell 400/700 (body) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cantarell:ital,wght@0,400;0,700;1,400&family=Rubik+One&display=swap">
+
+  <!-- Shared stylesheet and script (used by every page) -->
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body class="page-menu">
+
+  <a class="skip-link" href="#main">Skip to main content</a>
+
+  <!-- ===== NAVBAR (shared) ===== -->
+  <header class="site-header">
+    <nav class="navbar" aria-label="Main navigation">
+      <a class="navbar__logo" href="index.html">
+        <img src="images/logos/logo-brown.png" alt="san tayo brew? logo">
+      </a>
+
+      <ul class="navbar__links" id="navLinks">
+        <li><a class="navbar__link active" href="menu.html" aria-current="page">Menu</a></li>
+        <li><a class="navbar__link" href="about.html">About Us</a></li>
+      </ul>
+
+      <div class="navbar__actions">
+        <a class="navbar__cart" id="cartLink" href="cart.html" aria-label="View cart">
+          <svg class="navbar__cart-icon" viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+            <circle cx="9" cy="20" r="1.5"/>
+            <circle cx="18" cy="20" r="1.5"/>
+            <path d="M2 3h3l2.6 12.2a2 2 0 0 0 2 1.6h8.2a2 2 0 0 0 2-1.5L22 7H6"/>
+          </svg>
+          <span class="navbar__cart-count is-hidden" id="cartCount">0</span>
+        </a>
+        <button class="navbar__toggle" id="hamburgerBtn" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="navLinks">&#9776;</button>
+      </div>
+    </nav>
+  </header>
+
+  <main id="main">
+
+    <!-- ===== MENU HERO (photo only) ===== -->
+    <div class="menu-hero">
+      <img class="menu-hero__img" src="images/lattes-upscaled.png" alt="Iced drinks in san tayo brew? cups on a café counter" fetchpriority="high">
+    </div>
+
+    <div class="menu-page container">
+
+      <!-- ===== HEADER ROW: title + note on the left, search on the right ===== -->
+      <header class="menu-header">
+        <div class="menu-header__intro">
+          <h1 class="menu-header__title">Menu</h1>
+          <p class="menu-header__note">*We cannot guarantee that any of our products are free from allergens as we use shared equipment to store, prepare, and serve them.</p>
+          <p class="menu-header__count" id="resultCount" aria-live="polite">Showing <strong>66</strong> items</p>
+        </div>
+
+        <div class="menu-search" id="menuSearchBox">
+          <label class="visually-hidden" for="menuSearch">Search the menu</label>
+          <input class="menu-search__input" id="menuSearch" type="search" placeholder="Search your cravings..." autocomplete="off">
+          <svg class="menu-search__icon" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true" focusable="false">
+            <circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/>
+          </svg>
+        </div>
+      </header>
+
+      <!-- ===== BODY: categories sidebar + menu grid ===== -->
+      <div class="menu-layout">
+
+        <aside class="menu-sidebar" id="categoryList" aria-labelledby="categoryTitle">
+          <!-- Desktop heading -->
+          <h2 class="menu-sidebar__title" id="categoryTitle">Categories</h2>
+
+          <!-- Mobile dropdown bar -->
+          <button class="menu-sidebar__toggle" id="categoryToggle" type="button" aria-expanded="false" aria-controls="categoryPanel">
+            <span>Categories</span>
+            <span class="menu-sidebar__chevron" id="categoryChevron" aria-hidden="true">&#9662;</span>
+          </button>
+
+          <div class="menu-sidebar__panel" id="categoryPanel">
+            <ul class="category-list">
+              <li><button class="category-btn is-active" type="button" data-filter="all" aria-pressed="true">All Items</button></li>
+              <li><button class="category-btn" type="button" data-filter="beverages" aria-pressed="false">Beverages</button></li>
+              <li><button class="category-btn category-btn--sub" type="button" data-filter="coffee" aria-pressed="false">Coffee</button></li>
+              <li><button class="category-btn category-btn--sub" type="button" data-filter="non-coffee" aria-pressed="false">Non-Coffee</button></li>
+              <li><button class="category-btn" type="button" data-filter="rice-meals" aria-pressed="false">Rice Meals</button></li>
+              <li><button class="category-btn" type="button" data-filter="pastas" aria-pressed="false">Pastas</button></li>
+              <li><button class="category-btn" type="button" data-filter="pastries-treats" aria-pressed="false">Pastries &amp; Treats</button></li>
+              <li><button class="category-btn" type="button" data-filter="snacks-sides" aria-pressed="false">Snacks &amp; Sides</button></li>
+              <li><button class="category-btn" type="button" data-filter="add-ons" aria-pressed="false">Add-ons</button></li>
+            </ul>
+          </div>
+        </aside>
+
+        <section class="menu-panel" aria-labelledby="menuItemsTitle">
+          <h2 class="visually-hidden" id="menuItemsTitle">Menu items</h2>
+
+          <div class="menu-grid" id="menuGrid">
+
+          <!-- Coffee -->
+          <article class="menu-card" tabindex="0" data-id="iced-spanish-latte" data-name="Iced Spanish Latte" data-price="139" data-type="beverage" data-category="coffee" data-group="beverages" data-image="images/menu-items/iced-spanish-latte.png" data-description="A smooth espresso blended with creamy milk and sweetened condensed milk for a rich, Spanish-inspired coffee experience.">
+            <div class="menu-card__front">
+              <img class="menu-card__img" src="images/menu-items/iced-spanish-latte.png" alt="Iced Spanish Latte in a san tayo brew? cup" loading="lazy">
+              <h3 class="menu-card__name">Iced Spanish Latte</h3>
+            </div>
+            <div class="menu-card__panel">
+              <div class="menu-card__panel-top">
+                <div class="menu-card__media"><img src="images/menu-items/iced-spanish-latte.png" alt="" loading="lazy"></div>
+                <p class="menu-card__panel-name">Iced Spanish Latte</p>
+              </div>
+              <p class="menu-card__desc">A smooth espresso blended with creamy milk and sweetened condensed milk for a rich, Spanish-inspired coffee experience.</p>
+              <p class="menu-card__price">PHP 139.00</p>
+              <button class="menu-card__btn" type="button">Add to Cart</button>
+            </div>
+          </article>
+          <article class="menu-card" tabindex="0" data-id="iced-americano" data-name="Iced Americano" data-price="99" data-type="beverage" data-category="coffee" data-group="beverages" data-image="images/menu-items/iced-americano.png" data-description="Bold espresso softened with hot or cold water, delivering a clean, balanced coffee flavor.">
+            <div class="menu-card__front">
+              <img class="menu-card__img" src="images/menu-items/iced-americano.png" alt="Iced Americano in a san tayo brew? cup" loading="lazy">
+              <h3 class="menu-card__name">Iced Americano</h3>
+            </div>
+            <div class="menu-card__panel">
+              <div class="menu-card__panel-top">
+                <div class="menu-card__media"><img src="images/menu-items/iced-americano.png" alt="" loading="lazy"></div>
+                <p class="menu-card__panel-name">Iced Americano</p>
+              </div>
+              <p class="menu-card__desc">Bold espresso softened with hot or cold water, delivering a clean, balanced coffee flavor.</p>
+              <p class="menu-card__price">PHP 99.00</p>
+              <button class="menu-card__btn" type="button">Add to Cart</button>
+            </div>
+          </article>
+          <article class="menu-card" tabindex="0" data-id="iced-caramel-macchiato" data-name="Iced Caramel Macchiato" data-price="149" data-type="beverage" data-category="coffee" data-group="beverages" data-image="images/menu-items/iced-caramel-macchiato.png" data-description="Espresso layered with creamy milk and sweet caramel for a delightful balance of bold coffee and sweetness.">
+            <div class="menu-card__front">
+              <img class="menu-card__img" src="images/menu-items/iced-caramel-macchiato.png" alt="Iced Caramel Macchiato in a san tayo brew? cup" loading="lazy">
+              <h3 class="menu-card__name">Iced Caramel Macchiato</h3>
+            </div>
+            <div class="menu-card__panel">
+              <div class="menu-card__panel-top">
+                <div class="menu-card__media"><img src="images/menu-items/iced-caramel-macchiato.png" alt="" loading="lazy"></div>
+                <p class="menu-card__panel-name">Iced Caramel Macchiato</p>
+              </div>
+              <p class="menu-card__desc">Espresso layered with creamy milk and sweet caramel for a delightful balance of bold coffee and sweetness.</p>
+              <p class="menu-card__price">PHP 149.00</p>
+              <button class="menu-card__btn" type="button">Add to Cart</button>
+            </div>
+          </article>
+          <article class="menu-card" tabindex="0" data-id="iced-salted-caramel-latte" data-name="Iced Salted Caramel Latte" data-price="149" data-type="beverage" data-category="coffee" data-group="beverages" data-image="images/menu-items/iced-salted-caramel-latte.png" data-description="Rich espresso and creamy milk meet buttery salted caramel for a sweet and savory coffee indulgence.">
+            <div class="menu-card__front">
+              <img class="menu-card__img" src="images/menu-items/iced-salted-caramel-latte.png" alt="Iced Salted Caramel Latte in a san tayo brew? cup" loading="lazy">
+              <h3 class="menu-card__name">Iced Salted Caramel Latte</h3>
+            </div>
+            <div class="menu-card__panel">
+              <div class="menu-card__panel-top">
+                <div class="menu-card__media"><img src="images/menu-items/iced-salted-caramel-latte.png" alt="" loading="lazy"></div>
+                <p class="menu-card__panel-name">Iced Salted Caramel Latte</p>
+              </div>
+              <p class="menu-card__desc">Rich espresso and creamy milk meet buttery salted caramel for a sweet and savory coffee indulgence.</p>
+              <p class="menu-card__price">PHP 149.00</p>
+              <button class="menu-card__btn" type="button">Add to Cart</button>
+            </div>
+          </article>
+          <article class="menu-card" tabindex="0" data-id="salted-caramel-frappe" data-name="Salted Caramel Frappe" data-price="169" data-type="frappe" data-category="coffee" data-group="beverages" data-image="images/menu-items/salted-caramel-frappe.png" data-description="A refreshing blended coffee topped with creamy salted caramel flavor for a cool, sweet escape.">
+            <div class="menu-card__front">
+              <img class="menu-card__img" src="images/menu-items/salted-caramel-frappe.png" alt="Salted Caramel Frappe in a san tayo brew? cup" loading="lazy">
+              <h3 class="menu-card__name">Salted Caramel Frappe</h3>
+            </div>
+            <div class="menu-card__panel">
+              <div class="menu-card__panel-top">
+                <div class="menu-card__media"><img src="images/menu-items/salted-caramel-frappe.png" alt="" loading="lazy"></div>
+                <p class="menu-card__panel-name">Salted Caramel Frappe</p>
+              </div>
+              <p class="menu-card__desc">A refreshing blended coffee topped with creamy salted caramel flavor for a cool, sweet escape.</p>
+              <p class="menu-card__price">PHP 169.00</p>
+              <button class="menu-card__btn" type="button">Add to Cart</button>
+            </div>
+          </article>
+          <article class="menu-card" tabindex="0" data-id="hazelnut-latte" data-name="Hazelnut Latte" data-price="139" data-type="beverage" data-category="coffee" data-group="beverages" data-image="images/menu-items/hazelnut-latte.png" data-description="Smooth espresso and steamed milk infused with the warm, nutty sweetness of hazelnut.">
+            <div class="menu-card__front">
+              <img class="menu-card__img" src="images/menu-items/hazelnut-latte.png" alt="Hazelnut Latte in a san tayo brew? cup" loading="lazy">
+              <h3 class="menu-card__name">Hazelnut Latte</h3>
+            </div>
+            <div class="menu-card__panel">
+              <div class="menu-card__panel-top">
+                <div class="menu-card__media"><img src="images/menu-items/hazelnut-latte.png" alt="" loading="lazy"></div>
+                <p class="menu-card__panel-name">Hazelnut Latte</p>
+              </div>
+              <p class="menu-card__desc">Smooth espresso and steamed milk infused with the warm, nutty sweetness of hazelnut.</p>
+              <p class="menu-card__price">PHP 139.00</p>
+              <button class="menu-card__btn" type="button">Add to Cart</button>
+            </div>
+          </article>
+          <article class="menu-card" tabindex="0" data-id="cappuccino" data-name="Cappuccino" data-price="119" data-type="beverage" data-category="coffee" data-group="beverages" data-image="images/menu-items/cappuccino.png" data-description="A classic Italian coffee featuring bold espresso, velvety steamed milk, and a light layer of foam.">
+            <div class="menu-card__front">
+              <img class="menu-card__img" src="images/menu-items/cappuccino.png" alt="Cappuccino in a san tayo brew? cup" loading="lazy">
+              <h3 class="menu-card__name">Cappuccino</h3>
+            </div>
+            <div class="menu-card__panel">
+              <div class="menu-card__panel-top">
+                <div class="menu-card__media"><img src="images/menu-items/cappuccino.png" alt="" loading="lazy"></div>
+                <p class="menu-card__panel-name">Cappuccino</p>
+              </div>
+              <p class="menu-card__desc">A classic Italian coffee featuring bold espresso, velvety steamed milk, and a light layer of foam.</p>
+              <p class="menu-card__price">PHP 119.00</p>
+              <button class="menu-card__btn" type="button">Add to Cart</button>
+            </div>
+          </article>
+          <article class="menu-card" tabindex="0" data-id="buttercream-latte" data-name="Buttercream Latte" data-price="119" data-type="beverage" data-category="coffee" data-group="beverages" data-image="images/menu-items/buttercream-latte.png" data-description="Rich espresso blended with creamy milk and a buttery sweet finish for a smooth, comforting treat.">
+            <div class="menu-card__front">
+              <img class="menu-card__img" src="images/menu-items/buttercream-latte.png" alt="Buttercream Latte in a san tayo brew? cup" loading="lazy">
+              <h3 class="menu-card__name">Buttercream Latte</h3>
+            </div>
+            <div class="menu-card__panel">
+              <div class="menu-card__panel-top">
+                <div class="menu-card__media"><img src="images/menu-items/buttercream-latte.png" alt="" loading="lazy"></div>
+                <p class="menu-card__panel-name">Buttercream Latte</p>
+              </div>
+              <p class="menu-card__desc">Rich espresso blended with creamy milk and a buttery sweet finish for a smooth, comforting treat.</p>
+              <p class="menu-card__price">PHP 119.00</p>
+              <button class="menu-card__btn" type="button">Add to Cart</button>
+            </div>
+          </article>
+          <article class="menu-card" tabindex="0" data-id="buttercream-frappe" data-name="Buttercream Frappe" data-price="139" data-type="frappe" data-category="coffee" data-group="beverages" data-image="images/menu-items/buttercream-frappe.png" data-description="A chilled, blended delight with creamy buttercream sweetness and a refreshing coffeehouse finish.">
+            <div class="menu-card__front">
+              <img class="menu-card__img" src="images/menu-items/buttercream-frappe.png" alt="Buttercream Frappe in a san tayo brew? cup" loading="lazy">
+              <h3 class="menu-card__name">Buttercream Frappe</h3>
+            </div>
+            <div class="menu-card__panel">
+              <div class="menu-card__panel-top">
+                <div class="menu-card__media"><img src="images/menu-items/buttercream-frappe.png" alt="" loading="lazy"></div>
+                <p class="menu-card__panel-name">Buttercream Frappe</p>
+              </div>
+              <p class="menu-card__desc">A chilled, blended delight with creamy buttercream sweetness and a refreshing coffeehouse finish.</p>
+              <p class="menu-card__price">PHP 139.00</p>
+              <button class="menu-card__btn" type="button">Add to Cart</button>
+            </div>
+          </article>
+          <article class="menu-card" tabindex="0" data-id="espresso" data-name="Espresso" data-price="79" data-type="beverage" data-category="coffee" data-group="beverages" data-image="images/menu-items/espresso.png" data-description="A concentrated shot of bold, aromatic coffee that captures the pure essence of every bean.">
+            <div class="menu-card__front">
+              <img class="menu-card__img" src="images/menu-items/espresso.png" alt="Espresso in a san tayo brew? cup" loading="lazy">
+              <h3 class="menu-card__name">Espresso</h3>
+            </div>
+            <div class="menu-card__panel">
+              <div class="menu-card__panel-top">
+                <div class="menu-card__media"><img src="images/menu-items/espresso.png" alt="" loading="lazy"></div>
+                <p class="menu-card__panel-name">Espresso</p>
+              </div>
+              <p class="menu-card__desc">A concentrated shot of bold, aromatic coffee that captures the pure essence of every bean.</p>
+              <p class="menu-card__price">PHP 79.00</p>
+              <button class="menu-card__btn" type="button">Add to Cart</button>
+            </div>
+          </article>
+          <article class="menu-card" tabindex="0" data-id="barako-coffee" data-name="Barako Coffee" data-price="109" data-type="beverage" data-category="coffee" data-group="beverages" data-image="images/menu-items/barako-coffee.png" data-description="A proudly Filipino coffee with a strong aroma, full-bodied flavor, and distinctive character inspired by Batangas coffee tradition.">
+            <div class="menu-card__front">
+              <img class="menu-card__img" src="images/menu-items/barako-coffee.png" alt="Barako Coffee in a san tayo brew? cup" loading="lazy">
+              <h3 class="menu-card__name">Barako Coffee</h3>
+            </div>
+            <div class="menu-card__panel">
+              <div class="menu-card__panel-top">
+                <div class="menu-card__media"><img src="images/menu-items/barako-coffee.png" alt="" loading="lazy"></div>
+                <p class="menu-card__panel-name">Barako Coffee</p>
+              </div>
+              <p class="menu-card__desc">A proudly Filipino coffee with a strong aroma, full-bodied flavor, and distinctive character inspired by Batangas coffee tradition.</p>
+              <p class="menu-card__price">PHP 109.00</p>
+              <button class="menu-card__btn" type="button">Add to Cart</button>
+            </div>
+          </article>
+
+          <!-- Non-Coffee -->
+          <article class="menu-card" tabindex="0" data-id="iced-ube-milk" data-name="Iced Ube Milk" data-price="109" data-type="beverage" data-category="non-coffee" data-group="beverages" data-image="images/menu-items/iced-ube-milk.png" data-description="A creamy Filipino favorite made with smooth milk and the earthy sweetness of purple yam.">
+            <div class="menu-card__front">
+              <img class="menu-card__img" src="images/menu-items/iced-ube-milk.png" alt="Iced Ube Milk in a san tayo brew? cup" loading="lazy">
+              <h3 class="menu-card__name">Iced Ube Milk</h3>
+            </div>
+            <div class="menu-card__panel">
+              <div class="menu-card__panel-top">
+                <div class="menu-card__media"><img src="images/menu-items/iced-ube-milk.png" alt="" loading="lazy"></div>
+                <p class="menu-card__panel-name">Iced Ube Milk</p>
+              </div>
+              <p class="menu-card__desc">A creamy Filipino favorite made with smooth milk and the earthy sweetness of purple yam.</p>
+              <p class="menu-card__price">PHP 109.00</p>
+              <button class="menu-card__btn" type="button">Add to Cart</button>
+            </div>
+          </article>
+          <article class="menu-card" tabindex="0" data-id="ube-cream-frappe" data-name="Ube Cream Frappe" data-price="159" data-type="frappe" data-category="non-coffee" data-group="beverages" data-image="images/menu-items/ube-cream-frappe.png" data-description="A cool, blended purple yam treat with creamy sweetness in every sip.">
+            <div class="menu-card__front">
+              <img class="menu-card__img" src="images/menu-items/ube-cream-frappe.png" alt="Ube Cream Frappe in a san tayo brew? cup" loading="lazy">
+              <h3 class="menu-card__name">Ube Cream Frappe</h3>
+            </div>
+            <div class="menu-card__panel">
+              <div class="menu-card__panel-top">
+                <div class="menu-card__media"><img src="images/menu-items/ube-cream-frappe.png" alt="" loading="lazy"></div>
+                <p class="menu-card__panel-name">Ube Cream Frappe</p>
+              </div>
+              <p class="menu-card__desc">A cool, blended purple yam treat with creamy sweetness in every sip.</p>
+              <p class="menu-card__price">PHP 159.00</p>
+              <button class="menu-card__btn" type="button">Add to Cart</button>
+            </div>
+          </article>
+          <article class="menu-card" tabindex="0" data-id="iced-matcha" data-name="Iced Matcha" data-price="129" data-type="beverage" data-category="non-coffee" data-group="beverages" data-image="images/menu-items/iced-matcha.png" data-description="Earthy Japanese matcha meets smooth, creamy milk for a refreshing and balanced drink.">
+            <div class="menu-card__front">
+              <img class="menu-card__img" src="images/menu-items/iced-matcha.png" alt="Iced Matcha in a san tayo brew? cup" loading="lazy">
+              <h3 class="menu-card__name">Iced Matcha</h3>
+            </div>
+            <div class="menu-card__panel">
+              <div class="menu-card__panel-top">
+                <div class="menu-card__media"><img src="images/menu-items/iced-matcha.png" alt="" loading="lazy"></div>
+                <p class="menu-card__panel-name">Iced Matcha</p>
+              </div>
+              <p class="menu-card__desc">Earthy Japanese matcha meets smooth, creamy milk for a refreshing and balanced drink.</p>
+              <p class="menu-card__price">PHP 129.00</p>
+              <button class="menu-card__btn" type="button">Add to Cart</button>
+            </div>
+          </article>
+          <article class="menu-card" tabindex="0" data-id="matcha-frappe" data-name="Matcha Frappe" data-price="159" data-type="frappe" data-category="non-coffee" data-group="beverages" data-image="images/menu-items/matcha-frappe.png" data-description="A chilled blend of vibrant matcha and creamy sweetness inspired by Japan&#x27;s beloved green tea tradition.">
+            <div class="menu-card__front">
+              <img class="menu-card__img" src="images/menu-items/matcha-frappe.png" alt="Matcha Frappe in a san tayo brew? cup" loading="lazy">
+              <h3 class="menu-card__name">Matcha Frappe</h3>
+            </div>
+            <div class="menu-card__panel">
+              <div class="menu-card__panel-top">
+                <div class="menu-card__media"><img src="images/menu-items/matcha-frappe.png" alt="" loading="lazy"></div>
+                <p class="menu-card__panel-name">Matcha Frappe</p>
+              </div>
+              <p class="menu-card__desc">A chilled blend of vibrant matcha and creamy sweetness inspired by Japan&#x27;s beloved green tea tradition.</p>
+              <p class="menu-card__price">PHP 159.00</p>
+              <button class="menu-card__btn" type="button">Add to Cart</button>
+            </div>
+          </article>
+          <article class="menu-card" tabindex="0" data-id="classic-milk-tea" data-name="Classic Milk Tea" data-price="109" data-type="beverage" data-category="non-coffee" data-group="beverages" data-image="images/menu-items/classic-milk-tea.png" data-description="A timeless tea and milk combination with a smooth, comforting taste.">
+            <div class="menu-card__front">
+              <img class="menu-card__img" src="images/menu-items/classic-milk-tea.png" alt="Classic Milk Tea in a san tayo brew? cup" loading="lazy">
+              <h3 class="menu-card__name">Classic Milk Tea</h3>
+            </div>
+            <div class="menu-card__panel">
+              <div class="menu-card__panel-top">
+                <div class="menu-card__media"><img src="images/menu-items/classic-milk-tea.png" alt="" loading="lazy"></div>
+                <p class="menu-card__panel-name">Classic Milk Tea</p>
+              </div>
+              <p class="menu-card__desc">A timeless tea and milk combination with a smooth, comforting taste.</p>
+              <p class="menu-card__price">PHP 109.00</p>
+              <button class="menu-card__btn" type="button">Add to Cart</button>
+            </div>
+          </article>
+          <article class="menu-card" tabindex="0" data-id="brown-sugar-milk-tea" data-name="Brown Sugar Milk Tea" data-price="125" data-type="beverage" data-category="non-coffee" data-group="beverages" data-image="images/menu-items/brown-sugar-milk-tea.png" data-description="Creamy milk tea infused with rich brown sugar sweetness for a deep, caramel-like flavor.">
+            <div class="menu-card__front">
+              <img class="menu-card__img" src="images/menu-items/brown-sugar-milk-tea.png" alt="Brown Sugar Milk Tea in a san tayo brew? cup" loading="lazy">
+              <h3 class="menu-card__name">Brown Sugar Milk Tea</h3>
+            </div>
+            <div class="menu-card__panel">
+              <div class="menu-card__panel-top">
+                <div class="menu-card__media"><img src="images/menu-items/brown-sugar-milk-tea.png" alt="" loading="lazy"></div>
+                <p class="menu-card__panel-name">Brown Sugar Milk Tea</p>
+              </div>
+              <p class="menu-card__desc">Creamy milk tea infused with rich brown sugar sweetness for a deep, caramel-like flavor.</p>
+              <p class="menu-card__price">PHP 125.00</p>
+              <button class="menu-card__btn" type="button">Add to Cart</button>
+            </div>
+          </article>
+          <article class="menu-card" tabindex="0" data-id="chocolate-milk" data-name="Chocolate Milk" data-price="99" data-type="beverage" data-category="non-coffee" data-group="beverages" data-image="images/menu-items/chocolate-milk.png" data-description="Smooth, creamy milk mixed with rich chocolate for a classic treat loved by all ages.">
+            <div class="menu-card__front">
+              <img class="menu-card__img" src="images/menu-items/chocolate-milk.png" alt="Chocolate Milk in a san tayo brew? cup" loading="lazy">
+              <h3 class="menu-card__name">Chocolate Milk</h3>
+            </div>
+            <div class="menu-card__panel">
+              <div class="menu-card__panel-top">
+                <div class="menu-card__media"><img src="images/menu-items/chocolate-milk.png" alt="" loading="lazy"></div>
+                <p class="menu-card__panel-name">Chocolate Milk</p>
+              </div>
+              <p class="menu-card__desc">Smooth, creamy milk mixed with rich chocolate for a classic treat loved by all ages.</p>
+              <p class="menu-card__price">PHP 99.00</p>
+              <button class="menu-card__btn" type="button">Add to Cart</button>
+            </div>
+          </article>
+          <article class="menu-card" tabindex="0" data-id="triple-chocolate-frappe" data-name="Triple Chocolate Frappe" data-price="169" data-type="frappe" data-category="non-coffee" data-group="beverages" data-image="images/menu-items/triple-chocolate-frappe.png" data-description="A decadent frozen chocolate drink packed with layers of chocolate flavor for the ultimate cocoa indulgence.">
+            <div class="menu-card__front">
+              <img class="menu-card__img" src="images/menu-items/triple-chocolate-frappe.png" alt="Triple Chocolate Frappe in a san tayo brew? cup" loading="lazy">
+              <h3 class="menu-card__name">Triple Chocolate Frappe</h3>
+            </div>
+            <div class="menu-card__panel">
+              <div class="menu-card__panel-top">
+                <div class="menu-card__media"><img src="images/menu-items/triple-chocolate-frappe.png" alt="" loading="lazy"></div>
+                <p class="menu-card__panel-name">Triple Chocolate Frappe</p>
+              </div>
+              <p class="menu-card__desc">A decadent frozen chocolate drink packed with layers of chocolate flavor for the ultimate cocoa indulgence.</p>
+              <p class="menu-card__price">PHP 169.00</p>
+              <button class="menu-card__btn" type="button">Add to Cart</button>
+            </div>
+          </article>
+          <article class="menu-card" tabindex="0" data-id="lemonade" data-name="Lemonade" data-price="69" data-type="beverage" data-category="non-coffee" data-group="beverages" data-image="images/menu-items/lemonade.png" data-description="A refreshing blend of tangy lemon and sweetness that brings a burst of sunshine to every glass.">
+            <div class="menu-card__front">
+              <img class="menu-card__img" src="images/menu-items/lemonade.png" alt="Lemonade in a san tayo brew? cup" loading="lazy">
+              <h3 class="menu-card__name">Lemonade</h3>
+            </div>
+            <div class="menu-card__panel">
+              <div class="menu-card__panel-top">
+                <div class="menu-card__media"><img src="images/menu-items/lemonade.png" alt="" loading="lazy"></div>
+                <p class="menu-card__panel-name">Lemonade</p>
+              </div>
+              <p class="menu-card__desc">A refreshing blend of tangy lemon and sweetness that brings a burst of sunshine to every glass.</p>
+              <p class="menu-card__price">PHP 69.00</p>
+              <button class="menu-card__btn" type="button">Add to Cart</button>
+            </div>
+          </article>
+          <article class="menu-card" tabindex="0" data-id="sugar-honey-iced-tea" data-name="Sugar Honey Iced Tea" data-price="89" data-type="beverage" data-category="non-coffee" data-group="beverages" data-image="images/menu-items/sugar-honey-iced-tea.png" data-description="Chilled tea sweetened with honey and sugar for a smooth, mellow, and refreshing finish.">
+            <div class="menu-card__front">
+              <img class="menu-card__img" src="images/menu-items/sugar-honey-iced-tea.png" alt="Sugar Honey Iced Tea in a san tayo brew? cup" loading="lazy">
+              <h3 class="menu-card__name">Sugar Honey Iced Tea</h3>
+            </div>
+            <div class="menu-card__panel">
+              <div class="menu-card__panel-top">
+                <div class="menu-card__media"><img src="images/menu-items/sugar-honey-iced-tea.png" alt="" loading="lazy"></div>
+                <p class="menu-card__panel-name">Sugar Honey Iced Tea</p>
+              </div>
+              <p class="menu-card__desc">Chilled tea sweetened with honey and sugar for a smooth, mellow, and refreshing finish.</p>
+              <p class="menu-card__price">PHP 89.00</p>
+              <button class="menu-card__btn" type="button">Add to Cart</button>
+            </div>
+          </article>
+
+          <!-- Rice Meals -->
+          <article class="menu-card" tabindex="0" data-id="fried-chicken-with-rice" data-name="Fried Chicken with Rice" data-price="149" data-type="meal" data-category="rice-meals" data-image="images/menu-items/fried-chicken-with-rice.png" data-description="Golden, crispy chicken with juicy meat inside, served with a warm bed of rice for a timeless comfort-food favorite.">
+            <div class="menu-card__front">
+              <img class="menu-card__img" src="images/menu-items/fried-chicken-with-rice.png" alt="A serving of Fried Chicken with Rice" loading="lazy">
+              <h3 class="menu-card__name">Fried Chicken with Rice</h3>
+            </div>
+            <div class="menu-card__panel">
+              <div class="menu-card__panel-top">
+                <div class="menu-card__media"><img src="images/menu-items/fried-chicken-with-rice.png" alt="" loading="lazy"></div>
+                <p class="menu-card__panel-name">Fried Chicken with Rice</p>
+              </div>
+              <p class="menu-card__desc">Golden, crispy chicken with juicy meat inside, served with a warm bed of rice for a timeless comfort-food favorite.</p>
+              <p class="menu-card__price">PHP 149.00</p>
+              <button class="menu-card__btn" type="button">Add to Cart</button>
+            </div>
+          </article>
+          <article class="menu-card" tabindex="0" data-id="chicken-adobo-with-rice" data-name="Chicken Adobo with Rice" data-price="149" data-type="meal" data-category="rice-meals" data-image="images/menu-items/chicken-adobo-with-rice.png" data-description="A Filipino classic of tender chicken simmered in soy sauce, vinegar, garlic, and spices for a savory, tangy, and deeply comforting taste.">
+            <div class="menu-card__front">
+              <img class="menu-card__img" src="images/menu-items/chicken-adobo-with-rice.png" alt="A serving of Chicken Adobo with Rice" loading="lazy">
+              <h3 class="menu-card__name">Chicken Adobo with Rice</h3>
+            </div>
+            <div class="menu-card__panel">
+              <div class="menu-card__panel-top">
+                <div class="menu-card__media"><img src="images/menu-items/chicken-adobo-with-rice.png" alt="" loading="lazy"></div>
+                <p class="menu-card__panel-name">Chicken Adobo with Rice</p>
+              </div>
+              <p class="menu-card__desc">A Filipino classic of tender chicken simmered in soy sauce, vinegar, garlic, and spices for a savory, tangy, and deeply comforting taste.</p>
+              <p class="menu-card__price">PHP 149.00</p>
+              <button class="menu-card__btn" type="button">Add to Cart</button>
+            </div>
+          </article>
+          <article class="menu-card" tabindex="0" data-id="pork-sisig-with-rice" data-name="Pork Sisig with Rice" data-price="169" data-type="meal" data-category="rice-meals" data-image="images/menu-items/pork-sisig-with-rice.png" data-description="Sizzling, savory pork with a satisfying mix of crisp edges, tangy notes, and bold Filipino flavors in every bite.">
+            <div class="menu-card__front">
+              <img class="menu-card__img" src="images/menu-items/pork-sisig-with-rice.png" alt="A serving of Pork Sisig with Rice" loading="lazy">
+              <h3 class="menu-card__name">Pork Sisig with Rice</h3>
+            </div>
+            <div class="menu-card__panel">
+              <div class="menu-card__panel-top">
+                <div class="menu-card__media"><img src="images/menu-items/pork-sisig-with-rice.png" alt="" loading="lazy"></div>
+                <p class="menu-card__panel-name">Pork Sisig with Rice</p>
+              </div>
+              <p class="menu-card__desc">Sizzling, savory pork with a satisfying mix of crisp edges, tangy notes, and bold Filipino flavors in every bite.</p>
+              <p class="menu-card__price">PHP 169.00</p>
+              <button class="menu-card__btn" type="button">Add to Cart</button>
+            </div>
+          </article>
+          <article class="menu-card" tabindex="0" data-id="kare-kare-with-rice" data-name="Kare-kare with Rice" data-price="199" data-type="meal" data-category="rice-meals" data-image="images/menu-items/kare-kare-with-rice.png" data-description="A beloved Filipino stew featuring tender meat and vegetables in a rich, creamy peanut sauce, traditionally enjoyed with bagoong.">
+            <div class="menu-card__front">
+              <img class="menu-card__img" src="images/menu-items/kare-kare-with-rice.png" alt="A serving of Kare-kare with Rice" loading="lazy">
+              <h3 class="menu-card__name">Kare-kare with Rice</h3>
+            </div>
+            <div class="menu-card__panel">
+              <div class="menu-card__panel-top">
+                <div class="menu-card__media"><img src="images/menu-items/kare-kare-with-rice.png" alt="" loading="lazy"></div>
+                <p class="menu-card__panel-name">Kare-kare with Rice</p>
+              </div>
+              <p class="menu-card__desc">A beloved Filipino stew featuring tender meat and vegetables in a rich, creamy peanut sauce, traditionally enjoyed with bagoong.</p>
+              <p class="menu-card__price">PHP 199.00</p>
+              <button class="menu-card__btn" type="button">Add to Cart</button>
+            </div>
+          </article>
+          <article class="menu-card" tabindex="0" data-id="crispy-pork-chop-with-rice" data-name="Crispy Pork Chop with Rice" data-price="169" data-type="meal" data-category="rice-meals" data-image="images/menu-items/crispy-pork-chop-with-rice.png" data-description="A golden, crunchy pork chop with juicy meat inside, paired with warm rice for a hearty and satisfying meal.">
+            <div class="menu-card__front">
+              <img class="menu-card__img" src="images/menu-items/crispy-pork-chop-with-rice.png" alt="A serving of Crispy Pork Chop with Rice" loading="lazy">
+              <h3 class="menu-card__name">Crispy Pork Chop with Rice</h3>
+            </div>
+            <div class="menu-card__panel">
+              <div class="menu-card__panel-top">
+                <div class="menu-card__media"><img src="images/menu-items/crispy-pork-chop-with-rice.png" alt="" loading="lazy"></div>
+                <p class="menu-card__panel-name">Crispy Pork Chop with Rice</p>
+              </div>
+              <p class="menu-card__desc">A golden, crunchy pork chop with juicy meat inside, paired with warm rice for a hearty and satisfying meal.</p>
+              <p class="menu-card__price">PHP 169.00</p>
+              <button class="menu-card__btn" type="button">Add to Cart</button>
+            </div>
+          </article>
+          <article class="menu-card" tabindex="0" data-id="lumpiang-shanghai-with-rice" data-name="Lumpiang Shanghai with Rice" data-price="119" data-type="meal" data-category="rice-meals" data-image="images/menu-items/lumpiang-shanghai-with-rice.png" data-description="Crispy Filipino spring rolls filled with seasoned meat, delivering a golden crunch and a familiar taste of Filipino celebrations.">
+            <div class="menu-card__front">
+              <img class="menu-card__img" src="images/menu-items/lumpiang-shanghai-with-rice.png" alt="A serving of Lumpiang Shanghai with Rice" loading="lazy">
+              <h3 class="menu-card__name">Lumpiang Shanghai with Rice</h3>
+            </div>
+            <div class="menu-card__panel">
+              <div class="menu-card__panel-top">
+                <div class="menu-card__media"><img src="images/menu-items/lumpiang-shanghai-with-rice.png" alt="" loading="lazy"></div>
+                <p class="menu-card__panel-name">Lumpiang Shanghai with Rice</p>
+              </div>
+              <p class="menu-card__desc">Crispy Filipino spring rolls filled with seasoned meat, delivering a golden crunch and a familiar taste of Filipino celebrations.</p>
+              <p class="menu-card__price">PHP 119.00</p>
+              <button class="menu-card__btn" type="button">Add to Cart</button>
+            </div>
+          </article>
+          <article class="menu-card" tabindex="0" data-id="lechon-kawali-with-rice" data-name="Lechon Kawali with Rice" data-price="199" data-type="meal" data-category="rice-meals" data-image="images/menu-items/lechon-kawali-with-rice.png" data-description="Deep-fried pork belly with irresistibly crispy skin and tender meat, inspired by the festive flavors of Filipino cuisine.">
+            <div class="menu-card__front">
+              <img class="menu-card__img" src="images/menu-items/lechon-kawali-with-rice.png" alt="A serving of Lechon Kawali with Rice" loading="lazy">
+              <h3 class="menu-card__name">Lechon Kawali with Rice</h3>
+            </div>
+            <div class="menu-card__panel">
+              <div class="menu-card__panel-top">
+                <div class="menu-card__media"><img src="images/menu-items/lechon-kawali-with-rice.png" alt="" loading="lazy"></div>
+                <p class="menu-card__panel-name">Lechon Kawali with Rice</p>
+              </div>
+              <p class="menu-card__desc">Deep-fried pork belly with irresistibly crispy skin and tender meat, inspired by the festive flavors of Filipino cuisine.</p>
+              <p class="menu-card__price">PHP 199.00</p>
+              <button class="menu-card__btn" type="button">Add to Cart</button>
+            </div>
+          </article>
+          <article class="menu-card" tabindex="0" data-id="pork-longganisa-with-egg-and-rice" data-name="Pork Longganisa with Egg and Rice" data-price="149" data-type="meal" data-category="rice-meals" data-image="images/menu-items/pork-longganisa-with-egg-and-rice.png" data-description="Sweet and savory Filipino pork sausage served with a fried egg and rice for a comforting all day breakfast favorite.">
+            <div class="menu-card__front">
+              <img class="menu-card__img" src="images/menu-items/pork-longganisa-with-egg-and-rice.png" alt="A serving of Pork Longganisa with Egg and Rice" loading="lazy">
+              <h3 class="menu-card__name">Pork Longganisa with Egg and Rice</h3>
+            </div>
+            <div class="menu-card__panel">
+              <div class="menu-card__panel-top">
+                <div class="menu-card__media"><img src="images/menu-items/pork-longganisa-with-egg-and-rice.png" alt="" loading="lazy"></div>
+                <p class="menu-card__panel-name">Pork Longganisa with Egg and Rice</p>
+              </div>
+              <p class="menu-card__desc">Sweet and savory Filipino pork sausage served with a fried egg and rice for a comforting all day breakfast favorite.</p>
+              <p class="menu-card__price">PHP 149.00</p>
+              <button class="menu-card__btn" type="button">Add to Cart</button>
+            </div>
+          </article>
+          <article class="menu-card" tabindex="0" data-id="chicken-bbq-with-rice" data-name="Chicken BBQ with Rice" data-price="159" data-type="meal" data-category="rice-meals" data-image="images/menu-items/chicken-barbecue-with-rice.png" data-description="Juicy grilled chicken glazed with a sweet and savory barbecue marinade, bringing the smoky goodness of Filipino street side grilling to your plate.">
+            <div class="menu-card__front">
+              <img class="menu-card__img" src="images/menu-items/chicken-barbecue-with-rice.png" alt="A serving of Chicken BBQ with Rice" loading="lazy">
+              <h3 class="menu-card__name">Chicken BBQ with Rice</h3>
+            </div>
+            <div class="menu-card__panel">
+              <div class="menu-card__panel-top">
+                <div class="menu-card__media"><img src="images/menu-items/chicken-barbecue-with-rice.png" alt="" loading="lazy"></div>
+                <p class="menu-card__panel-name">Chicken BBQ with Rice</p>
+              </div>
+              <p class="menu-card__desc">Juicy grilled chicken glazed with a sweet and savory barbecue marinade, bringing the smoky goodness of Filipino street side grilling to your plate.</p>
+              <p class="menu-card__price">PHP 159.00</p>
+              <button class="menu-card__btn" type="button">Add to Cart</button>
+            </div>
+          </article>
+          <article class="menu-card" tabindex="0" data-id="crispy-boneless-bangus-with-rice" data-name="Crispy Boneless Bangus with Rice" data-price="179" data-type="meal" data-category="rice-meals" data-image="images/menu-items/crispy-boneless-bangus-with-rice.png" data-description="Golden, crispy boneless milkfish with a tender, flavorful center, celebrating a beloved fish favorite in Filipino home cooking.">
+            <div class="menu-card__front">
+              <img class="menu-card__img" src="images/menu-items/crispy-boneless-bangus-with-rice.png" alt="A serving of Crispy Boneless Bangus with Rice" loading="lazy">
+              <h3 class="menu-card__name">Crispy Boneless Bangus with Rice</h3>
+            </div>
+            <div class="menu-card__panel">
+              <div class="menu-card__panel-top">
+                <div class="menu-card__media"><img src="images/menu-items/crispy-boneless-bangus-with-rice.png" alt="" loading="lazy"></div>
+                <p class="menu-card__panel-name">Crispy Boneless Bangus with Rice</p>
+              </div>
+              <p class="menu-card__desc">Golden, crispy boneless milkfish with a tender, flavorful center, celebrating a beloved fish favorite in Filipino home cooking.</p>
+              <p class="menu-card__price">PHP 179.00</p>
+              <button class="menu-card__btn" type="button">Add to Cart</button>
+            </div>
+          </article>
+
+          <!-- Pastas -->
+          <article class="menu-card" tabindex="0" data-id="filipino-style-spaghetti" data-name="Filipino-Style Spaghetti" data-price="119" data-type="meal" data-category="pastas" data-image="images/menu-items/filipino-style-spaghetti.png" data-description="A Filipino party favorite featuring sweet tomato sauce, savory meat, and a comforting blend of flavors that brings back childhood memories.">
+            <div class="menu-card__front">
+              <img class="menu-card__img" src="images/menu-items/filipino-style-spaghetti.png" alt="A serving of Filipino-Style Spaghetti" loading="lazy">
+              <h3 class="menu-card__name">Filipino-Style Spaghetti</h3>
+            </div>
+            <div class="menu-card__panel">
+              <div class="menu-card__panel-top">
+                <div class="menu-card__media"><img src="images/menu-items/filipino-style-spaghetti.png" alt="" loading="lazy"></div>
+                <p class="menu-card__panel-name">Filipino-Style Spaghetti</p>
+              </div>
+              <p class="menu-card__desc">A Filipino party favorite featuring sweet tomato sauce, savory meat, and a comforting blend of flavors that brings back childhood memories.</p>
+              <p class="menu-card__price">PHP 119.00</p>
+              <button class="menu-card__btn" type="button">Add to Cart</button>
+            </div>
+          </article>
+          <article class="menu-card" tabindex="0" data-id="creamy-mushroom-carbonara" data-name="Creamy Mushroom Carbonara" data-price="149" data-type="meal" data-category="pastas" data-image="images/menu-items/creamy-mushroom-carbonara.png" data-description="A creamy pasta dish with savory mushrooms and a rich, velvety sauce for a satisfying twist on an Italian inspired classic.">
+            <div class="menu-card__front">
+              <img class="menu-card__img" src="images/menu-items/creamy-mushroom-carbonara.png" alt="A serving of Creamy Mushroom Carbonara" loading="lazy">
+              <h3 class="menu-card__name">Creamy Mushroom Carbonara</h3>
+            </div>
+            <div class="menu-card__panel">
+              <div class="menu-card__panel-top">
+                <div class="menu-card__media"><img src="images/menu-items/creamy-mushroom-carbonara.png" alt="" loading="lazy"></div>
+                <p class="menu-card__panel-name">Creamy Mushroom Carbonara</p>
+              </div>
+              <p class="menu-card__desc">A creamy pasta dish with savory mushrooms and a rich, velvety sauce for a satisfying twist on an Italian inspired classic.</p>
+              <p class="menu-card__price">PHP 149.00</p>
+              <button class="menu-card__btn" type="button">Add to Cart</button>
+            </div>
+          </article>
+          <article class="menu-card" tabindex="0" data-id="chicken-alfredo" data-name="Chicken Alfredo" data-price="169" data-type="meal" data-category="pastas" data-image="images/menu-items/chicken-alfredo.png" data-description="Tender chicken and pasta tossed in a creamy, buttery sauce with a touch of garlic, inspired by the Italian-American favorite.">
+            <div class="menu-card__front">
+              <img class="menu-card__img" src="images/menu-items/chicken-alfredo.png" alt="A serving of Chicken Alfredo" loading="lazy">
+              <h3 class="menu-card__name">Chicken Alfredo</h3>
+            </div>
+            <div class="menu-card__panel">
+              <div class="menu-card__panel-top">
+                <div class="menu-card__media"><img src="images/menu-items/chicken-alfredo.png" alt="" loading="lazy"></div>
+                <p class="menu-card__panel-name">Chicken Alfredo</p>
+              </div>
+              <p class="menu-card__desc">Tender chicken and pasta tossed in a creamy, buttery sauce with a touch of garlic, inspired by the Italian-American favorite.</p>
+              <p class="menu-card__price">PHP 169.00</p>
+              <button class="menu-card__btn" type="button">Add to Cart</button>
+            </div>
+          </article>
+          <article class="menu-card" tabindex="0" data-id="creamy-lasagna" data-name="Creamy Lasagna" data-price="189" data-type="meal" data-category="pastas" data-image="images/menu-items/creamy-lasagna.png" data-description="Layers of pasta, rich meat sauce, and creamy goodness baked together for a hearty, satisfying classic.">
+            <div class="menu-card__front">
+              <img class="menu-card__img" src="images/menu-items/creamy-lasagna.png" alt="A serving of Creamy Lasagna" loading="lazy">
+              <h3 class="menu-card__name">Creamy Lasagna</h3>
+            </div>
+            <div class="menu-card__panel">
+              <div class="menu-card__panel-top">
+                <div class="menu-card__media"><img src="images/menu-items/creamy-lasagna.png" alt="" loading="lazy"></div>
+                <p class="menu-card__panel-name">Creamy Lasagna</p>
+              </div>
+              <p class="menu-card__desc">Layers of pasta, rich meat sauce, and creamy goodness baked together for a hearty, satisfying classic.</p>
+              <p class="menu-card__price">PHP 189.00</p>
+              <button class="menu-card__btn" type="button">Add to Cart</button>
+            </div>
+          </article>
+          <article class="menu-card" tabindex="0" data-id="cajun-chicken-pasta" data-name="Cajun Chicken Pasta" data-price="169" data-type="meal" data-category="pastas" data-image="images/menu-items/cajun-chicken-pasta.png" data-description="Tender chicken and pasta coated in a creamy, boldly seasoned Cajun sauce inspired by the vibrant flavors of Louisiana.">
+            <div class="menu-card__front">
+              <img class="menu-card__img" src="images/menu-items/cajun-chicken-pasta.png" alt="A serving of Cajun Chicken Pasta" loading="lazy">
+              <h3 class="menu-card__name">Cajun Chicken Pasta</h3>
+            </div>
+            <div class="menu-card__panel">
+              <div class="menu-card__panel-top">
+                <div class="menu-card__media"><img src="images/menu-items/cajun-chicken-pasta.png" alt="" loading="lazy"></div>
+                <p class="menu-card__panel-name">Cajun Chicken Pasta</p>
+              </div>
+              <p class="menu-card__desc">Tender chicken and pasta coated in a creamy, boldly seasoned Cajun sauce inspired by the vibrant flavors of Louisiana.</p>
+              <p class="menu-card__price">PHP 169.00</p>
+              <button class="menu-card__btn" type="button">Add to Cart</button>
+            </div>
+          </article>
+
+          <!-- Pastries & Treats -->
+          <article class="menu-card" tabindex="0" data-id="ube-cheese-pandesal" data-name="Ube Cheese Pandesal" data-price="45" data-type="meal" data-category="pastries-treats" data-image="images/menu-items/ube-cheese-pandesal.png" data-description="Soft, purple yam flavored bread with a creamy cheese center, bringing a modern twist to the Filipino breakfast staple.">
+            <div class="menu-card__front">
+              <img class="menu-card__img" src="images/menu-items/ube-cheese-pandesal.png" alt="A serving of Ube Cheese Pandesal" loading="lazy">
+              <h3 class="menu-card__name">Ube Cheese Pandesal</h3>
+            </div>
+            <div class="menu-card__panel">
+              <div class="menu-card__panel-top">
+                <div class="menu-card__media"><img src="images/menu-items/ube-cheese-pandesal.png" alt="" loading="lazy"></div>
+                <p class="menu-card__panel-name">Ube Cheese Pandesal</p>
+              </div>
+              <p class="menu-card__desc">Soft, purple yam flavored bread with a creamy cheese center, bringing a modern twist to the Filipino breakfast staple.</p>
+              <p class="menu-card__price">PHP 45.00</p>
+              <button class="menu-card__btn" type="button">Add to Cart</button>
+            </div>
+          </article>
+          <article class="menu-card" tabindex="0" data-id="cheese-ensaymada" data-name="Cheese Ensaymada" data-price="59" data-type="meal" data-category="pastries-treats" data-image="images/menu-items/cheese-ensaymada.png" data-description="Soft, buttery Filipino style sweet bread topped with a generous layer of cheese for a sweet and savory treat.">
+            <div class="menu-card__front">
+              <img class="menu-card__img" src="images/menu-items/cheese-ensaymada.png" alt="A serving of Cheese Ensaymada" loading="lazy">
+              <h3 class="menu-card__name">Cheese Ensaymada</h3>
+            </div>
+            <div class="menu-card__panel">
+              <div class="menu-card__panel-top">
+                <div class="menu-card__media"><img src="images/menu-items/cheese-ensaymada.png" alt="" loading="lazy"></div>
+                <p class="menu-card__panel-name">Cheese Ensaymada</p>
+              </div>
+              <p class="menu-card__desc">Soft, buttery Filipino style sweet bread topped with a generous layer of cheese for a sweet and savory treat.</p>
+              <p class="menu-card__price">PHP 59.00</p>
+              <button class="menu-card__btn" type="button">Add to Cart</button>
+            </div>
+          </article>
+          <article class="menu-card" tabindex="0" data-id="monggo-hopia" data-name="Monggo Hopia" data-price="35" data-type="meal" data-category="pastries-treats" data-image="images/menu-items/monggo-hopia.png" data-description="A flaky, golden Chinese-Filipino pastry filled with smooth, sweet mung bean paste and generations of tradition.">
+            <div class="menu-card__front">
+              <img class="menu-card__img" src="images/menu-items/monggo-hopia.png" alt="A serving of Monggo Hopia" loading="lazy">
+              <h3 class="menu-card__name">Monggo Hopia</h3>
+            </div>
+            <div class="menu-card__panel">
+              <div class="menu-card__panel-top">
+                <div class="menu-card__media"><img src="images/menu-items/monggo-hopia.png" alt="" loading="lazy"></div>
+                <p class="menu-card__panel-name">Monggo Hopia</p>
+              </div>
+              <p class="menu-card__desc">A flaky, golden Chinese-Filipino pastry filled with smooth, sweet mung bean paste and generations of tradition.</p>
+              <p class="menu-card__price">PHP 35.00</p>
+              <button class="menu-card__btn" type="button">Add to Cart</button>
+            </div>
+          </article>
+          <article class="menu-card" tabindex="0" data-id="ube-hopia" data-name="Ube Hopia" data-price="35" data-type="meal" data-category="pastries-treats" data-image="images/menu-items/ube-hopia.png" data-description="A classic flaky pastry filled with sweet purple yam, combining a delicate crust with a distinctly Filipino favorite flavor.">
+            <div class="menu-card__front">
+              <img class="menu-card__img" src="images/menu-items/ube-hopia.png" alt="A serving of Ube Hopia" loading="lazy">
+              <h3 class="menu-card__name">Ube Hopia</h3>
+            </div>
+            <div class="menu-card__panel">
+              <div class="menu-card__panel-top">
+                <div class="menu-card__media"><img src="images/menu-items/ube-hopia.png" alt="" loading="lazy"></div>
+                <p class="menu-card__panel-name">Ube Hopia</p>
+              </div>
+              <p class="menu-card__desc">A classic flaky pastry filled with sweet purple yam, combining a delicate crust with a distinctly Filipino favorite flavor.</p>
+              <p class="menu-card__price">PHP 35.00</p>
+              <button class="menu-card__btn" type="button">Add to Cart</button>
+            </div>
+          </article>
+          <article class="menu-card" tabindex="0" data-id="hopia-de-leche" data-name="Hopia de Leche" data-price="45" data-type="meal" data-category="pastries-treats" data-image="images/menu-items/hopia-de-leche.png" data-description="A golden, flaky pastry with a sweet, creamy milk inspired filling for a comforting bite of bakery goodness.">
+            <div class="menu-card__front">
+              <img class="menu-card__img" src="images/menu-items/hopia-de-leche.png" alt="A serving of Hopia de Leche" loading="lazy">
+              <h3 class="menu-card__name">Hopia de Leche</h3>
+            </div>
+            <div class="menu-card__panel">
+              <div class="menu-card__panel-top">
+                <div class="menu-card__media"><img src="images/menu-items/hopia-de-leche.png" alt="" loading="lazy"></div>
+                <p class="menu-card__panel-name">Hopia de Leche</p>
+              </div>
+              <p class="menu-card__desc">A golden, flaky pastry with a sweet, creamy milk inspired filling for a comforting bite of bakery goodness.</p>
+              <p class="menu-card__price">PHP 45.00</p>
+              <button class="menu-card__btn" type="button">Add to Cart</button>
+            </div>
+          </article>
+          <article class="menu-card" tabindex="0" data-id="spanish-bread" data-name="Spanish Bread" data-price="29" data-type="meal" data-category="pastries-treats" data-image="images/menu-items/spanish-bread.png" data-description="Soft, golden Filipino bread rolled around a sweet buttery filling, perfect for a nostalgic merienda.">
+            <div class="menu-card__front">
+              <img class="menu-card__img" src="images/menu-items/spanish-bread.png" alt="A serving of Spanish Bread" loading="lazy">
+              <h3 class="menu-card__name">Spanish Bread</h3>
+            </div>
+            <div class="menu-card__panel">
+              <div class="menu-card__panel-top">
+                <div class="menu-card__media"><img src="images/menu-items/spanish-bread.png" alt="" loading="lazy"></div>
+                <p class="menu-card__panel-name">Spanish Bread</p>
+              </div>
+              <p class="menu-card__desc">Soft, golden Filipino bread rolled around a sweet buttery filling, perfect for a nostalgic merienda.</p>
+              <p class="menu-card__price">PHP 29.00</p>
+              <button class="menu-card__btn" type="button">Add to Cart</button>
+            </div>
+          </article>
+          <article class="menu-card" tabindex="0" data-id="crinkles" data-name="Crinkles" data-price="39" data-type="meal" data-category="pastries-treats" data-image="images/menu-items/crinkles.png" data-description="Soft, fudgy chocolate cookies coated in powdered sugar, with a delicate crackled crust and a rich cocoa center.">
+            <div class="menu-card__front">
+              <img class="menu-card__img" src="images/menu-items/crinkles.png" alt="A serving of Crinkles" loading="lazy">
+              <h3 class="menu-card__name">Crinkles</h3>
+            </div>
+            <div class="menu-card__panel">
+              <div class="menu-card__panel-top">
+                <div class="menu-card__media"><img src="images/menu-items/crinkles.png" alt="" loading="lazy"></div>
+                <p class="menu-card__panel-name">Crinkles</p>
+              </div>
+              <p class="menu-card__desc">Soft, fudgy chocolate cookies coated in powdered sugar, with a delicate crackled crust and a rich cocoa center.</p>
+              <p class="menu-card__price">PHP 39.00</p>
+              <button class="menu-card__btn" type="button">Add to Cart</button>
+            </div>
+          </article>
+          <article class="menu-card" tabindex="0" data-id="leche-flan" data-name="Leche Flan" data-price="69" data-type="meal" data-category="pastries-treats" data-image="images/menu-items/leche-flan.png" data-description="A silky, rich Filipino custard topped with golden caramel, delivering a smooth sweetness in every spoonful.">
+            <div class="menu-card__front">
+              <img class="menu-card__img" src="images/menu-items/leche-flan.png" alt="A serving of Leche Flan" loading="lazy">
+              <h3 class="menu-card__name">Leche Flan</h3>
+            </div>
+            <div class="menu-card__panel">
+              <div class="menu-card__panel-top">
+                <div class="menu-card__media"><img src="images/menu-items/leche-flan.png" alt="" loading="lazy"></div>
+                <p class="menu-card__panel-name">Leche Flan</p>
+              </div>
+              <p class="menu-card__desc">A silky, rich Filipino custard topped with golden caramel, delivering a smooth sweetness in every spoonful.</p>
+              <p class="menu-card__price">PHP 69.00</p>
+              <button class="menu-card__btn" type="button">Add to Cart</button>
+            </div>
+          </article>
+          <article class="menu-card" tabindex="0" data-id="ube-cake" data-name="Ube Cake" data-price="119" data-type="meal" data-category="pastries-treats" data-image="images/menu-items/ube-cake.png" data-description="Moist cake infused with the earthy sweetness of purple yam, finished with a creamy texture and a lovely Filipino inspired flavor.">
+            <div class="menu-card__front">
+              <img class="menu-card__img" src="images/menu-items/ube-cake.png" alt="A serving of Ube Cake" loading="lazy">
+              <h3 class="menu-card__name">Ube Cake</h3>
+            </div>
+            <div class="menu-card__panel">
+              <div class="menu-card__panel-top">
+                <div class="menu-card__media"><img src="images/menu-items/ube-cake.png" alt="" loading="lazy"></div>
+                <p class="menu-card__panel-name">Ube Cake</p>
+              </div>
+              <p class="menu-card__desc">Moist cake infused with the earthy sweetness of purple yam, finished with a creamy texture and a lovely Filipino inspired flavor.</p>
+              <p class="menu-card__price">PHP 119.00</p>
+              <button class="menu-card__btn" type="button">Add to Cart</button>
+            </div>
+          </article>
+          <article class="menu-card" tabindex="0" data-id="brownies" data-name="Brownies" data-price="49" data-type="meal" data-category="pastries-treats" data-image="images/menu-items/brownies.png" data-description="Rich, chocolatey squares with a fudgy center and irresistible cocoa goodness for every chocolate lover.">
+            <div class="menu-card__front">
+              <img class="menu-card__img" src="images/menu-items/brownies.png" alt="A serving of Brownies" loading="lazy">
+              <h3 class="menu-card__name">Brownies</h3>
+            </div>
+            <div class="menu-card__panel">
+              <div class="menu-card__panel-top">
+                <div class="menu-card__media"><img src="images/menu-items/brownies.png" alt="" loading="lazy"></div>
+                <p class="menu-card__panel-name">Brownies</p>
+              </div>
+              <p class="menu-card__desc">Rich, chocolatey squares with a fudgy center and irresistible cocoa goodness for every chocolate lover.</p>
+              <p class="menu-card__price">PHP 49.00</p>
+              <button class="menu-card__btn" type="button">Add to Cart</button>
+            </div>
+          </article>
+          <article class="menu-card" tabindex="0" data-id="mango-graham-cup" data-name="Mango Graham Cup" data-price="79" data-type="meal" data-category="pastries-treats" data-image="images/menu-items/mango-graham-cup.png" data-description="Layers of sweet ripe mangoes, creamy filling, and crushed graham crackers inspired by the beloved Filipino mango float.">
+            <div class="menu-card__front">
+              <img class="menu-card__img" src="images/menu-items/mango-graham-cup.png" alt="A serving of Mango Graham Cup" loading="lazy">
+              <h3 class="menu-card__name">Mango Graham Cup</h3>
+            </div>
+            <div class="menu-card__panel">
+              <div class="menu-card__panel-top">
+                <div class="menu-card__media"><img src="images/menu-items/mango-graham-cup.png" alt="" loading="lazy"></div>
+                <p class="menu-card__panel-name">Mango Graham Cup</p>
+              </div>
+              <p class="menu-card__desc">Layers of sweet ripe mangoes, creamy filling, and crushed graham crackers inspired by the beloved Filipino mango float.</p>
+              <p class="menu-card__price">PHP 79.00</p>
+              <button class="menu-card__btn" type="button">Add to Cart</button>
+            </div>
+          </article>
+          <article class="menu-card" tabindex="0" data-id="white-choco-glazed-donut" data-name="White Choco Glazed Donut" data-price="79" data-type="meal" data-category="pastries-treats" data-image="images/menu-items/white-choco-glazed-donut.png" data-description="A soft, fluffy donut finished with a smooth white chocolate coating for a creamy, sweet indulgence.">
+            <div class="menu-card__front">
+              <img class="menu-card__img" src="images/menu-items/white-choco-glazed-donut.png" alt="A serving of White Choco Glazed Donut" loading="lazy">
+              <h3 class="menu-card__name">White Choco Glazed Donut</h3>
+            </div>
+            <div class="menu-card__panel">
+              <div class="menu-card__panel-top">
+                <div class="menu-card__media"><img src="images/menu-items/white-choco-glazed-donut.png" alt="" loading="lazy"></div>
+                <p class="menu-card__panel-name">White Choco Glazed Donut</p>
+              </div>
+              <p class="menu-card__desc">A soft, fluffy donut finished with a smooth white chocolate coating for a creamy, sweet indulgence.</p>
+              <p class="menu-card__price">PHP 79.00</p>
+              <button class="menu-card__btn" type="button">Add to Cart</button>
+            </div>
+          </article>
+          <article class="menu-card" tabindex="0" data-id="strawberry-donut" data-name="Strawberry Donut" data-price="49" data-type="meal" data-category="pastries-treats" data-image="images/menu-items/strawberry-donut.png" data-description="A soft donut topped with sweet strawberry glaze for a fruity, colorful, and delightful bite.">
+            <div class="menu-card__front">
+              <img class="menu-card__img" src="images/menu-items/strawberry-donut.png" alt="A serving of Strawberry Donut" loading="lazy">
+              <h3 class="menu-card__name">Strawberry Donut</h3>
+            </div>
+            <div class="menu-card__panel">
+              <div class="menu-card__panel-top">
+                <div class="menu-card__media"><img src="images/menu-items/strawberry-donut.png" alt="" loading="lazy"></div>
+                <p class="menu-card__panel-name">Strawberry Donut</p>
+              </div>
+              <p class="menu-card__desc">A soft donut topped with sweet strawberry glaze for a fruity, colorful, and delightful bite.</p>
+              <p class="menu-card__price">PHP 49.00</p>
+              <button class="menu-card__btn" type="button">Add to Cart</button>
+            </div>
+          </article>
+          <article class="menu-card" tabindex="0" data-id="ube-donut" data-name="Ube Donut" data-price="49" data-type="meal" data-category="pastries-treats" data-image="images/menu-items/ube-donut.png" data-description="A fluffy donut with sweet purple yam flavor, offering a playful Filipino twist on a beloved bakery classic.">
+            <div class="menu-card__front">
+              <img class="menu-card__img" src="images/menu-items/ube-donut.png" alt="A serving of Ube Donut" loading="lazy">
+              <h3 class="menu-card__name">Ube Donut</h3>
+            </div>
+            <div class="menu-card__panel">
+              <div class="menu-card__panel-top">
+                <div class="menu-card__media"><img src="images/menu-items/ube-donut.png" alt="" loading="lazy"></div>
+                <p class="menu-card__panel-name">Ube Donut</p>
+              </div>
+              <p class="menu-card__desc">A fluffy donut with sweet purple yam flavor, offering a playful Filipino twist on a beloved bakery classic.</p>
+              <p class="menu-card__price">PHP 49.00</p>
+              <button class="menu-card__btn" type="button">Add to Cart</button>
+            </div>
+          </article>
+          <article class="menu-card" tabindex="0" data-id="coffee-jelly-cup" data-name="Coffee Jelly Cup" data-price="69" data-type="meal" data-category="pastries-treats" data-image="images/menu-items/coffee-jelly-cup.png" data-description="Chewy coffee jelly cubes paired with creamy sweetness for a chilled dessert that coffee lovers will adore.">
+            <div class="menu-card__front">
+              <img class="menu-card__img" src="images/menu-items/coffee-jelly-cup.png" alt="A serving of Coffee Jelly Cup" loading="lazy">
+              <h3 class="menu-card__name">Coffee Jelly Cup</h3>
+            </div>
+            <div class="menu-card__panel">
+              <div class="menu-card__panel-top">
+                <div class="menu-card__media"><img src="images/menu-items/coffee-jelly-cup.png" alt="" loading="lazy"></div>
+                <p class="menu-card__panel-name">Coffee Jelly Cup</p>
+              </div>
+              <p class="menu-card__desc">Chewy coffee jelly cubes paired with creamy sweetness for a chilled dessert that coffee lovers will adore.</p>
+              <p class="menu-card__price">PHP 69.00</p>
+              <button class="menu-card__btn" type="button">Add to Cart</button>
+            </div>
+          </article>
+
+          <!-- Snacks & Sides -->
+          <article class="menu-card" tabindex="0" data-id="tuna-sandwich" data-name="Tuna Sandwich" data-price="99" data-type="meal" data-category="snacks-sides" data-image="images/menu-items/tuna-sandwich.png" data-description="A satisfying sandwich filled with savory tuna and a creamy dressing, tucked between soft slices of bread.">
+            <div class="menu-card__front">
+              <img class="menu-card__img" src="images/menu-items/tuna-sandwich.png" alt="A serving of Tuna Sandwich" loading="lazy">
+              <h3 class="menu-card__name">Tuna Sandwich</h3>
+            </div>
+            <div class="menu-card__panel">
+              <div class="menu-card__panel-top">
+                <div class="menu-card__media"><img src="images/menu-items/tuna-sandwich.png" alt="" loading="lazy"></div>
+                <p class="menu-card__panel-name">Tuna Sandwich</p>
+              </div>
+              <p class="menu-card__desc">A satisfying sandwich filled with savory tuna and a creamy dressing, tucked between soft slices of bread.</p>
+              <p class="menu-card__price">PHP 99.00</p>
+              <button class="menu-card__btn" type="button">Add to Cart</button>
+            </div>
+          </article>
+          <article class="menu-card" tabindex="0" data-id="ham-and-cheese-sandwich" data-name="Ham and Cheese Sandwich" data-price="99" data-type="meal" data-category="snacks-sides" data-image="images/menu-items/ham-and-cheese-sandwich.png" data-description="Classic ham and melted cheese come together between soft bread for a simple, comforting favorite.">
+            <div class="menu-card__front">
+              <img class="menu-card__img" src="images/menu-items/ham-and-cheese-sandwich.png" alt="A serving of Ham and Cheese Sandwich" loading="lazy">
+              <h3 class="menu-card__name">Ham and Cheese Sandwich</h3>
+            </div>
+            <div class="menu-card__panel">
+              <div class="menu-card__panel-top">
+                <div class="menu-card__media"><img src="images/menu-items/ham-and-cheese-sandwich.png" alt="" loading="lazy"></div>
+                <p class="menu-card__panel-name">Ham and Cheese Sandwich</p>
+              </div>
+              <p class="menu-card__desc">Classic ham and melted cheese come together between soft bread for a simple, comforting favorite.</p>
+              <p class="menu-card__price">PHP 99.00</p>
+              <button class="menu-card__btn" type="button">Add to Cart</button>
+            </div>
+          </article>
+          <article class="menu-card" tabindex="0" data-id="grilled-cheese-sandwich" data-name="Grilled Cheese Sandwich" data-price="109" data-type="meal" data-category="snacks-sides" data-image="images/menu-items/grilled-cheese-sandwich.png" data-description="Golden, toasted bread with warm, melted cheese in every bite, a timeless comfort food inspired by American diners.">
+            <div class="menu-card__front">
+              <img class="menu-card__img" src="images/menu-items/grilled-cheese-sandwich.png" alt="A serving of Grilled Cheese Sandwich" loading="lazy">
+              <h3 class="menu-card__name">Grilled Cheese Sandwich</h3>
+            </div>
+            <div class="menu-card__panel">
+              <div class="menu-card__panel-top">
+                <div class="menu-card__media"><img src="images/menu-items/grilled-cheese-sandwich.png" alt="" loading="lazy"></div>
+                <p class="menu-card__panel-name">Grilled Cheese Sandwich</p>
+              </div>
+              <p class="menu-card__desc">Golden, toasted bread with warm, melted cheese in every bite, a timeless comfort food inspired by American diners.</p>
+              <p class="menu-card__price">PHP 109.00</p>
+              <button class="menu-card__btn" type="button">Add to Cart</button>
+            </div>
+          </article>
+          <article class="menu-card" tabindex="0" data-id="chicken-club-sandwich" data-name="Chicken Club Sandwich" data-price="149" data-type="meal" data-category="snacks-sides" data-image="images/menu-items/chicken-clubhouse-sandwich.png" data-description="Layers of chicken, fresh vegetables, and savory fillings stacked between bread for a hearty, satisfying snack.">
+            <div class="menu-card__front">
+              <img class="menu-card__img" src="images/menu-items/chicken-clubhouse-sandwich.png" alt="A serving of Chicken Club Sandwich" loading="lazy">
+              <h3 class="menu-card__name">Chicken Club Sandwich</h3>
+            </div>
+            <div class="menu-card__panel">
+              <div class="menu-card__panel-top">
+                <div class="menu-card__media"><img src="images/menu-items/chicken-clubhouse-sandwich.png" alt="" loading="lazy"></div>
+                <p class="menu-card__panel-name">Chicken Club Sandwich</p>
+              </div>
+              <p class="menu-card__desc">Layers of chicken, fresh vegetables, and savory fillings stacked between bread for a hearty, satisfying snack.</p>
+              <p class="menu-card__price">PHP 149.00</p>
+              <button class="menu-card__btn" type="button">Add to Cart</button>
+            </div>
+          </article>
+          <article class="menu-card" tabindex="0" data-id="onion-rings" data-name="Onion Rings" data-prices="Classic:79,Cajun:89,Cheese:89,BBQ:89" data-type="meal" data-category="snacks-sides" data-image="images/menu-items/onion-rings.png" data-description="Crispy onion rings with a sweet, tender center, available in Classic, Cajun, Cheese, and BBQ flavors.">
+            <div class="menu-card__front">
+              <img class="menu-card__img" src="images/menu-items/onion-rings.png" alt="A serving of Onion Rings" loading="lazy">
+              <h3 class="menu-card__name">Onion Rings</h3>
+            </div>
+            <div class="menu-card__panel">
+              <div class="menu-card__panel-top">
+                <div class="menu-card__media"><img src="images/menu-items/onion-rings.png" alt="" loading="lazy"></div>
+                <p class="menu-card__panel-name">Onion Rings</p>
+              </div>
+              <p class="menu-card__desc">Crispy onion rings with a sweet, tender center, available in Classic, Cajun, Cheese, and BBQ flavors.</p>
+              <p class="menu-card__price">From PHP 79.00</p>
+              <button class="menu-card__btn" type="button">Add to Cart</button>
+            </div>
+          </article>
+          <article class="menu-card" tabindex="0" data-id="french-fries" data-name="French Fries" data-prices="Classic:79,Cajun:89,Cheese:89,BBQ:89" data-type="meal" data-category="snacks-sides" data-image="images/menu-items/french-fries.png" data-description="Golden potato fries with a crisp outside and fluffy center, available in Classic, Cajun, Cheese, and BBQ flavors.">
+            <div class="menu-card__front">
+              <img class="menu-card__img" src="images/menu-items/french-fries.png" alt="A serving of French Fries" loading="lazy">
+              <h3 class="menu-card__name">French Fries</h3>
+            </div>
+            <div class="menu-card__panel">
+              <div class="menu-card__panel-top">
+                <div class="menu-card__media"><img src="images/menu-items/french-fries.png" alt="" loading="lazy"></div>
+                <p class="menu-card__panel-name">French Fries</p>
+              </div>
+              <p class="menu-card__desc">Golden potato fries with a crisp outside and fluffy center, available in Classic, Cajun, Cheese, and BBQ flavors.</p>
+              <p class="menu-card__price">From PHP 79.00</p>
+              <button class="menu-card__btn" type="button">Add to Cart</button>
+            </div>
+          </article>
+          <article class="menu-card" tabindex="0" data-id="nachos" data-name="Nachos" data-prices="Classic:79,Cajun:89,Cheese:89,BBQ:89" data-type="meal" data-category="snacks-sides" data-image="images/menu-items/nachos.png" data-description="Crunchy tortilla chips topped or seasoned with your choice of Classic, Cajun, Cheese, or BBQ flavor for a satisfying snack.">
+            <div class="menu-card__front">
+              <img class="menu-card__img" src="images/menu-items/nachos.png" alt="A serving of Nachos" loading="lazy">
+              <h3 class="menu-card__name">Nachos</h3>
+            </div>
+            <div class="menu-card__panel">
+              <div class="menu-card__panel-top">
+                <div class="menu-card__media"><img src="images/menu-items/nachos.png" alt="" loading="lazy"></div>
+                <p class="menu-card__panel-name">Nachos</p>
+              </div>
+              <p class="menu-card__desc">Crunchy tortilla chips topped or seasoned with your choice of Classic, Cajun, Cheese, or BBQ flavor for a satisfying snack.</p>
+              <p class="menu-card__price">From PHP 79.00</p>
+              <button class="menu-card__btn" type="button">Add to Cart</button>
+            </div>
+          </article>
+          <article class="menu-card" tabindex="0" data-id="garlic-bread" data-name="Garlic Bread" data-price="59" data-type="meal" data-category="snacks-sides" data-image="images/menu-items/garlic-bread.png" data-description="Toasted bread infused with fragrant garlic and buttery goodness, perfect for pairing with pasta or enjoying on its own.">
+            <div class="menu-card__front">
+              <img class="menu-card__img" src="images/menu-items/garlic-bread.png" alt="A serving of Garlic Bread" loading="lazy">
+              <h3 class="menu-card__name">Garlic Bread</h3>
+            </div>
+            <div class="menu-card__panel">
+              <div class="menu-card__panel-top">
+                <div class="menu-card__media"><img src="images/menu-items/garlic-bread.png" alt="" loading="lazy"></div>
+                <p class="menu-card__panel-name">Garlic Bread</p>
+              </div>
+              <p class="menu-card__desc">Toasted bread infused with fragrant garlic and buttery goodness, perfect for pairing with pasta or enjoying on its own.</p>
+              <p class="menu-card__price">PHP 59.00</p>
+              <button class="menu-card__btn" type="button">Add to Cart</button>
+            </div>
+          </article>
+
+          <!-- Add-ons -->
+          <article class="menu-card" tabindex="0" data-id="extra-plain-rice" data-name="Extra Plain Rice" data-price="20" data-type="addon" data-category="add-ons" data-image="images/menu-items/extra-plain-rice.png" data-description="">
+            <div class="menu-card__front">
+              <img class="menu-card__img" src="images/menu-items/extra-plain-rice.png" alt="A side of plain rice" loading="lazy">
+              <h3 class="menu-card__name">Extra Plain Rice</h3>
+            </div>
+            <div class="menu-card__panel">
+              <div class="menu-card__panel-top">
+                <div class="menu-card__media"><img src="images/menu-items/extra-plain-rice.png" alt="" loading="lazy"></div>
+                <p class="menu-card__panel-name">Extra Plain Rice</p>
+              </div>
+              <p class="menu-card__price">PHP 20.00</p>
+              <button class="menu-card__btn" type="button">Add to Cart</button>
+            </div>
+          </article>
+          <article class="menu-card" tabindex="0" data-id="extra-garlic-rice" data-name="Extra Garlic Rice" data-price="30" data-type="addon" data-category="add-ons" data-image="images/menu-items/extra-garlic-rice.png" data-description="">
+            <div class="menu-card__front">
+              <img class="menu-card__img" src="images/menu-items/extra-garlic-rice.png" alt="A side of garlic rice" loading="lazy">
+              <h3 class="menu-card__name">Extra Garlic Rice</h3>
+            </div>
+            <div class="menu-card__panel">
+              <div class="menu-card__panel-top">
+                <div class="menu-card__media"><img src="images/menu-items/extra-garlic-rice.png" alt="" loading="lazy"></div>
+                <p class="menu-card__panel-name">Extra Garlic Rice</p>
+              </div>
+              <p class="menu-card__price">PHP 30.00</p>
+              <button class="menu-card__btn" type="button">Add to Cart</button>
+            </div>
+          </article>
+          <article class="menu-card" tabindex="0" data-id="extra-cheese-sauce" data-name="Extra Cheese Sauce" data-price="25" data-type="addon" data-category="add-ons" data-image="images/menu-items/extra-cheese-sauce.png" data-description="">
+            <div class="menu-card__front">
+              <img class="menu-card__img" src="images/menu-items/extra-cheese-sauce.png" alt="A side of cheese sauce" loading="lazy">
+              <h3 class="menu-card__name">Extra Cheese Sauce</h3>
+            </div>
+            <div class="menu-card__panel">
+              <div class="menu-card__panel-top">
+                <div class="menu-card__media"><img src="images/menu-items/extra-cheese-sauce.png" alt="" loading="lazy"></div>
+                <p class="menu-card__panel-name">Extra Cheese Sauce</p>
+              </div>
+              <p class="menu-card__price">PHP 25.00</p>
+              <button class="menu-card__btn" type="button">Add to Cart</button>
+            </div>
+          </article>
+          <article class="menu-card" tabindex="0" data-id="extra-cheese-slice" data-name="Extra Cheese Slice" data-price="25" data-type="addon" data-category="add-ons" data-image="images/menu-items/extra-cheese-slice.png" data-description="">
+            <div class="menu-card__front">
+              <img class="menu-card__img" src="images/menu-items/extra-cheese-slice.png" alt="A side of cheese slice" loading="lazy">
+              <h3 class="menu-card__name">Extra Cheese Slice</h3>
+            </div>
+            <div class="menu-card__panel">
+              <div class="menu-card__panel-top">
+                <div class="menu-card__media"><img src="images/menu-items/extra-cheese-slice.png" alt="" loading="lazy"></div>
+                <p class="menu-card__panel-name">Extra Cheese Slice</p>
+              </div>
+              <p class="menu-card__price">PHP 25.00</p>
+              <button class="menu-card__btn" type="button">Add to Cart</button>
+            </div>
+          </article>
+          <article class="menu-card" tabindex="0" data-id="extra-sugar-syrup" data-name="Extra Sugar Syrup" data-price="15" data-type="addon" data-category="add-ons" data-image="images/menu-items/extra-sugar-syrup.png" data-description="">
+            <div class="menu-card__front">
+              <img class="menu-card__img" src="images/menu-items/extra-sugar-syrup.png" alt="A side of sugar syrup" loading="lazy">
+              <h3 class="menu-card__name">Extra Sugar Syrup</h3>
+            </div>
+            <div class="menu-card__panel">
+              <div class="menu-card__panel-top">
+                <div class="menu-card__media"><img src="images/menu-items/extra-sugar-syrup.png" alt="" loading="lazy"></div>
+                <p class="menu-card__panel-name">Extra Sugar Syrup</p>
+              </div>
+              <p class="menu-card__price">PHP 15.00</p>
+              <button class="menu-card__btn" type="button">Add to Cart</button>
+            </div>
+          </article>
+          <article class="menu-card" tabindex="0" data-id="extra-pearls" data-name="Extra Pearls" data-price="15" data-type="addon" data-category="add-ons" data-image="images/menu-items/extra-pearls.png" data-description="">
+            <div class="menu-card__front">
+              <img class="menu-card__img" src="images/menu-items/extra-pearls.png" alt="A side of pearls" loading="lazy">
+              <h3 class="menu-card__name">Extra Pearls</h3>
+            </div>
+            <div class="menu-card__panel">
+              <div class="menu-card__panel-top">
+                <div class="menu-card__media"><img src="images/menu-items/extra-pearls.png" alt="" loading="lazy"></div>
+                <p class="menu-card__panel-name">Extra Pearls</p>
+              </div>
+              <p class="menu-card__price">PHP 15.00</p>
+              <button class="menu-card__btn" type="button">Add to Cart</button>
+            </div>
+          </article>
+          <article class="menu-card" tabindex="0" data-id="extra-fried-egg" data-name="Extra Fried Egg" data-price="25" data-type="addon" data-category="add-ons" data-image="images/menu-items/extra-fried-egg.png" data-description="">
+            <div class="menu-card__front">
+              <img class="menu-card__img" src="images/menu-items/extra-fried-egg.png" alt="A side of fried egg" loading="lazy">
+              <h3 class="menu-card__name">Extra Fried Egg</h3>
+            </div>
+            <div class="menu-card__panel">
+              <div class="menu-card__panel-top">
+                <div class="menu-card__media"><img src="images/menu-items/extra-fried-egg.png" alt="" loading="lazy"></div>
+                <p class="menu-card__panel-name">Extra Fried Egg</p>
+              </div>
+              <p class="menu-card__price">PHP 25.00</p>
+              <button class="menu-card__btn" type="button">Add to Cart</button>
+            </div>
+          </article>
+
+          </div>
+
+          <!-- Empty state (shown by JS only when nothing matches) -->
+          <div class="menu-empty" id="menuEmpty">
+            <p class="menu-empty__title">No items found, bro!</p>
+            <p class="menu-empty__text">Try another craving or pick a different category.</p>
+          </div>
+        </section>
+
+      </div>
+    </div>
+
+    <!-- ===== ADD-TO-CART POP-UP (one shared dialog, filled by script.js) ===== -->
+    <div class="modal" id="addModal">
+      <div class="modal__dialog" id="modalDialog" role="dialog" aria-modal="true" aria-labelledby="modalTitle" tabindex="-1">
+        <button class="modal__close" id="modalCloseBtn" type="button" aria-label="Close pop-up">&#10005;</button>
+        <div class="modal__content" id="modalContent"></div>
+      </div>
+    </div>
+
+    <!-- ===== TOAST ("Added to cart ✓") ===== -->
+    <div class="toast" id="cartToast" role="status" aria-live="polite"></div>
+
+  </main>
+
+  <!-- ===== FOOTER (shared) ===== -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer__grid">
+        <section class="footer__brand" aria-label="About san tayo brew?">
+          <img class="footer__logo" src="images/logos/logo-yellow.png" alt="san tayo brew? logo" loading="lazy">
+          <p class="footer__blurb">Kape, kain, at kwentuhan, bro! Your cozy stop for good brews, Filipino favorites, and moments worth sharing.</p>
+        </section>
+
+        <nav class="footer__col" aria-labelledby="footerExploreTitle">
+          <h2 class="footer__title" id="footerExploreTitle">Explore</h2>
+          <ul class="footer__list">
+            <li><a class="footer__link" href="menu.html" aria-current="page">Menu</a></li>
+            <li><a class="footer__link" href="about.html">About Us</a></li>
+          </ul>
+        </nav>
+
+        <section class="footer__col" aria-labelledby="footerContactTitle">
+          <h2 class="footer__title" id="footerContactTitle">Connect with us</h2>
+          <address class="footer__contact">
+            <ul class="footer__list">
+              <li class="footer__contact-item">
+                <svg class="footer__icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                  <rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/>
+                </svg>
+                <a class="footer__link" href="mailto:santayobrew@example.com">santayobrew@example.com</a>
+              </li>
+              <li class="footer__contact-item">
+                <svg class="footer__icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                  <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/>
+                </svg>
+                <span>09XX-XXX-XXXX</span>
+              </li>
+              <li class="footer__contact-item">
+                <svg class="footer__icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+                </svg>
+                <span>123 Example Brew Street, Barangay Kapihan, Santa Maria, Bulacan, Philippines 3022</span>
+              </li>
+            </ul>
+          </address>
+        </section>
+      </div>
+
+      <hr class="footer__divider">
+
+      <div class="footer__bottom">
+        <p class="footer__copyright">STB Inc. &copy; Copyright 2026.<br>All rights reserved.</p>
+        <p class="footer__disclaimer">This website is a student-developed prototype for academic purposes only. All products, prices, and business information are for demonstration purposes and may not represent an actual operating business. No real transactions are intended.</p>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

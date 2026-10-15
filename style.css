@@ -1,0 +1,2963 @@
+/* ==========================================================
+   san tayo brew? | style.css
+   One stylesheet shared by every page (Home, Menu, About Us,
+   My Cart, Checkout).
+
+   Mobile-first: the base rules are written for phones, and the
+   MEDIA QUERIES section at the bottom adds the 480px, 768px and
+   1024px+ layouts.
+
+   CONTENTS
+   1.  Reset
+   2.  :root variables
+   3.  Typography
+   4.  Layout helpers + accessibility
+   5.  Shared components (buttons, navbar, footer)
+   6.  Home page
+   7.  About Us page
+   8.  Menu page (Stage 2)
+   9.  Cart + Checkout pages (Stage 3)
+   10. Media queries
+   ========================================================== */
+
+
+/* ==========================================================
+   1. RESET
+   ========================================================== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+  /* Keeps anchored content from hiding under the sticky navbar */
+  scroll-padding-top: var(--header-height);
+}
+
+body,
+h1, h2, h3, h4,
+p,
+figure,
+blockquote,
+ul, ol {
+  margin: 0;
+}
+
+ul[class],
+ol[class] {
+  list-style: none;
+  padding: 0;
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+a {
+  color: inherit;
+}
+
+address {
+  font-style: normal;
+}
+
+
+/* ==========================================================
+   2. :ROOT VARIABLES
+   ========================================================== */
+:root {
+  /* Brand colors */
+  --sunshine-yellow: #FFDE59;
+  --espresso-brown: #5D2705;
+  --page-bg: #F2F2F2;
+  --card-white: #FFFFFF;
+  --panel-gray: #D9D9D9;
+  --brew-orange: #B8500F;
+  --danger-red: #D62828;
+
+  /* Supporting tones */
+  --burnt-orange: #C4500F;   /* top of the About hero gradient */
+  --yellow-soft: #FFEA94;    /* button hover */
+  --text-black: #111111;
+  --text-muted: #3A3A3A;
+  --error-text: #A61B1B;     /* darker red so small error text stays readable */
+  --success-green: #16642A;  /* promo + "Location selected" messages */
+
+  /* Fonts */
+  --font-display: "Rubik One", "Arial Black", system-ui, sans-serif;
+  --font-body: "Cantarell", "Segoe UI", system-ui, -apple-system, sans-serif;
+
+  /* Spacing + sizing */
+  --gutter: 1rem;
+  --section-space: 3.5rem;
+  --container-max: 1180px;
+  --header-height: 64px;
+
+  /* Shape + depth */
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-pill: 999px;
+  --shadow-card: 0 4px 14px rgba(0, 0, 0, 0.08);
+  --shadow-lift: 0 10px 24px rgba(93, 39, 5, 0.25);
+
+  /* Motion */
+  --transition: 0.25s ease;
+}
+
+
+/* ==========================================================
+   3. TYPOGRAPHY
+   ========================================================== */
+body {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--text-black);
+  background-color: var(--page-bg);
+}
+
+/* Rubik One only ships in one weight, so keep headings at 400 */
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  line-height: 1.2;
+}
+
+.section-title {
+  font-size: clamp(1.6rem, 3vw + 0.9rem, 2rem);
+  color: var(--text-black);
+  text-align: center;
+}
+
+.section-subtitle {
+  margin-top: 0.5rem;
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  text-align: center;
+}
+
+
+/* ==========================================================
+   4. LAYOUT HELPERS + ACCESSIBILITY
+   ========================================================== */
+.container {
+  width: 100%;
+  max-width: var(--container-max);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.section {
+  padding-block: var(--section-space);
+}
+
+/* Generic "hide" state that JavaScript can toggle */
+.is-hidden {
+  display: none !important;
+}
+
+/* Hidden visually but still read by screen readers */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Hidden holder for the reusable SVG icons */
+.svg-sprite {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+/* Skip link: hidden until a keyboard user tabs to it */
+.skip-link {
+  position: absolute;
+  top: -100px;
+  left: 1rem;
+  z-index: 200;
+  padding: 0.6rem 1rem;
+  border-radius: var(--radius-sm);
+  background-color: var(--espresso-brown);
+  color: var(--sunshine-yellow);
+  font-weight: 700;
+  text-decoration: none;
+  transition: top var(--transition);
+}
+
+.skip-link:focus {
+  top: 0.75rem;
+}
+
+/* Visible keyboard focus everywhere (brown on light backgrounds) */
+:focus-visible {
+  outline: 3px solid var(--espresso-brown);
+  outline-offset: 3px;
+}
+
+/* ...and yellow on the dark brown/orange backgrounds */
+.hero :focus-visible,
+.promo-banner :focus-visible,
+.story-card :focus-visible,
+.site-footer :focus-visible,
+.skip-link:focus-visible {
+  outline-color: var(--sunshine-yellow);
+}
+
+
+/* ==========================================================
+   5. SHARED COMPONENTS
+   ========================================================== */
+
+/* ----- 5a. Buttons ----- */
+.btn {
+  /* Flexbox: centers the label inside the pill */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.9rem 1.75rem;
+  border: 2px solid transparent;
+  border-radius: var(--radius-pill);
+  font-family: var(--font-display);
+  font-size: 0.875rem;
+  line-height: 1.2;
+  letter-spacing: 0.05em;
+  text-align: center;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition:
+    background-color var(--transition),
+    color var(--transition),
+    transform var(--transition),
+    box-shadow var(--transition);
+}
+
+.btn--primary {
+  background-color: var(--sunshine-yellow);
+  color: var(--espresso-brown);
+}
+
+.btn--primary:hover {
+  background-color: var(--yellow-soft);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+}
+
+.btn--primary:active {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+.btn--small {
+  padding: 0.6rem 1.25rem;
+  font-size: 0.8rem;
+  letter-spacing: 0.02em;
+  text-transform: none;
+}
+
+
+/* ----- 5b. Navbar ----- */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background-color: var(--sunshine-yellow);
+  box-shadow: 0 2px 8px rgba(93, 39, 5, 0.12);
+}
+
+.navbar {
+  /* Flexbox: logo on the left, links + cart + hamburger on the right */
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  max-width: var(--container-max);
+  min-height: var(--header-height);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.navbar__logo {
+  display: block;
+  flex-shrink: 0;
+  border-radius: 4px;
+}
+
+.navbar__logo img {
+  width: auto;
+  height: 30px;
+}
+
+/* Mobile dropdown (hidden until the hamburger adds .is-open) */
+.navbar__links {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  display: none;
+  flex-direction: column;
+  padding: 0.25rem var(--gutter) 1rem;
+  background-color: var(--sunshine-yellow);
+  border-top: 1px solid rgba(93, 39, 5, 0.15);
+  box-shadow: 0 10px 18px rgba(93, 39, 5, 0.18);
+}
+
+.navbar__links.is-open {
+  display: flex;
+}
+
+.navbar__link {
+  display: block;
+  padding: 0.85rem var(--gutter);
+  font-size: 0.9rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--espresso-brown);
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 6px;
+  transition: text-decoration-color var(--transition), color var(--transition);
+}
+
+/* Current page + hover state: brown underline */
+.navbar__link:hover,
+.navbar__link.active {
+  text-decoration-color: currentColor;
+}
+
+.navbar__link.active {
+  font-weight: 700;
+}
+
+.navbar__actions {
+  /* Flexbox: cart icon and hamburger side by side */
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.navbar__cart {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  color: var(--espresso-brown);
+  transition: background-color var(--transition), transform var(--transition);
+}
+
+.navbar__cart:hover {
+  background-color: rgba(93, 39, 5, 0.1);
+  transform: scale(1.05);
+}
+
+.navbar__cart-icon {
+  width: 26px;
+  height: 26px;
+}
+
+/* Cart item-count badge (#cartCount) */
+.navbar__cart-count {
+  position: absolute;
+  top: 0;
+  right: -2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 5px;
+  border: 2px solid var(--sunshine-yellow);
+  border-radius: var(--radius-pill);
+  background-color: var(--espresso-brown);
+  color: var(--sunshine-yellow);
+  font-size: 0.7rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.navbar__toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: none;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--espresso-brown);
+  font-size: 1.75rem;
+  line-height: 1;
+  transition: background-color var(--transition);
+}
+
+.navbar__toggle:hover {
+  background-color: rgba(93, 39, 5, 0.1);
+}
+
+
+/* ----- 5c. Footer ----- */
+.site-footer {
+  padding-block: 3rem 2rem;
+  background-color: var(--espresso-brown);
+  color: var(--sunshine-yellow);
+  font-size: 0.875rem;
+}
+
+.footer__grid {
+  /* Grid: one column on mobile, three columns from 768px */
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+}
+
+.footer__logo {
+  width: auto;
+  height: 44px;
+  margin-bottom: 1rem;
+}
+
+.footer__blurb {
+  max-width: 36ch;
+}
+
+.footer__title {
+  margin-bottom: 0.85rem;
+  font-size: 1rem;
+  color: var(--sunshine-yellow);
+}
+
+.footer__list {
+  /* Flexbox: stacked links with even spacing */
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.footer__link {
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-underline-offset: 4px;
+  transition: text-decoration-color var(--transition), opacity var(--transition);
+}
+
+.footer__link:hover {
+  text-decoration-color: currentColor;
+}
+
+.footer__contact-item {
+  /* Flexbox: icon next to its text */
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  overflow-wrap: anywhere;
+}
+
+.footer__icon {
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  margin-top: 0.15rem;
+}
+
+.footer__divider {
+  height: 1px;
+  margin-block: 2rem 1.5rem;
+  border: none;
+  background-color: var(--sunshine-yellow);
+}
+
+.footer__bottom {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.footer__copyright {
+  font-weight: 700;
+}
+
+.footer__disclaimer {
+  max-width: 75ch;
+  font-size: 0.75rem;
+  line-height: 1.5;
+}
+
+
+/* ==========================================================
+   6. HOME PAGE
+   ========================================================== */
+
+/* ----- 6a. Hero ----- */
+.hero {
+  /* Flexbox: lets the content column fill the hero's height */
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  min-height: max(520px, calc(100vh - var(--header-height)));
+  min-height: max(520px, calc(100svh - var(--header-height)));
+  overflow: hidden;
+  color: var(--sunshine-yellow);
+}
+
+.hero__bg {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 72% center;
+}
+
+/* Warm brown/orange overlay (stronger on the left from 768px) */
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(
+    180deg,
+    rgba(93, 39, 5, 0.6) 0%,
+    rgba(184, 80, 15, 0.5) 50%,
+    rgba(93, 39, 5, 0.7) 100%
+  );
+}
+
+.hero__content {
+  /* Flexbox: stacks heading, text and button */
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem;
+  padding-block: 3.5rem 2.5rem;
+}
+
+.hero__title {
+  font-size: clamp(3.25rem, 6vw + 1.5rem, 5.75rem);
+  line-height: 1.02;
+  color: var(--sunshine-yellow);
+  text-shadow: 0 2px 14px rgba(93, 39, 5, 0.35);
+}
+
+/* Mobile: each word on its own line (3 lines) */
+.hero__title-line {
+  display: block;
+}
+
+.hero__text {
+  max-width: 30ch;
+  font-size: clamp(1rem, 0.4vw + 0.95rem, 1.15rem);
+  font-weight: 700;
+}
+
+.hero__btn {
+  width: 100%;
+  margin-top: auto;
+}
+
+
+/* ----- 6b. Best sellers ----- */
+.section-header {
+  margin-bottom: 2rem;
+}
+
+.product-grid {
+  /* Grid: 2 columns on mobile, 3 columns from 768px */
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  max-width: 960px;
+  margin-inline: auto;
+}
+
+.product-card {
+  /* Flexbox: image on top, name centered below */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 0.75rem 1.25rem;
+  border: 2px solid transparent;
+  border-radius: var(--radius-sm);
+  background-color: var(--card-white);
+  box-shadow: var(--shadow-card);
+  text-align: center;
+  transition:
+    transform var(--transition),
+    box-shadow var(--transition),
+    border-color var(--transition);
+}
+
+.product-card__img {
+  width: 100%;
+  max-width: 170px;
+  aspect-ratio: 1 / 1;
+  object-fit: contain;
+}
+
+.product-card__name {
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  font-weight: 700;
+  line-height: 1.35;
+  color: var(--text-black);
+}
+
+
+/* ----- 6c. Promo banner ----- */
+.promo-banner {
+  position: relative;
+  isolation: isolate;
+  padding: 3.5rem var(--gutter);
+  background: var(--espresso-brown) url("images/photo-banner.png") center / cover no-repeat;
+  color: var(--sunshine-yellow);
+  text-align: center;
+  transition: padding var(--transition);
+}
+
+/* Semi-transparent espresso overlay (75%) for readable yellow text */
+.promo-banner::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-color: rgba(93, 39, 5, 0.75);
+}
+
+/* Focus is moved here after "Claim Offer", so no outline is needed */
+.promo-banner:focus {
+  outline: none;
+}
+
+.promo-banner__content {
+  /* Flexbox: centered column of heading, text and button */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  max-width: 680px;
+  margin-inline: auto;
+}
+
+.promo-banner__title {
+  max-width: 22ch;
+  font-size: clamp(1.6rem, 3vw + 0.9rem, 2.1rem);
+  color: var(--sunshine-yellow);
+}
+
+.promo-banner__text {
+  max-width: 46ch;
+}
+
+/* Revealed by showPromoCode() */
+.promo-banner__code {
+  font-size: 1.15rem;
+  font-weight: 700;
+}
+
+.promo-banner__code strong {
+  display: inline-block;
+  margin-inline: 0.25rem;
+  padding: 0.2rem 0.75rem;
+  border-radius: var(--radius-sm);
+  background-color: var(--sunshine-yellow);
+  color: var(--espresso-brown);
+  font-family: var(--font-display);
+  font-weight: 400;
+  letter-spacing: 0.08em;
+}
+
+
+/* ----- 6d. Brand story card ----- */
+.story-card {
+  max-width: 1000px;
+  margin-inline: auto;
+  padding: 1.75rem 1.25rem 2rem;
+  border-radius: var(--radius-md);
+  /* Vertical gradient: espresso brown (top) to orange (bottom) */
+  background: linear-gradient(
+    180deg,
+    var(--espresso-brown) 0%,
+    var(--espresso-brown) 30%,
+    var(--brew-orange) 100%
+  );
+  color: var(--sunshine-yellow);
+  box-shadow: 0 10px 30px rgba(93, 39, 5, 0.25);
+}
+
+.story-card__title {
+  margin-bottom: 1.25rem;
+  font-size: clamp(1.45rem, 2.5vw + 0.9rem, 1.9rem);
+  color: var(--sunshine-yellow);
+}
+
+.story-card__body {
+  /* Grid: photo stacked above the text on mobile, side by side from 768px */
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+  align-items: center;
+}
+
+.story-card__img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+.story-card__text {
+  /* Flexbox: even spacing between paragraphs and the button */
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  font-size: 0.95rem;
+}
+
+.story-card__btn {
+  align-self: flex-start;
+  margin-top: 0.5rem;
+}
+
+
+/* ----- 6e. Social ----- */
+.social {
+  padding-bottom: 0;
+  text-align: center;
+}
+
+.social__text {
+  max-width: 60ch;
+  margin: 1rem auto 1.75rem;
+}
+
+.social__list {
+  /* Flexbox: three icon buttons in a centered row */
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.social__link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background-color: var(--espresso-brown);
+  color: var(--sunshine-yellow);
+  transition:
+    transform var(--transition),
+    background-color var(--transition),
+    box-shadow var(--transition);
+}
+
+.social__link:hover {
+  background-color: var(--brew-orange);
+  transform: translateY(-3px) scale(1.06);
+  box-shadow: var(--shadow-lift);
+}
+
+.social__link svg {
+  width: 24px;
+  height: 24px;
+}
+
+.divider {
+  height: 1px;
+  max-width: 1100px;
+  margin: 2.5rem auto 0;
+  border: none;
+  background-color: rgba(0, 0, 0, 0.35);
+}
+
+
+/* ----- 6f. Reviews (carousel on mobile, grid from 768px) ----- */
+.reviews {
+  padding-block: 1.75rem 4.5rem;
+}
+
+.reviews__title {
+  margin-bottom: 1.75rem;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  font-weight: 400;
+  text-align: center;
+}
+
+.reviews__carousel {
+  position: relative;
+  /* Lets the arrow and dots line up with the photo (cqw units below) */
+  container-type: inline-size;
+}
+
+.reviews__track {
+  /* Flexbox + CSS scroll-snap: a swipeable row of reviews on mobile */
+  position: relative;
+  display: flex;
+  gap: 1rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+}
+
+.reviews__track::-webkit-scrollbar {
+  display: none;
+}
+
+.review {
+  /* Flexbox: photo on top, review card attached below */
+  display: flex;
+  flex: 0 0 100%;
+  flex-direction: column;
+  scroll-snap-align: start;
+}
+
+/* Mobile photo is 60% of the slide; the gap below holds the dots */
+.review__photo {
+  width: 60%;
+  margin: 0 auto 2.75rem;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border-radius: var(--radius-md);
+}
+
+.review__card {
+  /* Flexbox: pushes the stars to the bottom right */
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 0.6rem;
+  padding: 1.25rem 1.25rem 1rem;
+  border-radius: var(--radius-md);
+  background-color: var(--espresso-brown);
+  color: var(--sunshine-yellow);
+}
+
+.review__author {
+  font-size: 1rem;
+  color: var(--sunshine-yellow);
+  overflow-wrap: anywhere;
+}
+
+.review__text {
+  font-size: 0.85rem;
+  line-height: 1.55;
+}
+
+.review__rating {
+  /* Flexbox: stars in a row, aligned to the bottom right */
+  display: flex;
+  align-self: flex-end;
+  gap: 0.2rem;
+  margin-top: auto;
+  padding-top: 0.75rem;
+  color: var(--sunshine-yellow);
+}
+
+.review__star {
+  width: 22px;
+  height: 22px;
+  fill: currentColor;
+}
+
+/* Next arrow, vertically centered on the photo (photo height = 60cqw) */
+.reviews__next {
+  position: absolute;
+  top: 30vw;                 /* fallback for older browsers */
+  top: 30cqw;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background-color: transparent;
+  color: var(--espresso-brown);
+  transform: translateY(-50%);
+  transition: background-color var(--transition), transform var(--transition);
+}
+
+.reviews__next:hover {
+  background-color: rgba(93, 39, 5, 0.12);
+  transform: translateY(-50%) translateX(2px);
+}
+
+/* Pagination dots, sitting in the gap between photo and card */
+.reviews__dots {
+  /* Flexbox: dots in a centered row */
+  position: absolute;
+  top: calc(60vw + 0.5rem);  /* fallback for older browsers */
+  top: calc(60cqw + 0.5rem);
+  left: 50%;
+  display: flex;
+  gap: 0.25rem;
+  transform: translateX(-50%);
+}
+
+.reviews__dot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+}
+
+.reviews__dot::before {
+  content: "";
+  width: 12px;
+  height: 12px;
+  border: 2px solid var(--espresso-brown);
+  border-radius: 50%;
+  transition: background-color var(--transition), transform var(--transition);
+}
+
+.reviews__dot:hover::before {
+  transform: scale(1.2);
+}
+
+.reviews__dot.is-active::before {
+  background-color: var(--espresso-brown);
+}
+
+
+/* ==========================================================
+   7. ABOUT US PAGE
+   ========================================================== */
+
+/* ----- 7a. About hero ----- */
+.about-hero {
+  /* Flexbox: heading at the top, cup centered below */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  gap: 3rem;
+  min-height: 520px;
+  padding: 3rem var(--gutter) 3.5rem;
+  overflow: hidden;
+  /* Vertical gradient: burnt orange (top) to espresso brown (bottom) */
+  background: linear-gradient(180deg, var(--burnt-orange) 0%, var(--espresso-brown) 100%);
+  text-align: center;
+}
+
+.about-hero__title {
+  font-size: clamp(1.7rem, 2.5vw + 1.2rem, 2.25rem);
+  color: var(--sunshine-yellow);
+}
+
+/* Mobile: heading on 2 lines */
+.about-hero__title-line {
+  display: block;
+}
+
+.about-hero__img {
+  width: min(75%, 440px);
+  height: auto;
+  filter: drop-shadow(0 18px 24px rgba(0, 0, 0, 0.3));
+}
+
+
+/* ----- 7b. Our story ----- */
+.about-story__inner {
+  max-width: 800px;
+  margin-inline: auto;
+  text-align: center;
+}
+
+.about-story__title {
+  margin-bottom: 1.75rem;
+  font-size: clamp(1.6rem, 2.5vw + 1rem, 2rem);
+  color: var(--text-black);
+}
+
+.about-story__text {
+  /* Flexbox: even spacing between paragraphs */
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+
+/* ----- 7c. Alternating photo + text sections ----- */
+.about-features {
+  /* Flexbox: stacks the three sections with even gaps */
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
+  max-width: 1040px;
+  padding-bottom: 5rem;
+}
+
+.about-feature {
+  /* Grid: one centered column on mobile, two columns from 768px */
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+  align-items: center;
+  text-align: center;
+}
+
+/* Mobile: photo always comes first, even in the reversed section */
+.about-feature__media {
+  order: -1;
+  justify-self: center;
+  width: min(75%, 300px);
+}
+
+.about-feature__img {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  border: 4px solid transparent;
+  border-radius: var(--radius-md);
+  transition:
+    transform var(--transition),
+    border-color var(--transition),
+    box-shadow var(--transition);
+}
+
+.about-feature__title {
+  margin-bottom: 1.25rem;
+  font-size: clamp(1.35rem, 2vw + 0.9rem, 1.75rem);
+  color: var(--text-black);
+}
+
+.about-feature__text p + p {
+  margin-top: 1rem;
+}
+
+
+/* ==========================================================
+   8. MENU PAGE (Stage 2)
+   ========================================================== */
+
+/* ----- 8a. Hero banner (photo only) ----- */
+.menu-hero__img {
+  width: 100%;
+  height: clamp(280px, 36vw, 520px);
+  object-fit: cover;
+  object-position: center 40%;
+}
+
+.menu-page {
+  padding-block: 2rem 4rem;
+}
+
+
+/* ----- 8b. Header row: title + note + count, and the search bar ----- */
+.menu-header {
+  /* Flexbox: stacked on mobile, title left + search right from 768px */
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.menu-header__title {
+  font-size: clamp(1.9rem, 2vw + 1.4rem, 2.4rem);
+  line-height: 1.1;
+  color: var(--text-black);
+}
+
+.menu-header__note {
+  max-width: 60ch;
+  margin-top: 0.35rem;
+  font-size: 0.8rem;
+  font-style: italic;
+  line-height: 1.45;
+}
+
+.menu-header__count {
+  margin-top: 0.6rem;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+.menu-header__count strong {
+  color: var(--espresso-brown);
+}
+
+.menu-search {
+  /* Flexbox: text field with the magnifier icon inside on the right */
+  display: flex;
+  align-items: center;
+  width: 100%;
+  border: 3px solid var(--text-black);
+  border-radius: 12px;
+  background-color: var(--card-white);
+  transition: border-color var(--transition), box-shadow var(--transition);
+}
+
+.menu-search__input {
+  flex: 1;
+  min-width: 0;
+  padding: 0.6rem 0.9rem;
+  border: none;
+  background: transparent;
+  font-size: 0.95rem;
+}
+
+/* The search box border (changed by JS on focus) is the focus indicator */
+.menu-search__input:focus,
+.menu-search__input:focus-visible {
+  outline: none;
+}
+
+.menu-search__input::placeholder {
+  color: #8A8A8A;
+}
+
+/* Hide the browser's built-in "x" so only our icon shows */
+.menu-search__input::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.menu-search__icon {
+  flex-shrink: 0;
+  width: 22px;
+  height: 22px;
+  margin-right: 0.8rem;
+  color: var(--text-black);
+}
+
+
+/* ----- 8c. Body layout ----- */
+.menu-layout {
+  /* Grid: one column on mobile, sidebar + menu panel from 1024px */
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1rem;
+  align-items: start;
+}
+
+
+/* ----- 8d. Categories (dropdown on mobile, sidebar on desktop) ----- */
+.menu-sidebar__title {
+  display: none;
+  margin-bottom: 1.25rem;
+  font-size: 1.6rem;
+  color: var(--text-black);
+}
+
+.menu-sidebar__toggle {
+  /* Flexbox: label on the left, chevron on the right */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  border: none;
+  border-radius: 4px;
+  background-color: #EBEBEB;
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
+  font-size: 1.05rem;
+  text-align: left;
+  transition: background-color var(--transition);
+}
+
+.menu-sidebar__toggle:hover {
+  background-color: #E0E0E0;
+}
+
+.menu-sidebar__chevron {
+  font-size: 1.1rem;
+  line-height: 1;
+}
+
+/* Mobile dropdown panel (opened by toggleCategories()) */
+.menu-sidebar__panel {
+  display: none;
+  margin-top: 0.4rem;
+  padding: 1rem;
+  border-radius: 6px;
+  background-color: var(--panel-gray);
+}
+
+.menu-sidebar__panel.is-open {
+  display: block;
+}
+
+.category-list {
+  /* Flexbox: stacked category buttons */
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.category-btn {
+  display: block;
+  width: 100%;
+  padding: 0.45rem 0.75rem;
+  border: none;
+  border-radius: var(--radius-pill);
+  background: transparent;
+  font-size: 0.95rem;
+  text-align: left;
+  color: var(--text-black);
+  transition: background-color var(--transition);
+}
+
+.category-btn:hover {
+  background-color: rgba(255, 222, 89, 0.5);
+}
+
+/* Indented sub-categories (Coffee, Non-Coffee) */
+.category-btn--sub {
+  padding-left: 2.5rem;
+}
+
+/* Active category = yellow pill with bold text */
+.category-btn.is-active {
+  background-color: var(--sunshine-yellow);
+  font-weight: 700;
+}
+
+
+/* ----- 8e. Gray panel + menu grid ----- */
+.menu-panel {
+  padding: 0.75rem;
+  border-radius: 12px;
+  background-color: var(--panel-gray);
+}
+
+.menu-grid {
+  /* Grid: 2 columns on mobile, 3 columns from 768px */
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.menu-empty {
+  display: none;
+  padding: 3rem 1rem;
+  text-align: center;
+}
+
+.menu-empty__title {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  color: var(--espresso-brown);
+}
+
+.menu-empty__text {
+  margin-top: 0.4rem;
+  font-size: 0.9rem;
+}
+
+
+/* ----- 8f. Menu card (resting: image + name; open: yellow panel) ----- */
+.menu-card {
+  position: relative;
+  min-height: 205px;
+  overflow: hidden;
+  border-radius: var(--radius-sm);
+  background-color: var(--card-white);
+  box-shadow: var(--shadow-card);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.menu-card__front {
+  /* Flexbox: image on top, name centered below */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  height: 100%;
+  padding: 0.85rem 0.6rem;
+  text-align: center;
+  transition: opacity var(--transition);
+}
+
+.menu-card__img {
+  width: 100%;
+  max-width: 150px;
+  aspect-ratio: 1 / 1;
+  object-fit: contain;
+}
+
+.menu-card__name {
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--text-black);
+}
+
+/* Yellow panel: same size as the card, faded in by showItemPanel() */
+.menu-card__panel {
+  /* Flexbox: top row, description, price, then the button */
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 0.6rem;
+  background-color: var(--sunshine-yellow);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity var(--transition), visibility var(--transition);
+}
+
+.menu-card.is-open .menu-card__panel {
+  opacity: 1;
+  visibility: visible;
+}
+
+.menu-card.is-open .menu-card__front {
+  opacity: 0;
+}
+
+.menu-card__panel-top {
+  /* Flexbox: brown image square next to the name */
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.menu-card__media {
+  flex-shrink: 0;
+  width: 46px;
+  height: 46px;
+  padding: 4px;
+  border-radius: 4px;
+  background-color: var(--espresso-brown);
+}
+
+.menu-card__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.menu-card__panel-name {
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  line-height: 1.2;
+  color: var(--text-black);
+}
+
+.menu-card__desc {
+  display: -webkit-box;
+  overflow: hidden;
+  font-size: 0.68rem;
+  line-height: 1.35;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
+.menu-card__price {
+  margin-top: auto;
+  font-family: var(--font-display);
+  font-size: 0.78rem;
+  color: var(--text-black);
+}
+
+.menu-card__btn {
+  align-self: stretch;
+  padding: 0.45rem 0.6rem;
+  border: none;
+  border-radius: 4px;
+  background-color: var(--espresso-brown);
+  color: var(--sunshine-yellow);
+  font-size: 0.75rem;
+  font-weight: 700;
+  transition: background-color var(--transition), transform var(--transition);
+}
+
+.menu-card__btn:hover {
+  background-color: var(--brew-orange);
+}
+
+.menu-card__btn:active {
+  transform: scale(0.97);
+}
+
+
+/* ----- 8g. Add-to-cart pop-up ----- */
+body.modal-open {
+  overflow: hidden;
+}
+
+/* The dim backdrop (clicking it closes the pop-up) */
+.modal {
+  /* Flexbox: centers the dialog; margin: auto keeps tall dialogs scrollable */
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  display: none;
+  padding: 1rem 0.75rem;
+  overflow-y: auto;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal.is-open {
+  display: flex;
+  animation: modal-fade 0.25s ease;
+}
+
+.modal__dialog {
+  position: relative;
+  width: 100%;
+  max-width: 690px;
+  margin: auto;
+  padding: 1.25rem 1rem 1.25rem;
+  border-radius: 16px;
+  background-color: #F3F3F3;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+  animation: modal-pop 0.25s ease;
+}
+
+.modal__dialog:focus {
+  outline: none;
+}
+
+.modal__close {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  font-size: 1.1rem;
+  line-height: 1;
+  color: var(--text-black);
+  transition: background-color var(--transition);
+}
+
+.modal__close:hover {
+  background-color: rgba(0, 0, 0, 0.08);
+}
+
+.modal__top {
+  /* Flexbox: brown image square next to the item details */
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding-right: 1.5rem;
+}
+
+.modal__media {
+  flex-shrink: 0;
+  width: 125px;
+  height: 125px;
+  padding: 10px;
+  border-radius: 4px;
+  background-color: var(--espresso-brown);
+}
+
+.modal__img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.modal__info {
+  /* Flexbox: name, description and price stacked */
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  min-width: 0;
+}
+
+.modal__title {
+  font-family: var(--font-body);
+  font-size: 1.1rem;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.modal__desc {
+  font-size: 0.8rem;
+  line-height: 1.45;
+}
+
+.modal__price {
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+}
+
+/* Option groups (Serving Type, Sugar Level, Ice Amount, Flavor) */
+.option-group {
+  min-width: 0;
+  margin: 1.1rem 0 0;
+  padding: 0;
+  border: none;
+}
+
+.option-group__label,
+.modal__label {
+  display: block;
+  margin-bottom: 0.45rem;
+  padding: 0;
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.option-group__choices {
+  /* Grid: toggle buttons in equal columns */
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.5rem;
+}
+
+.option-group__choices--2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.option-group__choices--4 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.option-btn {
+  padding: 0.7rem 0.5rem;
+  border: none;
+  border-radius: 8px;
+  background-color: var(--panel-gray);
+  color: var(--text-black);
+  font-size: 0.95rem;
+  font-weight: 700;
+  transition: background-color var(--transition), color var(--transition), transform var(--transition);
+}
+
+.option-btn:hover {
+  background-color: #CBCBCB;
+}
+
+.option-btn:active {
+  transform: scale(0.98);
+}
+
+/* Selected option = espresso brown with yellow text */
+.option-btn.is-selected {
+  background-color: var(--espresso-brown);
+  color: var(--sunshine-yellow);
+}
+
+.modal__field {
+  margin-top: 1.1rem;
+}
+
+.modal__note {
+  display: block;
+  width: 100%;
+  min-height: 140px;
+  padding: 0.6rem 0.75rem;
+  border: 1px solid var(--text-black);
+  border-radius: 8px;
+  background-color: var(--card-white);
+  font-size: 0.9rem;
+  resize: vertical;
+}
+
+.modal__note::placeholder {
+  color: #9A9A9A;
+}
+
+.modal__actions {
+  /* Flexbox: stepper right-aligned above a full-width button on mobile */
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+/* White pill quantity stepper ( −  1  + ) */
+.qty-stepper {
+  /* Flexbox: minus, value, plus in a row */
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.25rem;
+  border-radius: var(--radius-pill);
+  background-color: var(--card-white);
+}
+
+.qty-stepper__btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  font-size: 1.15rem;
+  font-weight: 700;
+  transition: background-color var(--transition), opacity var(--transition);
+}
+
+.qty-stepper__btn:hover:not(:disabled) {
+  background-color: var(--page-bg);
+}
+
+.qty-stepper__btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.qty-stepper__value {
+  min-width: 2.25ch;
+  font-weight: 700;
+  text-align: center;
+}
+
+.modal__add-btn {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  border: none;
+  border-radius: 8px;
+  background-color: var(--espresso-brown);
+  color: var(--sunshine-yellow);
+  font-size: 1rem;
+  font-weight: 700;
+  transition: background-color var(--transition), transform var(--transition);
+}
+
+.modal__add-btn:hover {
+  background-color: #7A3A10;
+}
+
+.modal__add-btn:active {
+  transform: scale(0.99);
+}
+
+@keyframes modal-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes modal-pop {
+  from { opacity: 0; transform: translateY(16px) scale(0.98); }
+  to { opacity: 1; transform: none; }
+}
+
+
+/* ----- 8h. Toast ("Added to cart ✓") ----- */
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 1.5rem;
+  z-index: 400;
+  max-width: calc(100% - 2rem);
+  padding: 0.75rem 1.4rem;
+  border: 2px solid var(--espresso-brown);
+  border-radius: var(--radius-pill);
+  background-color: var(--sunshine-yellow);
+  color: var(--espresso-brown);
+  font-weight: 700;
+  box-shadow: var(--shadow-lift);
+  opacity: 0;
+  visibility: hidden;
+  transform: translate(-50%, 20px);
+  transition: opacity var(--transition), transform var(--transition), visibility var(--transition);
+  pointer-events: none;
+}
+
+.toast.is-visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translate(-50%, 0);
+}
+
+
+/* ==========================================================
+   9. CART + CHECKOUT PAGES (Stage 3)
+   ========================================================== */
+
+/* ----- 9a. Page top: "< Back" link + page title ----- */
+.cart-page,
+.checkout-page {
+  padding-block: 1.75rem 4rem;
+}
+
+.page-top {
+  margin-bottom: 1.5rem;
+}
+
+.back-link {
+  /* Flexbox: "<" and "Back" side by side */
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.25rem 0;
+  font-size: 1.2rem;
+  color: var(--text-black);
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-underline-offset: 5px;
+  transition: color var(--transition), text-decoration-color var(--transition);
+}
+
+.back-link:hover {
+  color: var(--espresso-brown);
+  text-decoration-color: currentColor;
+}
+
+.page-title {
+  margin-top: 1rem;
+  font-size: clamp(1.8rem, 2vw + 1.3rem, 2.3rem);
+  color: var(--text-black);
+}
+
+
+/* ----- 9b. Shared form messages ----- */
+.form-message {
+  margin-top: 0.5rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.form-message:empty {
+  display: none;
+}
+
+.form-message--success {
+  color: var(--success-green);
+}
+
+.form-message--error {
+  color: var(--error-text);
+}
+
+/* Big brown action button (Proceed to Checkout, Place Order) */
+.checkout-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin-top: 1rem;
+  padding: 0.95rem 1rem;
+  border: none;
+  border-radius: 10px;
+  background-color: var(--espresso-brown);
+  color: var(--sunshine-yellow);
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-decoration: none;
+  transition: background-color var(--transition), transform var(--transition), opacity var(--transition);
+}
+
+.checkout-btn:hover {
+  background-color: #7A3A10;
+  transform: translateY(-1px);
+}
+
+.checkout-btn.is-disabled {
+  opacity: 0.45;
+  pointer-events: none;
+  cursor: not-allowed;
+}
+
+
+/* ----- 9c. Layouts ----- */
+.cart-layout,
+.checkout-layout {
+  /* Grid: one column on mobile, two columns from 1024px */
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1.5rem;
+  align-items: start;
+}
+
+
+/* ----- 9d. Cart item rows (rendered by renderCart()) ----- */
+.cart-items {
+  padding: 0.75rem;
+  border-radius: 12px;
+  background-color: var(--panel-gray);
+}
+
+.cart-list {
+  /* Flexbox: rows stacked with even gaps */
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.cart-loading {
+  padding: 2rem 1rem;
+  text-align: center;
+}
+
+.cart-item {
+  /* Grid: brown image square on the left, details on the right */
+  display: grid;
+  grid-template-columns: 84px minmax(0, 1fr);
+  gap: 0.85rem;
+  padding: 0.75rem;
+  border-radius: 10px;
+  background-color: #F3F3F3;
+  animation: cart-row-in 0.25s ease;
+}
+
+.cart-item__media {
+  align-self: start;
+  aspect-ratio: 1 / 1;
+  padding: 8px;
+  border-radius: 4px;
+  background-color: var(--espresso-brown);
+}
+
+.cart-item__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.cart-item__body {
+  /* Flexbox: name/details on top, price + stepper at the bottom */
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.cart-item__top {
+  /* Flexbox: text on the left, trash icon top-right */
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.cart-item__name {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.cart-item__details,
+.cart-item__note {
+  margin-top: 0.2rem;
+  font-size: 0.82rem;
+  line-height: 1.4;
+  color: var(--text-muted);
+  overflow-wrap: anywhere;
+}
+
+.cart-item__remove {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  margin: -0.35rem -0.35rem 0 0;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--danger-red);
+  transition: background-color var(--transition), transform var(--transition);
+}
+
+.cart-item__remove:hover {
+  background-color: rgba(214, 40, 40, 0.12);
+  transform: scale(1.08);
+}
+
+.cart-item__bottom {
+  /* Flexbox: price left, stepper right (wraps on very small screens) */
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-top: auto;
+  padding-top: 0.6rem;
+}
+
+.cart-item__price {
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+}
+
+/* Smaller white pill stepper inside cart rows (reuses .qty-stepper) */
+.cart-item .qty-stepper {
+  padding: 0.1rem 0.3rem;
+  border-radius: var(--radius-pill);
+}
+
+.cart-item .qty-stepper__btn {
+  width: 32px;
+  height: 32px;
+}
+
+/* Empty cart / empty checkout message */
+.cart-empty {
+  /* Flexbox: centered column */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 3rem 1rem;
+  text-align: center;
+}
+
+.cart-empty__title {
+  font-family: var(--font-display);
+  font-size: 1.45rem;
+  color: var(--espresso-brown);
+}
+
+.cart-empty .btn {
+  margin-top: 0.75rem;
+}
+
+.checkout-empty {
+  display: none;
+  border-radius: 12px;
+  background-color: var(--panel-gray);
+}
+
+@keyframes cart-row-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: none; }
+}
+
+
+/* ----- 9e. Order Summary card (cart + checkout) ----- */
+.order-summary {
+  padding: 1.5rem 1.25rem;
+  border-radius: 12px;
+  background-color: var(--panel-gray);
+}
+
+.order-summary__title {
+  margin-bottom: 1rem;
+  font-family: var(--font-body);
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.summary-rows {
+  /* Flexbox: rows stacked */
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin: 0;
+}
+
+.summary-row {
+  /* Flexbox: label left, amount right */
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.summary-row dt {
+  font-size: 0.95rem;
+}
+
+.summary-row dd {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1rem;
+  white-space: nowrap;
+}
+
+/* Hidden until a promo code is applied */
+.summary-row--discount {
+  display: none;
+  color: var(--success-green);
+}
+
+.summary-row--total dd {
+  font-size: 1.15rem;
+}
+
+.summary-divider {
+  height: 2px;
+  margin: 1rem 0;
+  border: none;
+  background-color: var(--text-black);
+}
+
+/* Promo code input: tag icon, text field, brown check button */
+.promo-field {
+  /* Flexbox: icon, input and button in one white bar */
+  display: flex;
+  align-items: center;
+  margin-top: 1.25rem;
+  overflow: hidden;
+  border: 2px solid transparent;
+  border-radius: 10px;
+  background-color: var(--card-white);
+  transition: border-color var(--transition);
+}
+
+.promo-field:focus-within {
+  border-color: var(--espresso-brown);
+}
+
+.promo-field__icon {
+  flex-shrink: 0;
+  margin-left: 0.85rem;
+  color: #8A8A8A;
+}
+
+.promo-field__input {
+  flex: 1;
+  min-width: 0;
+  padding: 0.85rem 0.65rem;
+  border: none;
+  background: transparent;
+  font-size: 1rem;
+  text-transform: uppercase;
+}
+
+.promo-field__input::placeholder {
+  color: #8A8A8A;
+  text-transform: none;
+}
+
+.promo-field__input:focus {
+  outline: none;
+}
+
+.promo-field__btn {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 54px;
+  align-self: stretch;
+  border: none;
+  border-radius: 8px;
+  background-color: var(--espresso-brown);
+  color: var(--sunshine-yellow);
+  transition: background-color var(--transition);
+}
+
+.promo-field__btn:hover {
+  background-color: #7A3A10;
+}
+
+.promo-field__btn:focus-visible {
+  outline-offset: -5px;
+  outline-color: var(--sunshine-yellow);
+}
+
+/* Checkout summary: "1 - Iced Americano ... Qty: 1" */
+.summary-items {
+  /* Flexbox: items stacked */
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  margin: 0 0 1.5rem;
+  padding: 0;
+  list-style: none;
+}
+
+.summary-item {
+  /* Grid: name + qty on the first line, details below */
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 0.1rem 1rem;
+}
+
+.summary-item__name {
+  font-size: 0.95rem;
+}
+
+.summary-item__qty {
+  font-size: 0.9rem;
+  white-space: nowrap;
+}
+
+.summary-item__details {
+  grid-column: 1 / -1;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  overflow-wrap: anywhere;
+}
+
+
+/* ----- 9f. Newsletter strip (cart page) ----- */
+.newsletter {
+  position: relative;
+  isolation: isolate;
+  padding-block: 3rem;
+  background: var(--sunshine-yellow) url("images/photo-banner.png") center / cover no-repeat;
+  color: var(--espresso-brown);
+}
+
+/* Sunshine yellow overlay (80%) */
+.newsletter::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-color: rgba(255, 222, 89, 0.8);
+}
+
+.newsletter__inner {
+  /* Grid: text above the form on mobile, side by side from 768px */
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1.75rem;
+  align-items: center;
+}
+
+.newsletter__title {
+  font-size: clamp(1.5rem, 2.4vw + 0.9rem, 2.4rem);
+  color: var(--espresso-brown);
+}
+
+.newsletter__copy {
+  max-width: 52ch;
+  margin-top: 0.75rem;
+  font-size: 1.05rem;
+}
+
+.newsletter__field {
+  /* Flexbox: envelope icon + email input */
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0 1rem;
+  border: 2px solid transparent;
+  border-radius: 8px;
+  background-color: var(--panel-gray);
+  transition: border-color var(--transition), box-shadow var(--transition);
+}
+
+.newsletter__field:focus-within {
+  border-color: var(--espresso-brown);
+}
+
+.newsletter__icon {
+  flex-shrink: 0;
+  color: #6E6E6E;
+}
+
+.newsletter__input {
+  flex: 1;
+  min-width: 0;
+  padding: 0.9rem 0;
+  border: none;
+  background: transparent;
+  font-size: 1.05rem;
+}
+
+.newsletter__input::placeholder {
+  color: #6E6E6E;
+}
+
+.newsletter__input:focus {
+  outline: none;
+}
+
+.newsletter__btn {
+  width: 100%;
+  margin-top: 0.85rem;
+  padding: 0.85rem 1rem;
+  border: none;
+  border-radius: 8px;
+  background-color: var(--espresso-brown);
+  color: var(--sunshine-yellow);
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  transition: background-color var(--transition), transform var(--transition);
+}
+
+.newsletter__btn:hover {
+  background-color: #7A3A10;
+  transform: translateY(-1px);
+}
+
+/* Thank-you message (replaces the form after subscribing) */
+.newsletter__thanks {
+  padding: 1.25rem 1.5rem;
+  border: 2px solid var(--espresso-brown);
+  border-radius: 10px;
+  background-color: rgba(255, 255, 255, 0.65);
+}
+
+.newsletter__thanks-title {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+}
+
+.newsletter__thanks p + p {
+  margin-top: 0.35rem;
+}
+
+
+/* ----- 9g. Checkout form sections ----- */
+.checkout-sections {
+  /* Flexbox: the three gray sections stacked */
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.checkout-card {
+  padding: 1.5rem 1.25rem;
+  border-radius: 12px;
+  background-color: var(--panel-gray);
+}
+
+.checkout-card__title {
+  margin-bottom: 0.5rem;
+  font-family: var(--font-body);
+  font-size: 1.35rem;
+  font-weight: 700;
+}
+
+.checkout-card__step {
+  letter-spacing: 0.04em;
+}
+
+.form-field {
+  margin-top: 1rem;
+}
+
+.form-field__label {
+  display: block;
+  margin-bottom: 0.4rem;
+  font-size: 0.95rem;
+}
+
+.form-field__input {
+  display: block;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--text-black);
+  border-radius: 8px;
+  background-color: var(--card-white);
+  font-size: 0.95rem;
+  transition: border-color var(--transition), box-shadow var(--transition);
+}
+
+.form-field__input::placeholder {
+  color: #8A8A8A;
+}
+
+/* Visible focus ring that also works on the gray cards */
+.form-field__input:focus {
+  outline: none;
+  border-color: var(--espresso-brown);
+  box-shadow: 0 0 0 3px rgba(93, 39, 5, 0.35);
+}
+
+/* Custom dropdown arrow */
+.form-field__select {
+  padding-right: 2.75rem;
+  -webkit-appearance: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23111111' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.9rem center;
+  background-size: 20px;
+  cursor: pointer;
+}
+
+/* Error under a field (filled by placeOrder()) */
+.field-error {
+  margin-top: 0.3rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--error-text);
+}
+
+.field-error:empty {
+  display: none;
+}
+
+.field-note {
+  margin-top: 0.45rem;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+/* Delivery / Pickup option cards */
+.order-type {
+  /* Grid: stacked on mobile, side by side from 480px */
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0.6rem;
+  margin-top: 1rem;
+}
+
+.order-type__option {
+  /* Flexbox: name above the small subtext */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.15rem;
+  padding: 0.75rem 1rem;
+  border: 2px solid transparent;
+  border-radius: 8px;
+  background-color: var(--card-white);
+  color: var(--text-black);
+  text-align: center;
+  transition: background-color var(--transition), color var(--transition), border-color var(--transition);
+}
+
+.order-type__option:hover {
+  border-color: var(--espresso-brown);
+}
+
+.order-type__option.is-selected {
+  background-color: var(--espresso-brown);
+  color: var(--sunshine-yellow);
+}
+
+.order-type__name {
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.order-type__sub {
+  font-size: 0.78rem;
+}
+
+.maps-btn {
+  /* Flexbox: pin icon + label centered */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+  margin-top: 1rem;
+  padding: 0.8rem 1rem;
+  border: none;
+  border-radius: 8px;
+  background-color: var(--espresso-brown);
+  color: var(--sunshine-yellow);
+  font-size: 1rem;
+  font-weight: 700;
+  transition: background-color var(--transition);
+}
+
+.maps-btn:hover {
+  background-color: #7A3A10;
+}
+
+.pickup-note {
+  display: none;
+  margin-top: 1rem;
+  padding: 0.85rem 1rem;
+  border-radius: 8px;
+  background-color: var(--card-white);
+  font-size: 0.9rem;
+}
+
+
+/* ----- 9h. Order confirmation pop-up (reuses .modal from 8g) ----- */
+.modal__dialog.order-confirm {
+  max-width: 460px;
+  padding: 2rem 1.5rem;
+  text-align: center;
+}
+
+.order-confirm__content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.order-confirm__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background-color: var(--sunshine-yellow);
+  color: var(--espresso-brown);
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.order-confirm__title {
+  font-size: 1.35rem;
+  line-height: 1.3;
+  color: var(--espresso-brown);
+}
+
+.order-confirm__details {
+  width: 100%;
+  margin: 0.25rem 0 0;
+  padding: 1rem;
+  border-radius: 10px;
+  background-color: var(--card-white);
+  text-align: left;
+}
+
+.order-confirm__details .summary-row + .summary-row {
+  margin-top: 0.5rem;
+}
+
+.order-confirm__details dd {
+  font-size: 0.95rem;
+  white-space: normal;
+  text-align: right;
+}
+
+.order-confirm__note {
+  font-size: 0.8rem;
+  font-style: italic;
+  color: var(--text-muted);
+}
+
+/* Current page highlight on the navbar cart icon */
+.navbar__cart[aria-current="page"] {
+  background-color: rgba(93, 39, 5, 0.12);
+}
+
+
+/* ==========================================================
+   10. MEDIA QUERIES (mobile-first: min-width)
+   ========================================================== */
+
+/* ----- Large phones (480px and up) ----- */
+@media (min-width: 480px) {
+  .hero__btn {
+    width: auto;
+    min-width: 240px;
+  }
+
+  .product-grid {
+    gap: 1.25rem;
+  }
+
+  /* Smaller carousel photo on wide phones (50% of the slide) */
+  .review__photo {
+    width: 50%;
+  }
+
+  .reviews__next {
+    top: 25vw;
+    top: 25cqw;
+  }
+
+  .reviews__dots {
+    top: calc(50vw + 0.5rem);
+    top: calc(50cqw + 0.5rem);
+  }
+
+  /* Menu: roomier cards, flavor buttons in one row */
+  .menu-card {
+    min-height: 225px;
+  }
+
+  .option-group__choices--4 {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  /* Checkout: Delivery / Pickup side by side */
+  .order-type {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* ----- Tablets (768px and up) ----- */
+@media (min-width: 768px) {
+  :root {
+    --gutter: 1.5rem;
+    --section-space: 4.5rem;
+    --header-height: 72px;
+  }
+
+  /* Navbar: links inline, hamburger hidden */
+  .navbar__logo img {
+    height: 36px;
+  }
+
+  .navbar__toggle {
+    display: none;
+  }
+
+  .navbar__links {
+    /* Flexbox: links in a row next to the cart */
+    position: static;
+    display: flex;
+    flex-direction: row;
+    gap: 2.25rem;
+    margin-left: auto;
+    padding: 0;
+    border: none;
+    background: none;
+    box-shadow: none;
+  }
+
+  .navbar__link {
+    padding: 0.5rem 0;
+    font-size: 0.85rem;
+  }
+
+  .navbar__actions {
+    margin-left: 1rem;
+  }
+
+  /* Hero: content vertically centered, overlay stronger on the left */
+  .hero {
+    align-items: center;
+  }
+
+  .hero::before {
+    background: linear-gradient(
+      90deg,
+      rgba(93, 39, 5, 0.9) 0%,
+      rgba(140, 60, 10, 0.7) 35%,
+      rgba(184, 80, 15, 0.3) 65%,
+      rgba(184, 80, 15, 0.1) 100%
+    );
+  }
+
+  .hero__content {
+    padding-block: 4rem;
+  }
+
+  /* Desktop: "kape tayo," on line 1, "brew!" on line 2 */
+  .hero__title-line {
+    display: inline;
+  }
+
+  .hero__title-line--last {
+    display: block;
+  }
+
+  .hero__btn {
+    margin-top: 1rem;
+  }
+
+  /* Best sellers: 3 columns */
+  .product-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 2rem;
+  }
+
+  .product-card {
+    padding: 1.5rem 1rem;
+  }
+
+  .promo-banner {
+    padding-block: 4rem;
+  }
+
+  /* Story card: photo left, text right */
+  .story-card {
+    padding: 2.25rem 2.25rem 2.5rem;
+  }
+
+  .story-card__body {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+    gap: 2.25rem;
+  }
+
+  .story-card__img {
+    aspect-ratio: 4 / 3;
+  }
+
+  /* Reviews: 3-column grid (carousel controls hidden) */
+  .reviews__track {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.25rem;
+    overflow: visible;
+    scroll-snap-type: none;
+  }
+
+  .review__photo {
+    width: 100%;
+    margin: 0 0 0.6rem;
+  }
+
+  .review__card {
+    min-height: 200px;
+  }
+
+  .reviews__next,
+  .reviews__dots {
+    display: none;
+  }
+
+  /* Footer: three columns */
+  .footer__grid {
+    grid-template-columns: 1.6fr 1fr 1.4fr;
+    gap: 2.5rem;
+  }
+
+  /* About hero */
+  .about-hero {
+    justify-content: flex-start;
+    gap: 2.5rem;
+    min-height: 600px;
+    padding-top: 3.5rem;
+  }
+
+  /* Desktop: heading on one line */
+  .about-hero__title-line {
+    display: inline;
+  }
+
+  /* About story: left-aligned reading column */
+  .about-story__text {
+    text-align: left;
+  }
+
+  /* About sections: two columns, natural source order */
+  .about-feature {
+    grid-template-columns: minmax(0, 320px) minmax(0, 1fr);
+    gap: 3.5rem;
+    text-align: left;
+  }
+
+  .about-feature--reverse {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 320px);
+  }
+
+  .about-feature__media {
+    order: 0;
+    width: 100%;
+  }
+
+  .about-features {
+    gap: 5.5rem;
+    padding-bottom: 6rem;
+  }
+
+  /* Menu: title left + search right, 3-column grid */
+  .menu-page {
+    padding-block: 2.75rem 5rem;
+  }
+
+  .menu-header {
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 2rem;
+    margin-bottom: 1.75rem;
+  }
+
+  .menu-search {
+    flex-shrink: 0;
+    width: min(100%, 380px);
+    margin-top: 0.4rem;
+  }
+
+  .menu-panel {
+    padding: 1.25rem;
+  }
+
+  .menu-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.25rem;
+  }
+
+  .menu-card {
+    min-height: 270px;
+  }
+
+  .menu-card__front {
+    padding: 1.25rem 0.75rem;
+  }
+
+  .menu-card__name {
+    font-size: 0.85rem;
+  }
+
+  .menu-card__panel {
+    gap: 0.45rem;
+    padding: 0.8rem;
+  }
+
+  .menu-card__panel-top {
+    gap: 0.65rem;
+  }
+
+  .menu-card__media {
+    width: 64px;
+    height: 64px;
+    padding: 5px;
+  }
+
+  .menu-card__panel-name {
+    font-size: 0.85rem;
+  }
+
+  .menu-card__desc {
+    font-size: 0.72rem;
+    -webkit-line-clamp: 4;
+    line-clamp: 4;
+  }
+
+  .menu-card__price {
+    font-size: 0.85rem;
+  }
+
+  /* Button right-aligned, like the Figma panel */
+  .menu-card__btn {
+    align-self: flex-end;
+    padding: 0.45rem 0.9rem;
+  }
+
+  /* Pop-up: wider layout, options in a row */
+  .modal {
+    padding: 2rem 1.5rem;
+  }
+
+  .modal__dialog {
+    padding: 1.5rem 1.25rem 1.5rem;
+  }
+
+  .modal__top {
+    gap: 1.5rem;
+  }
+
+  .modal__media {
+    width: 160px;
+    height: 160px;
+  }
+
+  .modal__title {
+    font-size: 1.45rem;
+  }
+
+  .modal__desc {
+    font-size: 0.85rem;
+  }
+
+  .modal__price {
+    font-size: 1.1rem;
+  }
+
+  .option-group__choices--3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .modal__note {
+    min-height: 80px;
+  }
+
+  /* Stepper on the left, wide button on the right */
+  .modal__actions {
+    flex-direction: row;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .qty-stepper {
+    padding: 0.35rem 0.5rem;
+    border-radius: 8px;
+  }
+
+  .modal__add-btn {
+    flex: 1;
+  }
+
+  /* Cart rows: bigger image square and text */
+  .cart-items {
+    padding: 1rem;
+  }
+
+  .cart-item {
+    grid-template-columns: 150px minmax(0, 1fr);
+    gap: 1.25rem;
+    padding: 1rem 1.25rem;
+  }
+
+  .cart-item__name {
+    font-size: 1.25rem;
+  }
+
+  .cart-item__details,
+  .cart-item__note {
+    font-size: 0.95rem;
+  }
+
+  .cart-item__price {
+    font-size: 1.2rem;
+  }
+
+  .order-summary,
+  .checkout-card {
+    padding: 1.75rem 1.75rem 2rem;
+  }
+
+  .order-summary__title,
+  .checkout-card__title {
+    font-size: 1.65rem;
+  }
+
+  /* Newsletter: text left, form right */
+  .newsletter {
+    padding-block: 3.5rem;
+  }
+
+  .newsletter__inner {
+    grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+    gap: 3rem;
+  }
+}
+
+/* ----- Desktops (1024px and up) ----- */
+@media (min-width: 1024px) {
+  :root {
+    --gutter: 2rem;
+    --section-space: 5.5rem;
+  }
+
+  .product-grid {
+    gap: 2.5rem 4rem;
+  }
+
+  .story-card {
+    padding: 2.75rem 3rem 3rem;
+  }
+
+  .story-card__body {
+    gap: 3rem;
+  }
+
+  .review__card {
+    min-height: 230px;
+    padding: 1.5rem 1.5rem 1.25rem;
+  }
+
+  .footer__grid {
+    grid-template-columns: 2fr 1fr 1.3fr;
+  }
+
+  .about-feature {
+    gap: 4.5rem;
+  }
+
+  /* Menu: sidebar + gray panel side by side */
+  .menu-layout {
+    grid-template-columns: minmax(180px, 220px) minmax(0, 1fr);
+    gap: 2.5rem;
+  }
+
+  .menu-sidebar {
+    position: sticky;
+    top: calc(var(--header-height) + 1.5rem);
+  }
+
+  .menu-sidebar__title {
+    display: block;
+  }
+
+  .menu-sidebar__toggle {
+    display: none;
+  }
+
+  /* Always visible on desktop (no dropdown) */
+  .menu-sidebar__panel {
+    display: block;
+    margin-top: 0;
+    padding: 0;
+    background: none;
+  }
+
+  .category-btn {
+    border-radius: var(--radius-sm);
+  }
+
+  .menu-panel {
+    min-height: 600px;
+    padding: 2rem;
+  }
+
+  .menu-grid {
+    gap: 1.5rem;
+  }
+
+  .menu-card {
+    min-height: 285px;
+  }
+
+  /* Cart + checkout: two columns, summary stays in view while scrolling */
+  .cart-layout {
+    grid-template-columns: minmax(0, 1.75fr) minmax(300px, 1fr);
+    gap: 1.75rem;
+  }
+
+  .checkout-layout {
+    grid-template-columns: minmax(0, 1.35fr) minmax(320px, 1fr);
+    gap: 2rem;
+  }
+
+  .order-summary {
+    position: sticky;
+    top: calc(var(--header-height) + 1.5rem);
+  }
+}
+
+/* ----- Reduced motion: respect the user's OS setting ----- */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- Page info: character set, mobile viewport, search description and browser theme color -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Browse the san tayo brew? menu: coffee, non-coffee drinks, Filipino rice meals, pastas, pastries, and snacks.">
   <meta name="theme-color" content="#FFDE59">
+  <!-- Text shown on the browser tab -->
   <title>san tayo brew? | Menu</title>
 
-  <!-- Favicon -->
+  <!-- Browser tab icon (san tayo brew? logo) -->
   <link rel="icon" type="image/png" href="images/logos/logo-circle-4.png">
 
   <!-- Google Fonts: Rubik One (headings, buttons) + Cantarell 400/700 (body) -->
@@ -15,28 +17,32 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cantarell:ital,wght@0,400;0,700;1,400&family=Rubik+One&display=swap">
 
-  <!-- Shared stylesheet and script (used by every page) -->
+  <!-- Shared stylesheet and script (used by every page; the script runs after the HTML loads) -->
   <link rel="stylesheet" href="style.css">
   <script src="script.js" defer></script>
 </head>
 <body class="page-menu">
 
+  <!-- Keyboard shortcut link that jumps past the navbar to the main content -->
   <a class="skip-link" href="#main">Skip to main content</a>
 
   <!-- ===== NAVBAR (shared) ===== -->
   <header class="site-header">
     <nav class="navbar" aria-label="Main navigation">
+      <!-- Logo: links to Home, with a tooltip on hover/focus -->
       <a class="navbar__logo" href="index.html" aria-describedby="logoTooltip">
         <img src="images/logos/logo-brown.png" alt="san tayo brew? logo">
         <span class="navbar__tooltip" id="logoTooltip" role="tooltip">Go to the Home page</span>
       </a>
 
+      <!-- Page links (a dropdown on mobile, opened by the hamburger) -->
       <ul class="navbar__links" id="navLinks">
         <li><a class="navbar__link" href="index.html">Home</a></li>
-        <li><a class="navbar__link active" href="menu.html" aria-current="page">Menu</a></li>
         <li><a class="navbar__link" href="about.html">About Us</a></li>
+        <li><a class="navbar__link active" href="menu.html" aria-current="page">Menu</a></li>
       </ul>
 
+      <!-- Cart icon with item-count badge, and the mobile hamburger button -->
       <div class="navbar__actions">
         <a class="navbar__cart" id="cartLink" href="cart.html" aria-label="View cart">
           <svg class="navbar__cart-icon" viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
@@ -51,6 +57,7 @@
     </nav>
   </header>
 
+  <!-- Main page content (the skip link jumps here) -->
   <main id="main">
 
     <!-- ===== MENU HERO (photo only) ===== -->
@@ -62,24 +69,29 @@
 
       <!-- ===== HEADER ROW: title + note on the left, search on the right ===== -->
       <header class="menu-header">
+        <!-- Page title and allergen note -->
         <div class="menu-header__intro">
           <h1 class="menu-header__title">Menu</h1>
           <p class="menu-header__note">*We cannot guarantee that any of our products are free from allergens as we use shared equipment to store, prepare, and serve them.</p>
-          <p class="menu-header__count" id="resultCount" aria-live="polite">Showing <strong>72</strong> items</p>
         </div>
 
-        <div class="menu-search" id="menuSearchBox">
-          <label class="visually-hidden" for="menuSearch">Search the menu</label>
-          <input class="menu-search__input" id="menuSearch" type="search" placeholder="Search your cravings..." autocomplete="off">
-          <svg class="menu-search__icon" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true" focusable="false">
-            <circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/>
-          </svg>
+        <!-- Search bar with the result count below it -->
+        <div class="menu-header__tools">
+          <div class="menu-search" id="menuSearchBox">
+            <label class="visually-hidden" for="menuSearch">Search the menu</label>
+            <input class="menu-search__input" id="menuSearch" type="search" placeholder="Search your cravings..." autocomplete="off">
+            <svg class="menu-search__icon" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true" focusable="false">
+              <circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/>
+            </svg>
+          </div>
+          <p class="menu-header__count" id="resultCount" aria-live="polite">Showing <strong>72</strong> items</p>
         </div>
       </header>
 
       <!-- ===== BODY: categories sidebar + menu grid ===== -->
       <div class="menu-layout">
 
+        <!-- Category filters: sidebar on desktop, dropdown on mobile -->
         <aside class="menu-sidebar" id="categoryList" aria-labelledby="categoryTitle">
           <!-- Desktop heading -->
           <h2 class="menu-sidebar__title" id="categoryTitle">Categories</h2>
@@ -90,6 +102,7 @@
             <span class="menu-sidebar__chevron" id="categoryChevron" aria-hidden="true">&#9662;</span>
           </button>
 
+          <!-- Category buttons (data-filter = the category each one shows) -->
           <div class="menu-sidebar__panel" id="categoryPanel">
             <ul class="category-list">
               <li><button class="category-btn is-active" type="button" data-filter="all" aria-pressed="true">All Items</button></li>
@@ -105,9 +118,11 @@
           </div>
         </aside>
 
+        <!-- Gray panel with the scrollable menu grid -->
         <section class="menu-panel" aria-labelledby="menuItemsTitle">
           <h2 class="visually-hidden" id="menuItemsTitle">Menu items</h2>
 
+          <!-- Menu cards: each card's data-* attributes hold the item details used by script.js -->
           <div class="menu-grid" id="menuGrid">
 
           <!-- Coffee -->
@@ -1199,7 +1214,7 @@
 
           </div>
 
-          <!-- Empty state (shown by JS only when nothing matches) -->
+          <!-- "No items found" message (shown by script.js only when nothing matches) -->
           <div class="menu-empty" id="menuEmpty">
             <p class="menu-empty__title">No items found, bro!</p>
             <p class="menu-empty__text">Try another craving or pick a different category.</p>
@@ -1226,19 +1241,23 @@
   <footer class="site-footer">
     <div class="container">
       <div class="footer__grid">
+        <!-- Footer logo and short brand blurb -->
         <section class="footer__brand" aria-label="About san tayo brew?">
           <img class="footer__logo" src="images/logos/logo-yellow.png" alt="san tayo brew? logo" loading="lazy">
           <p class="footer__blurb">Kape, kain, at kwentuhan, bro! Your cozy stop for good brews, Filipino favorites, and moments worth sharing.</p>
         </section>
 
+        <!-- Explore: links to the main pages (same order as the navbar) -->
         <nav class="footer__col" aria-labelledby="footerExploreTitle">
           <h2 class="footer__title" id="footerExploreTitle">Explore</h2>
           <ul class="footer__list">
-            <li><a class="footer__link" href="menu.html" aria-current="page">Menu</a></li>
+            <li><a class="footer__link" href="index.html">Home</a></li>
             <li><a class="footer__link" href="about.html">About Us</a></li>
+            <li><a class="footer__link" href="menu.html" aria-current="page">Menu</a></li>
           </ul>
         </nav>
 
+        <!-- Contact details: email, phone and address -->
         <section class="footer__col" aria-labelledby="footerContactTitle">
           <h2 class="footer__title" id="footerContactTitle">Connect with us</h2>
           <address class="footer__contact">
@@ -1268,6 +1287,7 @@
 
       <hr class="footer__divider">
 
+      <!-- Copyright and prototype disclaimer -->
       <div class="footer__bottom">
         <p class="footer__copyright">STB Inc. &copy; Copyright 2026.<br>All rights reserved.</p>
         <p class="footer__disclaimer">This website is a student-developed prototype for academic purposes only. All products, prices, and business information are for demonstration purposes and may not represent an actual operating business. No real transactions are intended.</p>

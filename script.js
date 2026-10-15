@@ -910,6 +910,12 @@ function applyMenuFilters() {
 
   updateResultCount(visibleCount, searchText);
 
+  // Start the scrollable grid from the top after every filter/search
+  const menuGrid = document.getElementById("menuGrid");
+  if (menuGrid) {
+    menuGrid.scrollTop = 0;
+  }
+
   if (menuEmpty) {
     menuEmpty.style.display = visibleCount === 0 ? "block" : "none";
   }
@@ -1140,6 +1146,9 @@ const ERROR_BORDER_COLOR = "#D62828";
 // Checkout state
 let orderType = "delivery";   // "delivery" or "pickup"
 
+// Cart state
+let clearCartTimer = null;    // resets the "Click again to clear all" step
+
 /** Reads the cart and keeps only valid lines (qty 1-99, price a number). */
 function getCleanCart() {
   const cart = getCart();
@@ -1321,9 +1330,23 @@ function buildCartRowHTML(line, index) {
 /** Recalculates the cart Order Summary and enables/disables Proceed to Checkout. */
 function updateCartSummary(cart) {
   const proceedBtn = document.getElementById("proceedCheckoutBtn");
+  const cartItemsHeader = document.getElementById("cartItemsHeader");
+  const cartItemCount = document.getElementById("cartItemCount");
   const hasItems = cart.length > 0;
 
   showTotals("cart", calculateTotals(cart, hasItems ? DELIVERY_FEE : 0));
+
+  // "5 items" + Clear cart button (hidden when the cart is empty)
+  let totalQuantity = 0;
+  for (let i = 0; i < cart.length; i++) {
+    totalQuantity += cart[i].qty;
+  }
+  if (cartItemCount) {
+    cartItemCount.textContent = totalQuantity + (totalQuantity === 1 ? " item" : " items");
+  }
+  if (cartItemsHeader) {
+    cartItemsHeader.style.display = hasItems ? "" : "none";
+  }
 
   if (proceedBtn) {
     proceedBtn.classList.toggle("is-disabled", !hasItems);
@@ -1425,6 +1448,45 @@ function handleCartListClick(event) {
   }
 }
 
+/** Puts the "Clear cart" button back to its first step. */
+function resetClearCartButton() {
+  const clearCartBtn = document.getElementById("clearCartBtn");
+
+  clearTimeout(clearCartTimer);
+
+  if (clearCartBtn) {
+    clearCartBtn.classList.remove("is-confirming");
+    clearCartBtn.innerHTML = TRASH_ICON_SVG + "<span>Clear cart</span>";
+  }
+}
+
+/** Deletes every item: the first click asks to confirm, the second click clears the cart. */
+function clearCart() {
+  const clearCartBtn = document.getElementById("clearCartBtn");
+
+  if (!clearCartBtn || getCleanCart().length === 0) {
+    return;
+  }
+
+  // Step 1: ask for confirmation (turns red for 3 seconds)
+  if (!clearCartBtn.classList.contains("is-confirming")) {
+    clearCartBtn.classList.add("is-confirming");
+    clearCartBtn.innerHTML = TRASH_ICON_SVG + "<span>Click again to clear all</span>";
+    clearCartTimer = setTimeout(resetClearCartButton, 3000);
+    return;
+  }
+
+  // Step 2: confirmed, so empty the cart (saveCart() also resets the badge)
+  resetClearCartButton();
+  saveCart([]);
+  renderCart();
+
+  const browseMenuLink = document.querySelector(".cart-list .btn");
+  if (browseMenuLink) {
+    browseMenuLink.focus();
+  }
+}
+
 /** Feature 2: KAPE10 = 10% off the subtotal; other codes show a red error. */
 function applyPromoCode() {
   const promoInput = document.getElementById("promoInput");
@@ -1516,6 +1578,12 @@ function initCartPage() {
 
   // Feature 1: delegated clicks for +, − and trash
   cartList.onclick = handleCartListClick;
+
+  // Delete all items (two-step confirm)
+  const clearCartBtn = document.getElementById("clearCartBtn");
+  if (clearCartBtn) {
+    clearCartBtn.onclick = clearCart;
+  }
 
   // Feature 2: promo code (check button or Enter)
   const promoApplyBtn = document.getElementById("promoApplyBtn");

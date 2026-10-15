@@ -8,7 +8,7 @@
   <title>san tayo brew? | Menu</title>
 
   <!-- Favicon -->
-  <link rel="icon" type="image/png" href="images/logos/logo-circle-2.png">
+  <link rel="icon" type="image/png" href="images/logos/logo-circle-4.png">
 
   <!-- Google Fonts: Rubik One (headings, buttons) + Cantarell 400/700 (body) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -26,11 +26,13 @@
   <!-- ===== NAVBAR (shared) ===== -->
   <header class="site-header">
     <nav class="navbar" aria-label="Main navigation">
-      <a class="navbar__logo" href="index.html">
+      <a class="navbar__logo" href="index.html" aria-describedby="logoTooltip">
         <img src="images/logos/logo-brown.png" alt="san tayo brew? logo">
+        <span class="navbar__tooltip" id="logoTooltip" role="tooltip">Go to the Home page</span>
       </a>
 
       <ul class="navbar__links" id="navLinks">
+        <li><a class="navbar__link" href="index.html">Home</a></li>
         <li><a class="navbar__link active" href="menu.html" aria-current="page">Menu</a></li>
         <li><a class="navbar__link" href="about.html">About Us</a></li>
       </ul>
@@ -63,7 +65,7 @@
         <div class="menu-header__intro">
           <h1 class="menu-header__title">Menu</h1>
           <p class="menu-header__note">*We cannot guarantee that any of our products are free from allergens as we use shared equipment to store, prepare, and serve them.</p>
-          <p class="menu-header__count" id="resultCount" aria-live="polite">Showing <strong>66</strong> items</p>
+          <p class="menu-header__count" id="resultCount" aria-live="polite">Showing <strong>72</strong> items</p>
         </div>
 
         <div class="menu-search" id="menuSearchBox">
@@ -274,6 +276,21 @@
               <button class="menu-card__btn" type="button">Add to Cart</button>
             </div>
           </article>
+          <article class="menu-card" tabindex="0" data-id="pandan-latte" data-name="Pandan Latte" data-price="149" data-type="beverage" data-category="coffee" data-group="beverages" data-image="images/menu-items/pandan-latte.png" data-description="A smooth espresso blended with creamy milk and the fragrant, sweet aroma of pandan for a refreshing Filipino-inspired coffee experience.">
+            <div class="menu-card__front">
+              <img class="menu-card__img" src="images/menu-items/pandan-latte.png" alt="Pandan Latte in a san tayo brew? cup" loading="lazy">
+              <h3 class="menu-card__name">Pandan Latte</h3>
+            </div>
+            <div class="menu-card__panel">
+              <div class="menu-card__panel-top">
+                <div class="menu-card__media"><img src="images/menu-items/pandan-latte.png" alt="" loading="lazy"></div>
+                <p class="menu-card__panel-name">Pandan Latte</p>
+              </div>
+              <p class="menu-card__desc">A smooth espresso blended with creamy milk and the fragrant, sweet aroma of pandan for a refreshing Filipino-inspired coffee experience.</p>
+              <p class="menu-card__price">PHP 149.00</p>
+              <button class="menu-card__btn" type="button">Add to Cart</button>
+            </div>
+          </article>
 
           <!-- Non-Coffee -->
           <article class="menu-card" tabindex="0" data-id="iced-ube-milk" data-name="Iced Ube Milk" data-price="109" data-type="beverage" data-category="non-coffee" data-group="beverages" data-image="images/menu-items/iced-ube-milk.png" data-description="A creamy Filipino favorite made with smooth milk and the earthy sweetness of purple yam.">
@@ -423,6 +440,36 @@
               </div>
               <p class="menu-card__desc">Chilled tea sweetened with honey and sugar for a smooth, mellow, and refreshing finish.</p>
               <p class="menu-card__price">PHP 89.00</p>
+              <button class="menu-card__btn" type="button">Add to Cart</button>
+            </div>
+          </article>
+          <article class="menu-card" tabindex="0" data-id="strawberry-matcha" data-name="Strawberry Matcha" data-price="149" data-type="beverage" data-category="non-coffee" data-group="beverages" data-image="images/menu-items/strawberry-matcha.png" data-description="A beautiful blend of earthy Japanese matcha, sweet strawberry, and creamy milk for a fruity, refreshing twist.">
+            <div class="menu-card__front">
+              <img class="menu-card__img" src="images/menu-items/strawberry-matcha.png" alt="Strawberry Matcha in a san tayo brew? cup" loading="lazy">
+              <h3 class="menu-card__name">Strawberry Matcha</h3>
+            </div>
+            <div class="menu-card__panel">
+              <div class="menu-card__panel-top">
+                <div class="menu-card__media"><img src="images/menu-items/strawberry-matcha.png" alt="" loading="lazy"></div>
+                <p class="menu-card__panel-name">Strawberry Matcha</p>
+              </div>
+              <p class="menu-card__desc">A beautiful blend of earthy Japanese matcha, sweet strawberry, and creamy milk for a fruity, refreshing twist.</p>
+              <p class="menu-card__price">PHP 149.00</p>
+              <button class="menu-card__btn" type="button">Add to Cart</button>
+            </div>
+          </article>
+          <article class="menu-card" tabindex="0" data-id="lemon-iced-tea" data-name="Lemon Iced Tea" data-price="69" data-type="beverage" data-category="non-coffee" data-group="beverages" data-image="images/menu-items/lemon-iced-tea.png" data-description="Refreshing brewed tea with a bright citrus twist, perfect for a cool and relaxing break.">
+            <div class="menu-card__front">
+              <img class="menu-card__img" src="images/menu-items/lemon-iced-tea.png" alt="Lemon Iced Tea in a san tayo brew? cup" loading="lazy">
+              <h3 class="menu-card__name">Lemon Iced Tea</h3>
+            </div>
+            <div class="menu-card__panel">
+              <div class="menu-card__panel-top">
+                <div class="menu-card__media"><img src="images/menu-items/lemon-iced-tea.png" alt="" loading="lazy"></div>
+                <p class="menu-card__panel-name">Lemon Iced Tea</p>
+              </div>
+              <p class="menu-card__desc">Refreshing brewed tea with a bright citrus twist, perfect for a cool and relaxing break.</p>
+              <p class="menu-card__price">PHP 69.00</p>
               <button class="menu-card__btn" type="button">Add to Cart</button>
             </div>
           </article>
@@ -578,6 +625,36 @@
               <button class="menu-card__btn" type="button">Add to Cart</button>
             </div>
           </article>
+          <article class="menu-card" tabindex="0" data-id="garlic-pepper-steak-with-rice" data-name="Garlic Pepper Steak with Rice" data-price="229" data-type="meal" data-category="rice-meals" data-image="images/menu-items/garlic-pepper-steak-with-rice.png" data-description="Tender steak coated in aromatic garlic and bold black pepper seasoning for a savory, satisfying meal with an Asian inspired touch.">
+            <div class="menu-card__front">
+              <img class="menu-card__img" src="images/menu-items/garlic-pepper-steak-with-rice.png" alt="A serving of Garlic Pepper Steak with Rice" loading="lazy">
+              <h3 class="menu-card__name">Garlic Pepper Steak with Rice</h3>
+            </div>
+            <div class="menu-card__panel">
+              <div class="menu-card__panel-top">
+                <div class="menu-card__media"><img src="images/menu-items/garlic-pepper-steak-with-rice.png" alt="" loading="lazy"></div>
+                <p class="menu-card__panel-name">Garlic Pepper Steak with Rice</p>
+              </div>
+              <p class="menu-card__desc">Tender steak coated in aromatic garlic and bold black pepper seasoning for a savory, satisfying meal with an Asian inspired touch.</p>
+              <p class="menu-card__price">PHP 229.00</p>
+              <button class="menu-card__btn" type="button">Add to Cart</button>
+            </div>
+          </article>
+          <article class="menu-card" tabindex="0" data-id="sweet-and-sour-chicken-with-rice" data-name="Sweet and Sour Chicken with Rice" data-price="169" data-type="meal" data-category="rice-meals" data-image="images/menu-items/sweet-and-sour-chicken-with-rice.png" data-description="Tender chicken coated in a vibrant sweet and tangy sauce, inspired by the familiar flavors of Chinese style cooking.">
+            <div class="menu-card__front">
+              <img class="menu-card__img" src="images/menu-items/sweet-and-sour-chicken-with-rice.png" alt="A serving of Sweet and Sour Chicken with Rice" loading="lazy">
+              <h3 class="menu-card__name">Sweet and Sour Chicken with Rice</h3>
+            </div>
+            <div class="menu-card__panel">
+              <div class="menu-card__panel-top">
+                <div class="menu-card__media"><img src="images/menu-items/sweet-and-sour-chicken-with-rice.png" alt="" loading="lazy"></div>
+                <p class="menu-card__panel-name">Sweet and Sour Chicken with Rice</p>
+              </div>
+              <p class="menu-card__desc">Tender chicken coated in a vibrant sweet and tangy sauce, inspired by the familiar flavors of Chinese style cooking.</p>
+              <p class="menu-card__price">PHP 169.00</p>
+              <button class="menu-card__btn" type="button">Add to Cart</button>
+            </div>
+          </article>
 
           <!-- Pastas -->
           <article class="menu-card" tabindex="0" data-id="filipino-style-spaghetti" data-name="Filipino-Style Spaghetti" data-price="119" data-type="meal" data-category="pastas" data-image="images/menu-items/filipino-style-spaghetti.png" data-description="A Filipino party favorite featuring sweet tomato sauce, savory meat, and a comforting blend of flavors that brings back childhood memories.">
@@ -652,6 +729,21 @@
               </div>
               <p class="menu-card__desc">Tender chicken and pasta coated in a creamy, boldly seasoned Cajun sauce inspired by the vibrant flavors of Louisiana.</p>
               <p class="menu-card__price">PHP 169.00</p>
+              <button class="menu-card__btn" type="button">Add to Cart</button>
+            </div>
+          </article>
+          <article class="menu-card" tabindex="0" data-id="baked-macaroni" data-name="Baked Macaroni" data-price="139" data-type="meal" data-category="pastas" data-image="images/menu-items/baked-macaroni.png" data-description="Tender macaroni baked with a rich, savory sauce and a deliciously comforting finish.">
+            <div class="menu-card__front">
+              <img class="menu-card__img" src="images/menu-items/baked-macaroni.png" alt="A serving of Baked Macaroni" loading="lazy">
+              <h3 class="menu-card__name">Baked Macaroni</h3>
+            </div>
+            <div class="menu-card__panel">
+              <div class="menu-card__panel-top">
+                <div class="menu-card__media"><img src="images/menu-items/baked-macaroni.png" alt="" loading="lazy"></div>
+                <p class="menu-card__panel-name">Baked Macaroni</p>
+              </div>
+              <p class="menu-card__desc">Tender macaroni baked with a rich, savory sauce and a deliciously comforting finish.</p>
+              <p class="menu-card__price">PHP 139.00</p>
               <button class="menu-card__btn" type="button">Add to Cart</button>
             </div>
           </article>

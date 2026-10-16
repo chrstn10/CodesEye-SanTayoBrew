@@ -1675,7 +1675,7 @@ body.is-leaving .site-footer {
   color: var(--text-black);
 }
 
-/* "Add to Cart" / "Remove from Cart" button */
+/* "Add to Cart" button */
 .menu-card__btn {
   align-self: stretch;
   padding: 0.45rem 0.6rem;

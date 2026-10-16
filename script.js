@@ -397,13 +397,10 @@ function initAboutPage() {
 
 // ===== MENU (Stage 2) =====
 
-// Pop-up option groups, listed from more to less (the first choice is the default unless one is given)
+// Pop-up option groups, listed from more to less (the first choice is the default)
 const SERVING_OPTIONS = ["Iced", "Hot"];
 const SUGAR_OPTIONS = ["More Sugar", "Less Sugar", "No Sugar"];
 const ICE_OPTIONS = ["More Ice", "Standard", "Less Ice"];
-
-// Sugar Level stays preselected on "Less Sugar" (as in the Figma), even though it's listed second
-const DEFAULT_SUGAR = "Less Sugar";
 
 // Placeholder text for the pop-up's "Special Instructions" box
 const BEVERAGE_NOTE_PLACEHOLDER = "e.g.: no straw, extra hot, etc.";
@@ -511,14 +508,9 @@ function toggleItemPanel(card) {
   }
 }
 
-// The panel button: remove if already in the cart, otherwise add
+// The panel button always adds (removing items is done on the Cart page)
 function handleCardButton(card) {
   const item = getMenuItemData(card);
-
-  if (isItemInCart(item.id)) {
-    removeFromCart(item.id);
-    return;
-  }
 
   // Add-ons skip the pop-up and go straight to the cart (qty 1)
   if (item.type === "addon") {
@@ -540,12 +532,12 @@ function handleCardButton(card) {
 
 // ----- Feature 2: add-to-cart pop-up -----
 
-// Builds one option group (e.g. Sugar Level) with defaultChoice selected (or the first choice if none is given)
-function buildOptionGroup(optionKey, label, choices, columnsClass, defaultChoice) {
+// Builds one option group (e.g. Sugar Level) with the first choice selected
+function buildOptionGroup(optionKey, label, choices, columnsClass) {
   let buttonsHTML = "";
 
   for (let i = 0; i < choices.length; i++) {
-    const isSelected = defaultChoice ? choices[i] === defaultChoice : i === 0;
+    const isSelected = i === 0;
     const choice = escapeHTML(choices[i]);
     buttonsHTML += `
         <button class="option-btn${isSelected ? " is-selected" : ""}" type="button" data-value="${choice}" aria-pressed="${isSelected}">${choice}</button>`;
@@ -565,10 +557,10 @@ function buildOptionGroupsHTML(item) {
 
   if (item.type === "beverage") {
     groupsHTML += buildOptionGroup("serving", "Serving Type", SERVING_OPTIONS, "option-group__choices--2");
-    groupsHTML += buildOptionGroup("sugar", "Sugar Level", SUGAR_OPTIONS, "option-group__choices--3", DEFAULT_SUGAR);
+    groupsHTML += buildOptionGroup("sugar", "Sugar Level", SUGAR_OPTIONS, "option-group__choices--3");
     groupsHTML += buildOptionGroup("ice", "Ice Amount", ICE_OPTIONS, "option-group__choices--3");
   } else if (item.type === "frappe") {
-    groupsHTML += buildOptionGroup("sugar", "Sugar Level", SUGAR_OPTIONS, "option-group__choices--3", DEFAULT_SUGAR);
+    groupsHTML += buildOptionGroup("sugar", "Sugar Level", SUGAR_OPTIONS, "option-group__choices--3");
   }
 
   // Onion Rings, French Fries and Nachos
@@ -797,17 +789,6 @@ function haveSameOptions(optionsA, optionsB) {
   return true;
 }
 
-// True if any cart line is this menu item
-function isItemInCart(itemId) {
-  const cart = getCart();
-  for (let i = 0; i < cart.length; i++) {
-    if (cart[i] && cart[i].id === itemId) {
-      return true;
-    }
-  }
-  return false;
-}
-
 // Saves a line to the cart (identical lines are merged by adding their qty)
 function addToCart(newLine) {
   const cart = getCart();
@@ -831,53 +812,19 @@ function addToCart(newLine) {
   }
 
   const isSaved = saveCart(cart);   // also updates the navbar badge
-  refreshMenuCardButtons();
   showToast(isSaved ? "Added to cart ✓" : "Sorry, bro, your cart couldn't be saved.");
 }
 
-// Removes every cart line of this menu item
-function removeFromCart(itemId) {
-  const cart = getCart();
-  const remainingLines = [];
-
-  for (let i = 0; i < cart.length; i++) {
-    if (cart[i] && cart[i].id !== itemId) {
-      remainingLines.push(cart[i]);
-    }
-  }
-
-  const isSaved = saveCart(remainingLines);
-  refreshMenuCardButtons();
-  showToast(isSaved ? "Removed from cart" : "Sorry, bro, your cart couldn't be saved.");
-}
-
-// Sets each panel button to "Add to Cart" or "Remove from Cart"
-function refreshMenuCardButtons() {
-  const cart = getCart();
-  const idsInCart = [];
-
-  for (let i = 0; i < cart.length; i++) {
-    if (cart[i] && cart[i].id) {
-      idsInCart.push(cart[i].id);
-    }
-  }
-
+// Gives each "Add to Cart" button a screen-reader label with the item name
+function labelMenuCardButtons() {
   const menuCards = document.getElementsByClassName("menu-card");
   for (let i = 0; i < menuCards.length; i++) {
     const card = menuCards[i];
     const cardButton = card.querySelector(".menu-card__btn");
 
-    if (!cardButton) {
-      continue;
+    if (cardButton) {
+      cardButton.setAttribute("aria-label", "Add " + card.dataset.name + " to cart");
     }
-
-    const isInCart = idsInCart.indexOf(card.dataset.id) !== -1;
-    cardButton.textContent = isInCart ? "Remove from Cart" : "Add to Cart";
-    cardButton.classList.toggle("is-in-cart", isInCart);
-    cardButton.setAttribute(
-      "aria-label",
-      isInCart ? "Remove " + card.dataset.name + " from cart" : "Add " + card.dataset.name + " to cart"
-    );
   }
 }
 
@@ -1149,13 +1096,12 @@ function initMenuPage() {
     }
   };
 
-  // Page shown again with the Back button: refresh the badge and card buttons
+  // Page shown again with the Back button: refresh the cart badge
   window.onpageshow = function () {
     updateCartBadge();
-    refreshMenuCardButtons();
   };
 
-  refreshMenuCardButtons();
+  labelMenuCardButtons();
   applyMenuFilters();
 }
 
@@ -1633,6 +1579,27 @@ function initCartPage() {
     };
   }
 
+  // "Proceed to Checkout" click: apply a promo code that was typed but not applied yet
+  const proceedBtn = document.getElementById("proceedCheckoutBtn");
+  if (proceedBtn && promoInput) {
+    proceedBtn.onclick = function (event) {
+      const typedCode = promoInput.value.trim().toUpperCase();
+      const appliedPromo = getAppliedPromo();
+
+      if (typedCode === "" || (appliedPromo && appliedPromo.code === typedCode)) {
+        return;
+      }
+
+      applyPromoCode();
+
+      // Invalid code: stay on the cart so the red error message is seen
+      const newPromo = getAppliedPromo();
+      if (!newPromo || newPromo.code !== typedCode) {
+        event.preventDefault();
+      }
+    };
+  }
+
   // Feature 3: "Subscribe" click checks the email and subscribes
   const subscribeBtn = document.getElementById("subscribeBtn");
   const emailInput = document.getElementById("newsletterEmail");
@@ -1803,7 +1770,7 @@ function chooseFromMaps() {
   const provinceSelect = document.getElementById("province");
 
   if (streetInput) {
-    streetInput.value = "123 Example Brew Street";
+    streetInput.value = "123 Brew Street";
     setFieldError(streetInput, "");
   }
   if (cityInput) {
@@ -1897,6 +1864,7 @@ function placeOrder() {
         <h2 class="order-confirm__title" id="orderConfirmTitle">Order placed! Salamat, ${escapeHTML(fullName)}!</h2>
         <dl class="order-confirm__details">
           <div class="summary-row"><dt>Order number</dt><dd>${orderNumber}</dd></div>
+          ${totals.promo ? `<div class="summary-row"><dt>Discount (${escapeHTML(totals.promo.code)})</dt><dd>&minus; ${formatPrice(totals.discount)}</dd></div>` : ""}
           <div class="summary-row"><dt>Total</dt><dd>${formatPrice(totals.total)}</dd></div>
           <div class="summary-row"><dt>Order type</dt><dd>${escapeHTML(orderTypeText)}</dd></div>
           <div class="summary-row"><dt>Payment</dt><dd>${escapeHTML(paymentSelect ? paymentSelect.value : "")}</dd></div>

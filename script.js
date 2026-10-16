@@ -1,7 +1,3 @@
-// san tayo brew? | script.js: one script for every page (loaded with "defer", so the HTML is ready)
-// Each feature first checks that its elements exist; events use .onclick-style properties, set once per element
-
-
 // ===== SHARED =====
 
 // localStorage key for the cart (array of items, each with a "qty")
@@ -401,10 +397,13 @@ function initAboutPage() {
 
 // ===== MENU (Stage 2) =====
 
-// Pop-up option groups (the first choice is the default, as in the Figma)
+// Pop-up option groups, listed from more to less (the first choice is the default unless one is given)
 const SERVING_OPTIONS = ["Iced", "Hot"];
-const SUGAR_OPTIONS = ["Less Sugar", "More Sugar", "No Sugar"];
+const SUGAR_OPTIONS = ["More Sugar", "Less Sugar", "No Sugar"];
 const ICE_OPTIONS = ["More Ice", "Standard", "Less Ice"];
+
+// Sugar Level stays preselected on "Less Sugar" (as in the Figma), even though it's listed second
+const DEFAULT_SUGAR = "Less Sugar";
 
 // Placeholder text for the pop-up's "Special Instructions" box
 const BEVERAGE_NOTE_PLACEHOLDER = "e.g.: no straw, extra hot, etc.";
@@ -541,12 +540,12 @@ function handleCardButton(card) {
 
 // ----- Feature 2: add-to-cart pop-up -----
 
-// Builds one option group (e.g. Sugar Level) with the first choice selected
-function buildOptionGroup(optionKey, label, choices, columnsClass) {
+// Builds one option group (e.g. Sugar Level) with defaultChoice selected (or the first choice if none is given)
+function buildOptionGroup(optionKey, label, choices, columnsClass, defaultChoice) {
   let buttonsHTML = "";
 
   for (let i = 0; i < choices.length; i++) {
-    const isSelected = i === 0;
+    const isSelected = defaultChoice ? choices[i] === defaultChoice : i === 0;
     const choice = escapeHTML(choices[i]);
     buttonsHTML += `
         <button class="option-btn${isSelected ? " is-selected" : ""}" type="button" data-value="${choice}" aria-pressed="${isSelected}">${choice}</button>`;
@@ -566,10 +565,10 @@ function buildOptionGroupsHTML(item) {
 
   if (item.type === "beverage") {
     groupsHTML += buildOptionGroup("serving", "Serving Type", SERVING_OPTIONS, "option-group__choices--2");
-    groupsHTML += buildOptionGroup("sugar", "Sugar Level", SUGAR_OPTIONS, "option-group__choices--3");
+    groupsHTML += buildOptionGroup("sugar", "Sugar Level", SUGAR_OPTIONS, "option-group__choices--3", DEFAULT_SUGAR);
     groupsHTML += buildOptionGroup("ice", "Ice Amount", ICE_OPTIONS, "option-group__choices--3");
   } else if (item.type === "frappe") {
-    groupsHTML += buildOptionGroup("sugar", "Sugar Level", SUGAR_OPTIONS, "option-group__choices--3");
+    groupsHTML += buildOptionGroup("sugar", "Sugar Level", SUGAR_OPTIONS, "option-group__choices--3", DEFAULT_SUGAR);
   }
 
   // Onion Rings, French Fries and Nachos
